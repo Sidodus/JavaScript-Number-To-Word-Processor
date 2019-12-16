@@ -3,7 +3,7 @@ JavaScript Number To Word Processor
 
 <h1 align="center">
   <a href="JSnumberToWordProcessor-fullpage.png" style="margin-right: 5px"><img src="JSnumberToWordProcessor-fullpage.png" width="130"/></a>
-  <a href="JSnumberToWordProcessor-console.PNG"><img src="JSnumberToWordProcessor-console.PNG" width="450"/></a>
+  <a href="JSnumberToWordProcessor-console.PNG"><img src="JSnumberToWordProcessor-console.PNG" width="500"/></a>
 </h1>
 
 <h4 align="center"><code> 123,456,789,012,345,680 </code> => <code>One Hundred and Tweenty-Three Quadrillion, Four Hundred and Fifty-Six Trillion, Seven Hundred and Eighty-Nine Billion, and Twelve Million, Three Hundred and Fourty-Five Thousand, Six Hundred and Eighty.</code></h4>
