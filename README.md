@@ -2,7 +2,7 @@ JavaScript Number To Word Processor
 =====================================
 
 <h1 align="center">
-  <a href="JSnumberToWordProcessor-fullpage.png" style="margin-right: 5px"><img src="JSnumberToWordProcessor-fullpage.png" width="380"/></a>
+  <a href="JSnumberToWordProcessor-fullpage.png" style="margin-right: 5px"><img src="JSnumberToWordProcessor-fullpage.png" width="180"/></a>
   <a href="JSnumberToWordProcessor-console.PNG"><img src="JSnumberToWordProcessor-console.PNG" width="250"/></a>
 </h1>
 
