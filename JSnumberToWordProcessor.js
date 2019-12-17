@@ -8,7 +8,6 @@ const JSnumberToWordProcessor = (function () {
         let processedDataObj;
         let processedDataArray = [];
 
-
         // Process Number If Number Is An Array OR A Single Number
         if (Array.isArray(num)) {
 
@@ -30,7 +29,7 @@ const JSnumberToWordProcessor = (function () {
                 // Parse The Object Into An Array
                 processedDataArray.push(processedDataObj)
             });
-        } else if (num === Number(num)) {
+        } else if (num == BigInt(num)) {
 
             curString = num.toString();
 
@@ -254,8 +253,6 @@ const JSnumberToWordProcessor = (function () {
         function processRegExMatch(curString2Word, curString1, curString2, NUM, curStringLength, llion1, llion2) {
             // Bind The Tense & Unit to Number
             curStringTenseAndUnit = Number(curString1 + curString2);
-
-            //                console.log(curString2Word, curString1, curString2);
 
             // Handle The Hundred, Tense, & Unit
             funcTenseAndUnit(curString2Word, ' Hundred', curStringTenseAndUnit);

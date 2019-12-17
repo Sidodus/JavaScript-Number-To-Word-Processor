@@ -97,7 +97,8 @@
                 // Clear ul
                 document.getElementById('ul').innerHTML = '';
 
-                numInput = parseInt(document.querySelector('#num-input').value);
+                // Put User Input Value Into A Variable As A String
+                numInput = String(document.querySelector('#num-input').value);
 
                 // Clear Input
                 document.querySelector('#num-input').value = '';
@@ -140,22 +141,29 @@
 
                 // Split Input by (',')
                 numSplit = numInput.split(',');
+                newNumInputStr = [];
                 newNumInput = [];
 
                 // Separate Spliced Input Array And Push A New Number Array To NewNumInput
                 numSplit.forEach(function(splitedNum) {
-                    newNumInput.push(parseInt(splitedNum))
+                    newNumInputStr.push(splitedNum)
                 });
 
                 // Discard All NaN From The New Array
-                newNumInput = newNumInput.filter(function(value) {
-                    return !Number.isNaN(value)
-                });
+//                newNumInput = newNumInput.filter(function(value) {
+//                    return !Number.isNaN(value)
+//                });
 
                 // Remove Negative Numbers From The New Array
-                newNumInput = newNumInput.filter(function(value) {
+                newNumInputStr = newNumInputStr.filter(function(value) {
                     return value > -1;
                 });
+
+                // Convert Number String To BigInt. This Is To Handle (+) eg. +234,345 etc If NNot They Would Be Rejected
+                // Now Convert The Whole Numbers Back To Strings
+                newNumInputStr.forEach(function(value){
+                    newNumInput.push(String(BigInt(value)))
+                })
 
                 // Input The Details Of Number To Word Processor Into A Variable
                 process = JSnumberToWordProcessor(newNumInput);
