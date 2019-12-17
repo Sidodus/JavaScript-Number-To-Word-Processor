@@ -13,15 +13,15 @@ JavaScript Number To Word Processor
 </blockquote>
 
 # UPDATE:
-- *). Application Can Now Handle Numbers Larger Than 2 \u2075\u00B3 - 1 <code>2 \u2075\u00B3 - 1</code>.
+- *). Application Can Now Handle Numbers Larger Than <code>2^53-1</code>.
 - *). Spelling Errors Corrected.
 
 
 # How To Use Plugin In Your Project:
 - 1). Download And Attach The JSnumberToWordProcessor.js Script To Your Document.
 - 2). From Your Project Script, Call JSnumberToWordProcessor(numInput); Where (numInput) is Either A String Of Number Or An Array Of Numbers-Strings.
--     a). e.g. JSnumberToWordProcessor('123456') OR JSnumberToWordProcessor(['123','445','6','8575','8474']). <em>Ensure You Pass-in The Number Argument As A String</em> This Is Because JavaScript Has A Number Length Limit Of <code>2 \u2075\u00B3 - 1</code>. But If You Would Be Dealling With Numbers Less Than This Length, Then Feel Free To Input A Number As Your Argument.
--     b). <em>Alternatively; Just Append <code>n</code> to The End Of The Number Longer Than <code>2 \u2075/u00B3</code> e.g. <code>123456789098765432n</code> OR <code>[123456789098765433n,123456789098765434n,123456789098765434n].</code> </em> This Calls The BigInt() Method Which Allows JavaScript To Handle BIG Numbers.
+-     a). e.g. JSnumberToWordProcessor('123456') OR JSnumberToWordProcessor(['123','445','6','8575','8474']). <em>Ensure You Pass-in The Number Argument As A String</em> This Is Because JavaScript Has A Number Length Limit Of <code>2^53-1</code>. But If You Would Be Dealling With Numbers Less Than This Length, Then Feel Free To Input A Number As Your Argument.
+-     b). <em>Alternatively; Just Append <code>n</code> to The End Of The Number Longer Than <code>2^53-1</code> e.g. <code>123456789098765432n</code> OR <code>[123456789098765433n,123456789098765434n,123456789098765434n].</code> </em> This Calls The BigInt() Method Which Allows JavaScript To Handle BIG Numbers.
 -     c). Better Still; Just Check JSnumberToWordProcessor.html to See How It Is Been Put To Use.
 - 3). Display The Result To Your Document.
 
