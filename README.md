@@ -13,7 +13,7 @@ JavaScript Number To Word Processor
 </blockquote>
 
 # UPDATE:
-- *). Application Can Now Handle Numbers Larger Than <code>2 \u2075\u00B3 - 1</code>.
+- *). Application Can Now Handle Numbers Larger Than 2 \u2075\u00B3 - 1 <code>2 \u2075\u00B3 - 1</code>.
 - *). Spelling Errors Corrected.
 
 
