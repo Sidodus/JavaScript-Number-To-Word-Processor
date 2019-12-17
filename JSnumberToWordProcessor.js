@@ -8,13 +8,14 @@ const JSnumberToWordProcessor = (function () {
         let processedDataObj;
         let processedDataArray = [];
 
+
         // Process Number If Number Is An Array OR A Single Number
         if (Array.isArray(num)) {
 
             num.forEach(function (cur) {
                 curString = cur.toString();
 
-                // Process Number & Get Redable Number With Word
+                // Process Number & Get Readable Number With Word
                 processedData = numProcessor(curString);
 
                 processedDataDisplayNum = processedData.displayNum;
@@ -30,9 +31,10 @@ const JSnumberToWordProcessor = (function () {
                 processedDataArray.push(processedDataObj)
             });
         } else if (num === Number(num)) {
+
             curString = num.toString();
 
-            // Process Number & Get Redable Number With Word
+            // Process Number & Get Readable Number With Word
             processedData = numProcessor(curString);
 
             processedDataDisplayNum = processedData.displayNum;
@@ -258,7 +260,7 @@ const JSnumberToWordProcessor = (function () {
             // Handle The Hundred, Tense, & Unit
             funcTenseAndUnit(curString2Word, ' Hundred', curStringTenseAndUnit);
 
-            // Determine How The illion Is Formarted eg. Trillion, Billion, Million etc.
+            // Determine How The illion Is Formatted eg. Trillion, Billion, Million etc.
             // This Reformats The Words If The Remaining Number Are Just LEADING ZERO's
             // =================================================================================
             // NOTE: The llion1, & llion2 is To Be Parsed To processedWordDummy For RegEX match()
@@ -279,7 +281,7 @@ const JSnumberToWordProcessor = (function () {
             }
             curStringTenseAndUnitWord = wordNum(tenseAndUnit);
 
-            // Dont Display if Last Unit Is Zero
+            // Don't Display if Last Unit Is Zero
             if (curStringTenseAndUnitWord !== undefined) {
                 // Prevent processedWord from Displaying Double Spacing Before (and) if curString_NUM == undefined
                 if (curString_NUM !== undefined) {
@@ -290,7 +292,7 @@ const JSnumberToWordProcessor = (function () {
             }
         } // END OF funcTenseAndUnit()
 
-        // Handles 18 Lenght Number
+        // Handles 18 Length Number
         if (curString.length === 18) {
 
             // (1-3) ************************INIT ************************** 100,000,000,000,000,000 etc.
@@ -299,23 +301,23 @@ const JSnumberToWordProcessor = (function () {
             processRegExMatch(curString_1, curString[1], curString[2], 3, curString.length, ' Quadrillion', ' Quadrillion, ', ' Quadrillion', ' Quadrillion, ');
 
             // (4-6) ************************************************
-            // Dont Display Trillion If Previous Quadrillion Is Closed eg 100,000,000,000,000,000
+            // Don't Display Trillion If Previous Quadrillion Is Closed eg 100,000,000,000,000,000
             processWordRegExMatch("Quadrillion,", curString_4, curString[4], curString[5], 6, curString.length, ' Trillion', ' Trillion, ', ' Trillion', ' Trillion, ');
 
             // (7-9) ************************************************
-            // Dont Display Billion If Previous Trillion Is Closed eg 100,000,000,000,000
+            // Don't Display Billion If Previous Trillion Is Closed eg 100,000,000,000,000
             processWordRegExMatch("Trillion,", curString_7, curString[7], curString[8], 9, curString.length, ' Billion', ' Billion, ', ' Billion', ' Billion, ');
 
             // (10-12) ************************************************
-            // Dont Display Million If Previous Billion Is Closed eg 100,000,000,000
+            // Don't Display Million If Previous Billion Is Closed eg 100,000,000,000
             processWordRegExMatch("Billion,", curString_10, curString[10], curString[11], 12, curString.length, ' Million', ' Million, ', ' Million', ' Million, ');
 
             // (13-15) ************************************************
-            // Dont Display Thousand If Previous Million Is Closed eg 100,000,000
+            // Don't Display Thousand If Previous Million Is Closed eg 100,000,000
             processWordRegExMatch("Million,", curString_13, curString[13], curString[14], 15, curString.length, ' Thousand', ' Thousand, ', ' Thousand', ' Thousand, ');
 
             // (16-18) ***********************FINAL*************************
-            // Determine How The Hundred Is Formarted If Previous Thousand Is Closed eg 100,000
+            // Determine How The Hundred Is Formatted If Previous Thousand Is Closed eg 100,000
             processWordRegExMatch("Thousand,", curString_16, curString[16], curString[17], '', '', '', '', '', '');
 
             // End Word With Full Stop
@@ -324,7 +326,7 @@ const JSnumberToWordProcessor = (function () {
 
         // ((((((((((((((((((((((((((((((((((((((()))))))))))))))))))))))))))))))))))))))
 
-        // Handles 17 Lenght Number
+        // Handles 17 Length Number
         if (curString.length === 17) {
 
             // (1-2) ************************INIT ************************** 10,000,000,000,000,000 etc.
@@ -336,23 +338,23 @@ const JSnumberToWordProcessor = (function () {
             illion(2, curString.length, ' Quadrillion', ' Quadrillion, ', ' Quadrillion', ' Quadrillion, ');
 
             // (3-5) ************************************************
-            // Dont Display Trillion If Previous Quadrillion Is Closed eg 10,000,000,000,000,000
+            // Don't Display Trillion If Previous Quadrillion Is Closed eg 10,000,000,000,000,000
             processWordRegExMatch("Quadrillion,", curString_3, curString[3], curString[4], 5, curString.length, ' Trillion', ' Trillion, ', ' Trillion', ' Trillion, ');
 
             // (6-8) ************************************************
-            // Dont Display Billion If Previous Trillion Is Closed eg 10,000,000,000,000
+            // Don't Display Billion If Previous Trillion Is Closed eg 10,000,000,000,000
             processWordRegExMatch("Trillion,", curString_6, curString[6], curString[7], 8, curString.length, ' Billion', ' Billion, ', ' Billion', ' Billion, ');
 
             // (9-11) ************************************************
-            // Dont Display Million If Previous Billion Is Closed eg 10,000,000,000
+            // Don't Display Million If Previous Billion Is Closed eg 10,000,000,000
             processWordRegExMatch("Billion,", curString_9, curString[9], curString[10], 11, curString.length, ' Million', ' Million, ', ' Million', ' Million, ');
 
             // (12-14) ************************************************
-            // Dont Display Thousand If Previous Million Is Closed eg 10,000,000
+            // Don't Display Thousand If Previous Million Is Closed eg 10,000,000
             processWordRegExMatch("Million,", curString_12, curString[12], curString[13], 14, curString.length, ' Thousand', ' Thousand, ', ' Thousand', ' Thousand, ');
 
             // (15-17) ***********************FINAL*************************
-            // Determine How The Hundred Is Formarted If Previous Thousand Is Closed eg 10,000
+            // Determine How The Hundred Is Formatted If Previous Thousand Is Closed eg 10,000
             processWordRegExMatch("Thousand,", curString_15, curString[15], curString[16], '', '', '', '', '', '');
 
             // End Word With Full Stop
@@ -361,7 +363,7 @@ const JSnumberToWordProcessor = (function () {
 
         // ((((((((((((((((((((((((((((((((((((((()))))))))))))))))))))))))))))))))))))))
 
-        // Handles 16 Lenght Number
+        // Handles 16 Length Number
         if (curString.length === 16) {
 
             // (1) ************************INIT ************************** 1,000,000,000,000,000 etc.
@@ -369,27 +371,27 @@ const JSnumberToWordProcessor = (function () {
             if (curString_1 !== undefined) {
                 processedWord += curString_1;
             }
-            // NOTE: The 2nd 2nd Set Of illion would Be Parsed To processedWordDummy For RegEX match()
+            // NOTE: The 2nd Set Of illion would Be Parsed To processedWordDummy For RegEX match()
             illion(1, curString.length, ' Quadrillion', ' Quadrillion, ', ' Quadrillion', ' Quadrillion, ');
 
             // (2-4) ************************************************
-            // Dont Display Trillion If Previous Quadrillion Is Closed eg 1,000,000,000,000,000
+            // Don't Display Trillion If Previous Quadrillion Is Closed eg 1,000,000,000,000,000
             processWordRegExMatch("Quadrillion,", curString_2, curString[2], curString[3], 4, curString.length, ' Trillion', ' Trillion, ', ' Trillion', ' Trillion, ');
 
             // (5-7) ************************************************
-            // Dont Display Billion If Previous Trillion Is Closed eg 1,000,000,000,000
+            // Don't Display Billion If Previous Trillion Is Closed eg 1,000,000,000,000
             processWordRegExMatch("Trillion,", curString_5, curString[5], curString[6], 7, curString.length, ' Billion', ' Billion, ', ' Billion', ' Billion, ');
 
             // (8-10) ************************************************
-            // Dont Display Million If Previous Billion Is Closed eg 1,000,000,000
+            // Don't Display Million If Previous Billion Is Closed eg 1,000,000,000
             processWordRegExMatch("Billion,", curString_8, curString[8], curString[9], 10, curString.length, ' Million', ' Million, ', ' Million', ' Million, ');
 
             // 11-13) ************************************************
-            // Dont Display Thousand If Previous Million Is Closed eg 1,000,000
+            // Don't Display Thousand If Previous Million Is Closed eg 1,000,000
             processWordRegExMatch("Million,", curString_11, curString[11], curString[12], 13, curString.length, ' Thousand', ' Thousand, ', ' Thousand', ' Thousand, ');
 
             // (14-16) ***********************FINAL*************************
-            // Determine How The Hundred Is Formarted If Previous Million Is Closed eg 1,000
+            // Determine How The Hundred Is Formatted If Previous Million Is Closed eg 1,000
             processWordRegExMatch("Thousand,", curString_14, curString[14], curString[15], '', '', '', '', '', '');
 
             // End Word With Full Stop
@@ -398,7 +400,7 @@ const JSnumberToWordProcessor = (function () {
 
         // ((((((((((((((((((((((((((((((((((((((()))))))))))))))))))))))))))))))))))))))
 
-        // Handles 15 Lenght Number
+        // Handles 15 Length Number
         if (curString.length === 15) {
 
             // (1-3) ************************INIT ************************** 100,000,000,000,000 etc.
@@ -407,19 +409,19 @@ const JSnumberToWordProcessor = (function () {
             processRegExMatch(curString_1, curString[1], curString[2], 3, curString.length, ' Trillion', ' Trillion, ', ' Trillion', ' Trillion, ');
 
             // (4-6) ************************************************
-            // Dont Display Billion If Previous Trillion Is Closed eg 100,000,000,000,000
+            // Don't Display Billion If Previous Trillion Is Closed eg 100,000,000,000,000
             processWordRegExMatch("Trillion,", curString_4, curString[4], curString[5], 6, curString.length, ' Billion', ' Billion, ', ' Billion', ' Billion, ');
 
             // (7-9) ************************************************
-            // Dont Display Million If Previous Billion Is Closed eg 100,000,000,000
+            // Don't Display Million If Previous Billion Is Closed eg 100,000,000,000
             processWordRegExMatch("Billion,", curString_7, curString[7], curString[8], 9, curString.length, ' Million', ' Million, ', ' Million', ' Million, ');
 
             // (10-12) ************************************************
-            // Dont Display Thousand If Previous Million Is Closed eg 100,000,000
+            // Don't Display Thousand If Previous Million Is Closed eg 100,000,000
             processWordRegExMatch("Million,", curString_10, curString[10], curString[11], 12, curString.length, ' Thousand', ' Thousand, ', ' Thousand', ' Thousand, ');
 
             // (13-15) ***********************FINAL*************************
-            // Determine How The Hundred Is Formarted If Previous Thousand Is Closed eg 100,000
+            // Determine How The Hundred Is Formatted If Previous Thousand Is Closed eg 100,000
             processWordRegExMatch("Thousand,", curString_13, curString[13], curString[14], '', '', '', '', '', '');
 
             // End Word With Full Stop
@@ -428,7 +430,7 @@ const JSnumberToWordProcessor = (function () {
 
         // ((((((((((((((((((((((((((((((((((((((()))))))))))))))))))))))))))))))))))))))
 
-        // Handles 14 Lenght Number
+        // Handles 14 Length Number
         if (curString.length === 14) {
 
             // (1-2) ************************INIT ************************** 10,000,000,000,000 etc.
@@ -440,19 +442,19 @@ const JSnumberToWordProcessor = (function () {
             illion(2, curString.length, ' Trillion', ' Trillion, ', ' Trillion', ' Trillion, ');
 
             // (3-5) ************************************************
-            // Dont Display Billion If Previous Billion Is Closed eg 10,000,000,000,000
+            // Don't Display Billion If Previous Billion Is Closed eg 10,000,000,000,000
             processWordRegExMatch("Trillion,", curString_3, curString[3], curString[4], 5, curString.length, ' Billion', ' Billion, ', ' Billion', ' Billion, ');
 
             // (6-8) ************************************************
-            // Dont Display Billion If Previous Billion Is Closed eg 10,000,000,000
+            // Don't Display Billion If Previous Billion Is Closed eg 10,000,000,000
             processWordRegExMatch("Billion,", curString_6, curString[6], curString[7], 8, curString.length, ' Million', ' Million, ', ' Million', ' Million, ');
 
             // (9-11) ************************************************
-            // Dont Display Million If Previous Million Is Closed eg 10,000,000
+            // Don't Display Million If Previous Million Is Closed eg 10,000,000
             processWordRegExMatch("Million,", curString_9, curString[9], curString[10], 11, curString.length, ' Thousand', ' Thousand, ', ' Thousand', ' Thousand, ');
 
             // (12-14) ***********************FINAL*************************
-            // Determine How The Hundred Is Formarted If Previous Thousand Is Closed eg 10,000
+            // Determine How The Hundred Is Formatted If Previous Thousand Is Closed eg 10,000
             processWordRegExMatch("Thousand,", curString_12, curString[12], curString[13], '', '', '', '', '', '');
 
             // End Word With Full Stop
@@ -461,7 +463,7 @@ const JSnumberToWordProcessor = (function () {
 
         // ((((((((((((((((((((((((((((((((((((((()))))))))))))))))))))))))))))))))))))))
 
-        // Handles 13 Lenght Number
+        // Handles 13 Length Number
         if (curString.length === 13) {
 
             // (1) ************************INIT ************************** 1,000,000,000,000 etc.
@@ -469,23 +471,23 @@ const JSnumberToWordProcessor = (function () {
             if (curString_1 !== undefined) {
                 processedWord += curString_1;
             }
-            // NOTE: The 2nd 2nd Set Of illion would Be Parsed To processedWordDummy For RegEX match()
+            // NOTE: The 2nd Set Of illion would Be Parsed To processedWordDummy For RegEX match()
             illion(1, curString.length, ' Trillion', ' Trillion, ', ' Trillion', ' Trillion, ');
 
             // (2-4) ************************************************
-            // Dont Display Billion If Previous Trillion Is Closed eg 1,000,000,000,000
+            // Don't Display Billion If Previous Trillion Is Closed eg 1,000,000,000,000
             processWordRegExMatch("Trillion,", curString_2, curString[2], curString[3], 4, curString.length, ' Billion', ' Billion, ', ' Billion', ' Billion, ');
 
             // (5-7) ************************************************
-            // Dont Display Million If Previous Billion Is Closed eg 1,000,000,000
+            // Don't Display Million If Previous Billion Is Closed eg 1,000,000,000
             processWordRegExMatch("Billion,", curString_5, curString[5], curString[6], 7, curString.length, ' Million', ' Million, ', ' Million', ' Million, ');
 
             // (8-10) ************************************************
-            // Dont Display Thousand If Previous Million Is Closed eg 1,000,000
+            // Don't Display Thousand If Previous Million Is Closed eg 1,000,000
             processWordRegExMatch("Million,", curString_8, curString[8], curString[9], 10, curString.length, ' Thousand', ' Thousand, ', ' Thousand', ' Thousand, ');
 
             // (11-13) ***********************FINAL*************************
-            // Determine How The Hundred Is Formarted If Previous Million Is Closed eg 1,000
+            // Determine How The Hundred Is Formatted If Previous Million Is Closed eg 1,000
             processWordRegExMatch("Thousand,", curString_11, curString[11], curString[12], '', '', '', '', '', '');
 
             // End Word With Full Stop
@@ -494,7 +496,7 @@ const JSnumberToWordProcessor = (function () {
 
         // ((((((((((((((((((((((((((((((((((((((()))))))))))))))))))))))))))))))))))))))
 
-        // Handles 12 Lenght Number
+        // Handles 12 Length Number
         if (curString.length === 12) {
 
             // (1-3) ************************INIT ************************** 100,000,000,000 etc.
@@ -503,15 +505,15 @@ const JSnumberToWordProcessor = (function () {
             processRegExMatch(curString_1, curString[1], curString[2], 3, curString.length, ' Billion', ' Billion, ', ' Billion', ' Billion, ');
 
             // (4-6) ************************************************
-            // Dont Display Million If Previous Billion Is Closed eg 100,000,000,000
+            // Don't Display Million If Previous Billion Is Closed eg 100,000,000,000
             processWordRegExMatch("Billion,", curString_4, curString[4], curString[5], 6, curString.length, ' Million', ' Million, ', ' Million', ' Million, ');
 
             // (7-9) ************************************************
-            // Dont Display Thousand If Previous Million Is Closed eg 100,000,000
+            // Don't Display Thousand If Previous Million Is Closed eg 100,000,000
             processWordRegExMatch("Million,", curString_7, curString[7], curString[8], 9, curString.length, ' Thousand', ' Thousand, ', ' Thousand', ' Thousand, ');
 
             // (10-12) ***********************FINAL*************************
-            // Determine How The Hundred Is Formarted If Previous Thousand Is Closed eg 100,000
+            // Determine How The Hundred Is Formatted If Previous Thousand Is Closed eg 100,000
             processWordRegExMatch("Thousand,", curString_10, curString[10], curString[11], '', '', '', '', '', '');
 
             // End Word With Full Stop
@@ -520,7 +522,7 @@ const JSnumberToWordProcessor = (function () {
 
         // ((((((((((((((((((((((((((((((((((((((()))))))))))))))))))))))))))))))))))))))
 
-        // Handles 11 Lenght Number
+        // Handles 11 Length Number
         if (curString.length === 11) {
 
             // (1-2) ************************INIT ************************** 10,000,000,000 etc.
@@ -532,15 +534,15 @@ const JSnumberToWordProcessor = (function () {
             illion(2, curString.length, ' Billion', ' Billion, ', ' Billion', ' Billion, ');
 
             // (3-5) ************************************************
-            // Dont Display Billion If Previous Billion Is Closed eg 10,000,000,000
+            // Don't Display Billion If Previous Billion Is Closed eg 10,000,000,000
             processWordRegExMatch("Billion,", curString_3, curString[3], curString[4], 5, curString.length, ' Million', ' Million, ', ' Million', ' Million, ');
 
             // (6-8) ************************************************
-            // Dont Display Million If Previous Million Is Closed eg 10,000,000
+            // Don't Display Million If Previous Million Is Closed eg 10,000,000
             processWordRegExMatch("Million,", curString_6, curString[6], curString[7], 8, curString.length, ' Thousand', ' Thousand, ', ' Thousand', ' Thousand, ');
 
             // (9-11) ***********************FINAL*************************
-            // Determine How The Hundred Is Formarted If Previous Thousand Is Closed eg 10,000
+            // Determine How The Hundred Is Formatted If Previous Thousand Is Closed eg 10,000
             processWordRegExMatch("Thousand,", curString_9, curString[9], curString[10], '', '', '', '', '', '');
 
             // End Word With Full Stop
@@ -549,7 +551,7 @@ const JSnumberToWordProcessor = (function () {
 
         // ((((((((((((((((((((((((((((((((((((((()))))))))))))))))))))))))))))))))))))))
 
-        // Handles 10 Lenght Number
+        // Handles 10 Length Number
         if (curString.length === 10) {
 
             // (1) ************************INIT ************************** 1,000,000,000 etc.
@@ -557,19 +559,19 @@ const JSnumberToWordProcessor = (function () {
             if (curString_1 !== undefined) {
                 processedWord += curString_1;
             }
-            // NOTE: The 2nd 2nd Set Of illion would Be Parsed To processedWordDummy For RegEX match()
+            // NOTE: The 2nd Set Of illion would Be Parsed To processedWordDummy For RegEX match()
             illion(1, curString.length, ' Billion', ' Billion, ', ' Billion', ' Billion, ');
 
             // (2-4) ************************************************
-            // Dont Display Million If Previous Billion Is Closed eg 1,000,000,000
+            // Don't Display Million If Previous Billion Is Closed eg 1,000,000,000
             processWordRegExMatch("Billion,", curString_2, curString[2], curString[3], 4, curString.length, ' Million', ' Million, ', ' Million', ' Million, ');
 
             // (5-7) ************************************************
-            // Dont Display Thousand If Previous Million Is Closed eg 1,000,000
+            // Don't Display Thousand If Previous Million Is Closed eg 1,000,000
             processWordRegExMatch("Million,", curString_5, curString[5], curString[6], 7, curString.length, ' Thousand', ' Thousand, ', ' Thousand', ' Thousand, ');
 
             // (8-10) ***********************FINAL*************************
-            // Determine How The Hundred Is Formarted If Previous Million Is Closed eg 1,000
+            // Determine How The Hundred Is Formatted If Previous Million Is Closed eg 1,000
             processWordRegExMatch("Thousand,", curString_8, curString[8], curString[9], '', '', '', '', '', '');
 
             // End Word With Full Stop
@@ -578,7 +580,7 @@ const JSnumberToWordProcessor = (function () {
 
         // ((((((((((((((((((((((((((((((((((((((()))))))))))))))))))))))))))))))))))))))
 
-        // Handles 9 Lenght Number
+        // Handles 9 Length Number
         if (curString.length === 9) {
 
             // (1-3) ************************INIT ************************** 100,000,000 etc.
@@ -587,11 +589,11 @@ const JSnumberToWordProcessor = (function () {
             processRegExMatch(curString_1, curString[1], curString[2], 3, curString.length, ' Million', ' Million, ', ' Million', ' Million, ');
 
             // (4-6) ************************************************
-            // Dont Display Million If Previous Billion Is Closed eg 100,000,000
+            // Don't Display Million If Previous Billion Is Closed eg 100,000,000
             processWordRegExMatch("Million,", curString_4, curString[4], curString[5], 6, curString.length, ' Thousand', ' Thousand, ', ' Thousand', ' Thousand, ');
 
             // (7-9) ***********************FINAL*************************
-            // Determine How The Hundred Is Formarted If Previous Thousand Is Closed eg 100,000
+            // Determine How The Hundred Is Formatted If Previous Thousand Is Closed eg 100,000
             processWordRegExMatch("Thousand,", curString_7, curString[7], curString[8], '', '', '', '', '', '');
 
             // End Word With Full Stop
@@ -600,7 +602,7 @@ const JSnumberToWordProcessor = (function () {
 
         // ((((((((((((((((((((((((((((((((((((((()))))))))))))))))))))))))))))))))))))))
 
-        // Handles 8 Lenght Number
+        // Handles 8 Length Number
         if (curString.length === 8) {
 
             // (1-2) ************************INIT ************************** 10,000,000 etc.
@@ -612,11 +614,11 @@ const JSnumberToWordProcessor = (function () {
             illion(2, curString.length, ' Million', ' Million, ', ' Million', ' Million, ');
 
             // (3-5) ************************************************
-            // Dont Display Thousand If Previous Million Is Closed eg 10,000,000
+            // Don't Display Thousand If Previous Million Is Closed eg 10,000,000
             processWordRegExMatch("Million,", curString_3, curString[3], curString[4], 5, curString.length, ' Thousand', ' Thousand, ', ' Thousand', ' Thousand, ');
 
             // (6-8) ***********************FINAL*************************
-            // Determine How The Hundred Is Formarted If Previous Thousand Is Closed eg 10,000
+            // Determine How The Hundred Is Formatted If Previous Thousand Is Closed eg 10,000
             processWordRegExMatch("Thousand,", curString_6, curString[6], curString[7], '', '', '', '', '', '');
 
             // End Word With Full Stop
@@ -625,7 +627,7 @@ const JSnumberToWordProcessor = (function () {
 
         // ((((((((((((((((((((((((((((((((((((((()))))))))))))))))))))))))))))))))))))))
 
-        // Handles 7 Lenght Number
+        // Handles 7 Length Number
         if (curString.length === 7) {
 
             // (1) ************************INIT ************************** 1,000,000 etc.
@@ -633,15 +635,15 @@ const JSnumberToWordProcessor = (function () {
             if (curString_1 !== undefined) {
                 processedWord += curString_1;
             }
-            // NOTE: The 2nd 2nd Set Of illion would Be Parsed To processedWordDummy For RegEX match()
+            // NOTE: The 2nd Set Of illion would Be Parsed To processedWordDummy For RegEX match()
             illion(1, curString.length, ' Million', ' Million, ', ' Million', ' Million, ');
 
             // (2-4) ************************************************
-            // Dont Display Million If Previous Billion Is Closed eg 1,000,000
+            // Don't Display Million If Previous Billion Is Closed eg 1,000,000
             processWordRegExMatch("Million,", curString_2, curString[2], curString[3], 4, curString.length, ' Thousand', ' Thousand, ', ' Thousand', ' Thousand, ');
 
             // (5-7) ***********************FINAL*************************
-            // Determine How The Hundred Is Formarted If Previous Million Is Closed eg 1,000
+            // Determine How The Hundred Is Formatted If Previous Million Is Closed eg 1,000
             processWordRegExMatch("Thousand,", curString_5, curString[5], curString[6], '', '', '', '', '', '');
 
             // End Word With Full Stop
@@ -650,7 +652,7 @@ const JSnumberToWordProcessor = (function () {
 
         // ((((((((((((((((((((((((((((((((((((((()))))))))))))))))))))))))))))))))))))))
 
-        // Handles 6 Lenght Number
+        // Handles 6 Length Number
         if (curString.length === 6) {
 
             // (1-3) ************************INIT ************************** 100,000 etc.
@@ -659,7 +661,7 @@ const JSnumberToWordProcessor = (function () {
             processRegExMatch(curString_1, curString[1], curString[2], 3, curString.length, ' Thousand', ' Thousand, ', ' Thousand', ' Thousand, ');
 
             // (4-6) ***********************FINAL*************************
-            // Determine How The Hundred Is Formarted If Previous Thousand Is Closed eg 100,000
+            // Determine How The Hundred Is Formatted If Previous Thousand Is Closed eg 100,000
             processWordRegExMatch("Thousand,", curString_4, curString[4], curString[5], '', '', '', '', '', '');
 
             // End Word With Full Stop
@@ -668,7 +670,7 @@ const JSnumberToWordProcessor = (function () {
 
         // ((((((((((((((((((((((((((((((((((((((()))))))))))))))))))))))))))))))))))))))
 
-        // Handles 5 Lenght Number
+        // Handles 5 Length Number
         if (curString.length === 5) {
 
             // (1-2) ************************INIT ************************** 10,000 etc.
@@ -680,7 +682,7 @@ const JSnumberToWordProcessor = (function () {
             illion(2, curString.length, ' Thousand', ' Thousand, ', ' Thousand', ' Thousand, ');
 
             // (3-5) ***********************FINAL*************************
-            // Determine How The Hundred Is Formarted If Previous Thousand Is Closed eg 10,000
+            // Determine How The Hundred Is Formatted If Previous Thousand Is Closed eg 10,000
             processWordRegExMatch("Thousand,", curString_3, curString[3], curString[4], '', '', '', '', '', '');
 
             // End Word With Full Stop
@@ -689,7 +691,7 @@ const JSnumberToWordProcessor = (function () {
 
         // ((((((((((((((((((((((((((((((((((((((()))))))))))))))))))))))))))))))))))))))
 
-        // Handles 4 Lenght Number
+        // Handles 4 Length Number
         if (curString.length === 4) {
 
             // (1) ************************INIT ************************** 1,000 etc.
@@ -697,11 +699,11 @@ const JSnumberToWordProcessor = (function () {
             if (curString_1 !== undefined) {
                 processedWord += curString_1;
             }
-            // NOTE: The 2nd 2nd Set Of illion would Be Parsed To processedWordDummy For RegEX match()
+            // NOTE: The 2nd Set Of illion would Be Parsed To processedWordDummy For RegEX match()
             illion(1, curString.length, ' Thousand', ' Thousand, ', ' Thousand', ' Thousand, ');
 
             // (2-4) ***********************FINAL*************************
-            // Determine How The Hundred Is Formarted If Previous Million Is Closed eg 1,000
+            // Determine How The Hundred Is Formatted If Previous Million Is Closed eg 1,000
             processWordRegExMatch("Thousand,", curString_2, curString[2], curString[3], '', '', '', '', '', '');
 
             // End Word With Full Stop
@@ -710,7 +712,7 @@ const JSnumberToWordProcessor = (function () {
 
         // ((((((((((((((((((((((((((((((((((((((()))))))))))))))))))))))))))))))))))))))
 
-        // Handles 3 Lenght Number
+        // Handles 3 Length Number
         // (1-3) ************************INIT ************************** 123 etc.
         if (curString.length === 3) {
             let curStringSubStr = Number(curString.substr(1, curString.length));
@@ -728,7 +730,7 @@ const JSnumberToWordProcessor = (function () {
 
         // ((((((((((((((((((((((((((((((((((((((()))))))))))))))))))))))))))))))))))))))
 
-        // Handles 2 Lenght Number
+        // Handles 2 Length Number
         // (1 & 2) ************************INIT ************************** 12 etc.
         if (curString.length === 2) {
             let tense_Unit = Number(curString[0] + curString[1]);
@@ -740,7 +742,7 @@ const JSnumberToWordProcessor = (function () {
 
         // ((((((((((((((((((((((((((((((((((((((()))))))))))))))))))))))))))))))))))))))
 
-        // Handles 1 Lenght Number
+        // Handles 1 Length Number
         // (1) ************************INIT ************************** 1 etc.
         if (curString.length === 1) {
             if (curString_1 !== undefined) {
@@ -826,34 +828,34 @@ const JSnumberToWordProcessor = (function () {
             firstNum = 'Nineteen';
             return firstNum;
         } else if (num === 20) {
-            firstNum = 'Tweenty';
+            firstNum = 'Twenty';
             return firstNum;
         } else if (num === 21) {
-            firstNum = 'Tweenty-One';
+            firstNum = 'Twenty-One';
             return firstNum;
         } else if (num === 22) {
-            firstNum = 'Tweenty-Two';
+            firstNum = 'Twenty-Two';
             return firstNum;
         } else if (num === 23) {
-            firstNum = 'Tweenty-Three';
+            firstNum = 'Twenty-Three';
             return firstNum;
         } else if (num === 24) {
-            firstNum = 'Tweenty-Four';
+            firstNum = 'Twenty-Four';
             return firstNum;
         } else if (num === 25) {
-            firstNum = 'Tweenty-Five';
+            firstNum = 'Twenty-Five';
             return firstNum;
         } else if (num === 26) {
-            firstNum = 'Tweenty-Six';
+            firstNum = 'Twenty-Six';
             return firstNum;
         } else if (num === 27) {
-            firstNum = 'Tweenty-Seven';
+            firstNum = 'Twenty-Seven';
             return firstNum;
         } else if (num === 28) {
-            firstNum = 'Tweenty-Eight';
+            firstNum = 'Twenty-Eight';
             return firstNum;
         } else if (num === 29) {
-            firstNum = 'Tweenty-Nine';
+            firstNum = 'Twenty-Nine';
             return firstNum;
         } else if (num === 30) {
             firstNum = 'Thirty';
@@ -886,34 +888,34 @@ const JSnumberToWordProcessor = (function () {
             firstNum = 'Thirty-Nine';
             return firstNum;
         } else if (num === 40) {
-            firstNum = 'Fourty';
+            firstNum = 'Forty';
             return firstNum;
         } else if (num === 41) {
-            firstNum = 'Fourty-One';
+            firstNum = 'Forty-One';
             return firstNum;
         } else if (num === 42) {
-            firstNum = 'Fourty-Two';
+            firstNum = 'Forty-Two';
             return firstNum;
         } else if (num === 43) {
-            firstNum = 'Fourty-Three';
+            firstNum = 'Forty-Three';
             return firstNum;
         } else if (num === 44) {
-            firstNum = 'Fourty-Four';
+            firstNum = 'Forty-Four';
             return firstNum;
         } else if (num === 45) {
-            firstNum = 'Fourty-Five';
+            firstNum = 'Forty-Five';
             return firstNum;
         } else if (num === 46) {
-            firstNum = 'Fourty-Six';
+            firstNum = 'Forty-Six';
             return firstNum;
         } else if (num === 47) {
-            firstNum = 'Fourty-Seven';
+            firstNum = 'Forty-Seven';
             return firstNum;
         } else if (num === 48) {
-            firstNum = 'Fourty-Eight';
+            firstNum = 'Forty-Eight';
             return firstNum;
         } else if (num === 49) {
-            firstNum = 'Fourty-Nine';
+            firstNum = 'Forty-Nine';
             return firstNum;
         } else if (num === 50) {
             firstNum = 'Fifty';
