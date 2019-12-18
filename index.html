@@ -100,6 +100,9 @@
                 // Put User Input Value Into A Variable As A String
                 numInput = String(document.querySelector('#num-input').value);
 
+                // Allow Effective Reading Of Input Numbers Starting With MulTiple Zero's
+                numInput = String(BigInt(numInput));
+
                 // Clear Input
                 document.querySelector('#num-input').value = '';
                 document.querySelector('#num-input-arr').value = '';
@@ -113,11 +116,13 @@
                     document.getElementById('note').innerHTML = note;
 
                     // Prevent Input Of Negative Numbers
-                    if (processed.displayWord !== 'undefined.') {
+                    if (processed.displayWord !== 'undefined.' && parseInt(processed.displayNum) > -1) {
+
                         li = `<li class="li"><span style="color: gray"> ${processed.displayNum}</span><span style="color: blue">:-</span> ${processed.displayWord} </li>`;
 
                         document.getElementById('ul').innerHTML += li;
                     } else {
+
                         li = `<li class="li"><span style="color: gray"> SORRY: Negative Numbers Are Not Allowed </li>`;
 
                         document.getElementById('ul').innerHTML += li;

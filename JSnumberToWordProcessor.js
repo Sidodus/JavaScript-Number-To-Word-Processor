@@ -3,9 +3,6 @@ const JSnumberToWordProcessor = (function () {
     const processNum = function (num) {
         let curString;
         let processedData = '';
-        let processedDataDisplayNum;
-        let processedDataCurStringProcessor;
-        let processedDataObj;
         let processedDataArray = [];
 
         // Process Number If Number Is An Array OR A Single Number
@@ -17,17 +14,8 @@ const JSnumberToWordProcessor = (function () {
                 // Process Number & Get Readable Number With Word
                 processedData = numProcessor(curString);
 
-                processedDataDisplayNum = processedData.displayNum;
-                processedDataCurStringProcessor = processedData.curStringProcessor;
-
-                // Put Readable Number With Word Into An Object
-                processedDataObj = {
-                    displayNum: processedDataDisplayNum,
-                    displayWord: processedDataCurStringProcessor
-                }
-
                 // Parse The Object Into An Array
-                processedDataArray.push(processedDataObj)
+                processedDataArray.push(processedData);
             });
         } else if (num == BigInt(num)) {
 
@@ -36,162 +24,153 @@ const JSnumberToWordProcessor = (function () {
             // Process Number & Get Readable Number With Word
             processedData = numProcessor(curString);
 
-            processedDataDisplayNum = processedData.displayNum;
-            processedDataCurStringProcessor = processedData.curStringProcessor;
-
-            // Put Readable Number With Word Into An Object
-            processedDataObj = {
-                displayNum: processedDataDisplayNum,
-                displayWord: processedDataCurStringProcessor
-            }
-
             // Parse The Object Into An Array
-            processedDataArray.push(processedDataObj)
+            processedDataArray.push(processedData);
         } // END OF if (Array.isArray(num))
 
         // Number Processor(Format Number To A Readable Number & Call processCurString() To Process Number To Word)
         function numProcessor(curString) {
             let displayNum = 0;
-            let curStringProcessor = '';
+            let displayWord = '';
 
             if (curString.length > 18) {
                 displayNum = curString.substr(0, curString.length);
 
                 // Call A Function & Pass curString
-                curStringProcessor = 'SORRY: THIS APP CURRENTLY SUPPORT ONLY NUMBERS BETWEEN ONE(1) & QUADRILLION ( 10 \u00B9\u2077 )';
+                displayWord = 'SORRY: THIS APP CURRENTLY SUPPORT ONLY NUMBERS BETWEEN ONE(1) & QUADRILLION ( 10 \u00B9\u2077 )';
 
             } else if (curString.length === 18) {
 
                 displayNum = curString.substr(0, 3) + ',' + curString.substr(curString.length - 15, 3) + ',' + curString.substr(curString.length - 12, 3) + ',' + curString.substr(curString.length - 9, 3) + ',' + curString.substr(curString.length - 6, 3) + ',' + curString.substr(curString.length - 3, curString.length);
 
                 // Call A Function & Pass curString
-                curStringProcessor = processCurString(curString);
+                displayWord = processCurString(curString);
 
             } else if (curString.length === 17) {
 
                 displayNum = curString.substr(0, 2) + ',' + curString.substr(curString.length - 15, 3) + ',' + curString.substr(curString.length - 12, 3) + ',' + curString.substr(curString.length - 9, 3) + ',' + curString.substr(curString.length - 6, 3) + ',' + curString.substr(curString.length - 3, curString.length);
 
                 // Call A Function & Pass curString
-                curStringProcessor = processCurString(curString);
+                displayWord = processCurString(curString);
 
             } else if (curString.length === 16) {
 
                 displayNum = curString.substr(0, 1) + ',' + curString.substr(curString.length - 15, 3) + ',' + curString.substr(curString.length - 12, 3) + ',' + curString.substr(curString.length - 9, 3) + ',' + curString.substr(curString.length - 6, 3) + ',' + curString.substr(curString.length - 3, curString.length);
 
                 // Call A Function & Pass curString
-                curStringProcessor = processCurString(curString);
+                displayWord = processCurString(curString);
 
             } else if (curString.length === 15) {
 
                 displayNum = curString.substr(0, 3) + ',' + curString.substr(curString.length - 12, 3) + ',' + curString.substr(curString.length - 9, 3) + ',' + curString.substr(curString.length - 6, 3) + ',' + curString.substr(curString.length - 3, curString.length);
 
                 // Call A Function & Pass curString
-                curStringProcessor = processCurString(curString);
+                displayWord = processCurString(curString);
 
             } else if (curString.length === 14) {
 
                 displayNum = curString.substr(0, 2) + ',' + curString.substr(curString.length - 12, 3) + ',' + curString.substr(curString.length - 9, 3) + ',' + curString.substr(curString.length - 6, 3) + ',' + curString.substr(curString.length - 3, curString.length);
 
                 // Call A Function & Pass curString
-                curStringProcessor = processCurString(curString);
+                displayWord = processCurString(curString);
 
             } else if (curString.length === 13) {
 
                 displayNum = curString.substr(0, 1) + ',' + curString.substr(curString.length - 12, 3) + ',' + curString.substr(curString.length - 9, 3) + ',' + curString.substr(curString.length - 6, 3) + ',' + curString.substr(curString.length - 3, curString.length);
 
                 // Call A Function & Pass curString
-                curStringProcessor = processCurString(curString);
+                displayWord = processCurString(curString);
 
             } else if (curString.length === 12) {
 
                 displayNum = curString.substr(curString.length - 12, 3) + ',' + curString.substr(curString.length - 9, 3) + ',' + curString.substr(curString.length - 6, 3) + ',' + curString.substr(curString.length - 3, curString.length);
 
                 // Call A Function & Pass curString
-                curStringProcessor = processCurString(curString);
+                displayWord = processCurString(curString);
 
             } else if (curString.length === 11) {
 
                 displayNum = curString.substr(0, 2) + ',' + curString.substr(curString.length - 9, 3) + ',' + curString.substr(curString.length - 6, 3) + ',' + curString.substr(curString.length - 3, curString.length);
 
                 // Call A Function & Pass curString
-                curStringProcessor = processCurString(curString);
+                displayWord = processCurString(curString);
 
             } else if (curString.length === 10) {
 
                 displayNum = curString.substr(0, 1) + ',' + curString.substr(curString.length - 9, 3) + ',' + curString.substr(curString.length - 6, 3) + ',' + curString.substr(curString.length - 3, curString.length);
 
                 // Call A Function & Pass curString
-                curStringProcessor = processCurString(curString);
+                displayWord = processCurString(curString);
 
             } else if (curString.length === 9) {
 
                 displayNum = curString.substr(curString.length - 9, 3) + ',' + curString.substr(curString.length - 6, 3) + ',' + curString.substr(curString.length - 3, curString.length);
 
                 // Call A Function & Pass curString
-                curStringProcessor = processCurString(curString);
+                displayWord = processCurString(curString);
 
             } else if (curString.length === 8) {
 
                 displayNum = curString.substr(0, 2) + ',' + curString.substr(curString.length - 6, 3) + ',' + curString.substr(curString.length - 3, curString.length);
 
                 // Call A Function & Pass curString
-                curStringProcessor = processCurString(curString);
+                displayWord = processCurString(curString);
 
             } else if (curString.length === 7) {
 
                 displayNum = curString.substr(0, 1) + ',' + curString.substr(curString.length - 6, 3) + ',' + curString.substr(curString.length - 3, curString.length);
 
                 // Call A Function & Pass curString
-                curStringProcessor = processCurString(curString);
+                displayWord = processCurString(curString);
 
             } else if (curString.length === 6) {
 
                 displayNum = curString.substr(0, 3) + ',' + curString.substr(curString.length - 3, curString.length);
 
                 // Call A Function & Pass curString
-                curStringProcessor = processCurString(curString);
+                displayWord = processCurString(curString);
 
             } else if (curString.length === 5) {
 
                 displayNum = curString.substr(0, 2) + ',' + curString.substr(curString.length - 3, curString.length);
 
                 // Call A Function & Pass curString
-                curStringProcessor = processCurString(curString);
+                displayWord = processCurString(curString);
 
             } else if (curString.length === 4) {
 
                 displayNum = curString.substr(0, 1) + ',' + curString.substr(curString.length - 3, curString.length);
 
                 // Call A Function & Pass curString
-                curStringProcessor = processCurString(curString);
+                displayWord = processCurString(curString);
 
             } else if (curString.length === 3) {
                 displayNum = curString;
 
                 // Call A Function & Pass curString
-                curStringProcessor = processCurString(curString);
+                displayWord = processCurString(curString);
 
             } else if (curString.length === 2) {
                 displayNum = curString;
 
                 // Call A Function & Pass curString
-                curStringProcessor = processCurString(curString);
+                displayWord = processCurString(curString);
 
             } else if (curString.length === 1) {
                 displayNum = curString;
 
                 // Call A Function & Pass curString
-                curStringProcessor = processCurString(curString);
+                displayWord = processCurString(curString);
             }
 
             return {
                 displayNum,
-                curStringProcessor
-            }
+                displayWord
+            };
         } // END OF numProcessor()
 
-        return processedDataArray
-    } // END OF processNum(num)
+        return processedDataArray;
+    }; // END OF processNum(num)
 
     // Process Number To Word
     const processCurString = function (curString) {
@@ -755,7 +734,7 @@ const JSnumberToWordProcessor = (function () {
         // ((((((((((((((((((((((((((((((((((((((()))))))))))))))))))))))))))))))))))))))
 
         return processedWord;
-    } // END OF processCurString()
+    }; // END OF processCurString()
 
     // Default Tense & Unit
     const wordNum = function (num) {
@@ -1068,10 +1047,10 @@ const JSnumberToWordProcessor = (function () {
             firstNum = 'Hundred';
             return firstNum;
         }
-    } // END OF wordNum()
+    }; // END OF wordNum()
 
 
     return function (num) {
-            return processNum(num)
-        } // END OF process()
-})() // END OF numberToWord
+            return processNum(num);
+        }; // END OF process()
+})(); // END OF numberToWord
