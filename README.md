@@ -9,12 +9,13 @@ JavaScript Number To Word Processor
 <h4 align="center"><code> 123,456,789,012,345,680 </code> => <code>One Hundred and Twenty-Three Quadrillion, Four Hundred and Fifty-Six Trillion, Seven Hundred and Eighty-Nine Billion, and Twelve Million, Three Hundred and Forty-Five Thousand, Six Hundred and Eighty.</code></h4>
 
 <blockquote align="center">
-    The Goal Of <em>JavaScript Number To Word Processor</em> Is A Well Formatted <code> Number </code> With A Corresponding <code> Number Words </code> That's Easily Readable To The Eyes
+    The Goal Of <em>JavaScript Number To Word Processor</em> Is A Well Formatted <code> Number, </code> With It's Corresponding <code> Words, </code> That's Easily Readable To The Eyes
 </blockquote>
 
 # UPDATE:
 - *). Application Can Now Handle Numbers Larger Than <code>2^53-1</code>.
 - *). Spelling Errors Corrected.
+- *). Code Refined.
 
 
 # How To Use Plugin In Your Project:
@@ -28,7 +29,7 @@ JavaScript Number To Word Processor
 
 Test Plugin @ [JavaScript Number To Word Processor](https://sidodus.github.io/JavaScript-Number-To-Word-Processor/)
 
-Coding Exercise By Saheed Odulaja
+Coding Exercise By Saheed Odulaja:
 > JavaScript Number To Word Processor Is Developed By Saheed Odulaja As A JavaScript Coding Exercise.
 > Feel Free To Fork This Repository as There Is Always Room For Improvement.
 > Also Be Kind Enough To Leave A STAR As A Mark Of Encouragement :)
