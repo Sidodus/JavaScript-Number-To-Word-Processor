@@ -3,7 +3,7 @@
 
 <div align="center">
   <a href="JSnumberToWordProcessor-fullpage.png" target="_blank" style="margin-right: 5px"><img src="JSnumberToWordProcessor-fullpage.png" width="250"/></a>
-  <a href="JSnumberToWordProcessor-console.PNG" target="_blank"><img src="JSnumberToWordProcessor-console.PNG" width="700"/></a>
+  <a href="JSnumberToWordProcessor-console.PNG" target="_blank"><img src="JSnumberToWordProcessor-console.PNG" width="400"/></a>
 </div>
 
 <h4 align="center"><code> 123,456,789,012,345,680 </code> => <code>One Hundred and Twenty-Three Quadrillion, Four Hundred and Fifty-Six Trillion, Seven Hundred and Eighty-Nine Billion, and Twelve Million, Three Hundred and Forty-Five Thousand, Six Hundred and Eighty.</code></h4>
