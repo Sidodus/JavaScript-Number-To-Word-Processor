@@ -125,7 +125,7 @@ console.log("processedWord:- ", processedWord);
     </div>
 
 <h4><ins>UPDATE</ins></h4>
-<h6 margin-bottom="-5px"><em>Version: 2.0.3</em></h6>
+<h6 margin-bottom="-5px"><em>Version: 2.0.4</em></h6>
   <ol>
     <li> Application Can Now Process Numbers Up To "<code>10^33003</code>", Into Human Readable Numbers & Words Based On <a href="https://www.mrob.com/pub/math/largenum.html" target="_blank"
           >Conway-Wechsler Numbering System</a

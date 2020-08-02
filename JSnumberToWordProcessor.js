@@ -1,5 +1,5 @@
 /*
- ** JS Number To Word Pocessor v2.0.3
+ ** JS Number To Word Pocessor v2.0.4
  ** Purpose: Improving Number / Number-Word Readability.
  ** Copyright (c) 2019-2020 Saheed Odulaja
  **
