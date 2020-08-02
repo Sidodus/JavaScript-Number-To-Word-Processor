@@ -5,20 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
 
-    <meta
-      name="application-name"
-      content="JavaScript Number To Word Processor"
-    />
+    <meta name="application-name" content="JS Number To Word Processor" />
     <meta name="theme-color" content="#4285f4" />
     <meta
       name="description"
-      content="JavaScript Number To Word Processor Is Developed By Saheed Odulaja As A JavaScript Coding Exercise."
+      content="The Goal Of JSnumberToWordProcessor Is A Well Formatted Human Readable Number, With It's Corresponding Words."
     />
     <meta name="robots" content="index,follow" />
     <meta name="generator" content="program" />
     <meta
       name="subject"
-      content="JavaScript Coding Exercise By Saheed Odulaja"
+      content="Process Numbers In To Human Readable Numbers And Words"
     />
     <meta name="rating" content="General" />
 
@@ -27,9 +24,8 @@
     <meta property="og:url" content="https://github.com/Sidodus/" />
     <meta
       property="og:description"
-      content="JavaScript Coding Exercise By Saheed Odulaja"
+      content="The Goal Of JSnumberToWordProcessor Is A Well Formatted Human Readable Number, With It's Corresponding Words."
     />
-    <!--    <meta property="og:image" content="img/Saheed-Odulaja-JS-3D-Logo-JS-by-me+-(White).png">-->
 
     <meta name="twitter:card" content="Saheed Odulaja" />
     <meta name="twitter:site" content="@SaheedOdulaja" />
@@ -37,41 +33,51 @@
     <meta name="twitter:title" content="Saheed Odulaja" />
     <meta
       name="twitter:description"
-      content="JavaScript Number To Word Processor Developed By Saheed Odulaja As A JavaScript Coding Exercise."
+      content="The Goal Of JSnumberToWordProcessor Is A Well Formatted Human Readable Number, With It's Corresponding Words."
     />
-    <!--    <meta name="twitter:image" content="img/Saheed-Odulaja-JS-3D-Logo-JS-by-me+-(White).png">-->
-
     <link rel="me" href="https://github.com/Sidodus/" type="text/html" />
+    <link rel="me" href="https://www.npmjs.com/~sidodus/" />
     <link rel="me" href="https://twitter.com/SaheedOdulaja" />
     <link rel="me" href="https://facebook.com/sidodus" />
 
     <link type="text/css" rel="stylesheet" href="bootstrap.min.css" />
 
-    <title>JavaScript Number To Word Processor</title>
+    <link rel="icon" href="./SidoByMe.PNG" />
+
+    <title>JSnumberToWordProcessor</title>
   </head>
 
   <body class="container-fluid">
     <div
+      class="row"
       style="
-        background-color: lightyellow;
+        background-color: rgb(247, 240, 240);
         color: gray;
-        padding: 15px;
+        padding: 15px 15px 5px 15px;
         text-align: center;
         font-size: 18px;
         font-weight: bold;
       "
     >
-      <div>
-        NOTE: Number To Word Processor Is A JavaScript Plugin That Can Handle
-        Either A Single Number OR An Array Of Numbers
-      </div>
-      <div>
-        Get Plugin From
-        https://github.com/Sidodus/JavaScript-Number-To-Word-Processor
-      </div>
-      <div>
-        Test Plugin Online: @
-        https://sidodus.github.io/JavaScript-Number-To-Word-Processor/
+      <div style="font-style: italic;">
+        JS Number To Word Processor <small>v2.0.3</small> <br />
+        Is A JavaScript Plugin (no dependencies) That Can Process Standard
+        Dictionary Numbers Up To (<span
+          style="color: rgb(231, 167, 48);"
+          data-toggle="tooltip"
+          title="Decillinillion"
+          >10<sup>33003</sup></span
+        >), Into Human Readable Numbers & Words <br />
+        Based On
+        <a
+          href="https://www.mrob.com/pub/math/largenum.html"
+          target="_blank"
+          style="font-style: italic;"
+          >Conway-Wechsler Numbering System</a
+        >
+
+        <hr class="row col-sm-6 ml-auto" />
+        <hr class="row col-sm-6" />
       </div>
     </div>
     <br />
@@ -80,9 +86,18 @@
       <div class="col-sm-6">
         <form>
           <div class="form-group">
-            <label for="num-input" style="font-weight: bold;"
+            <label
+              for="num-input"
+              style="font-weight: bold; font-style: italic;"
               >Input A Number</label
             >
+            <div>
+              <small
+                id="notify"
+                style="color: red; font-weight: bolder;"
+              ></small>
+            </div>
+
             <input
               type="number"
               id="num-input"
@@ -103,16 +118,24 @@
       </div>
 
       <div class="col-sm-6">
-        <label for="num-input-arr" style="font-weight: bold;"
+        <label
+          for="num-input-arr"
+          style="font-weight: bold; font-style: italic;"
           >Input An Array Of Numbers</label
         >
+        <div>
+          <small
+            id="notify_arr"
+            style="color: red; font-weight: bolder;"
+          ></small>
+        </div>
         <textarea
           id="num-input-arr"
           class="form-control"
           rows="3"
           style="background-color: lightgray;"
-          placeholder="INPUT ONLY NUMBERS SEPRATED BY COMMA HERE eg. 1,12,123,1234 etc.
-      Note: All Non-Numbers, Negative Numbers With Decimal Numbes Would Be Discarded Before Processing..."
+          placeholder="INPUT ONLY POSITIVE WHOLE NUMBERS SEPRATED BY COMMA HERE eg. 1,12,123,1234 etc.
+      Note: All Non-Numbers, Negative Numbers With Fractions Would Be Discarded Before Processing..."
         ></textarea>
         <br />
         <button
@@ -127,25 +150,76 @@
 
     <br /><br />
 
-    <h6 id="note"></h6>
+    <div class="row">
+      <div class="col-sm-12">
+        <h6 id="note"></h6>
 
-    <ul
-      id="ul"
-      style="font-weight: bold; font-size: 1.3em; font-style: oblique;"
-    ></ul>
+        <ul
+          id="ul"
+          style="font-weight: bold; font-size: 1.3em; font-style: oblique;"
+        ></ul>
+      </div>
+    </div>
 
-    <footer
-      style="
-        color: gray;
-        text-align: center;
-        margin-top: 58px;
-        margin-bottom: 25px;
-      "
-    >
-      Copyright (c) <span id="copyRightYear"></span> by Saheed Odulaja
-    </footer>
+    <div class="row">
+      <div class="col-sm-12">
+        <small style="font-style: italic;">
+          <footer
+            style="
+              color: gray;
+              text-align: center;
+              margin-top: 58px;
+              padding: 5px 0;
+              background-color: rgba(247, 246, 246, 0.918);
+            "
+          >
+            <div>
+              Install From
+              <a
+                href="https://www.npmjs.com/package/js-number-to-word-processor"
+                target="_blank"
+                >NPM</a
+              >
+            </div>
+            <div>
+              Get Source Code From
+              <a
+                href="https://github.com/Sidodus/JavaScript-Number-To-Word-Processor"
+                target="_blank"
+                >GitHub</a
+              >
+            </div>
+            <div>
+              Live Site: @
+              <a
+                href="https://sidodus.github.io/JavaScript-Number-To-Word-Processor/"
+                target="_blank"
+                >JSnumberToWordProcessor</a
+              >
+            </div>
+            <div>
+              <a
+                href="https://sidodus.github.io/Sidodus-proforma-invoice-calculator/"
+                target="_blank"
+                >Proforma Invoice Calculator</a
+              >
+              Is Another Application Using #JSnumberToWordProcessor
+              <a
+                href="https://github.com/Sidodus/Sidodus-proforma-invoice-calculator/"
+                target="_blank"
+              >
+                Plugin / Code</a
+              >
+            </div>
+            <br />
+            Copyright (c) <span id="copyRightYear"></span> Saheed Odulaja
+          </footer>
+        </small>
+      </div>
+    </div>
 
-    <script src="JSnumberToWordProcessor.js"></script>
+    <script src="curStrLengthFunc_2.min.js"></script>
+    <script src="JSnumberToWordProcessor.min.js"></script>
 
     <script>
       // Set Footer Year
@@ -156,7 +230,7 @@
       thisYear === presentYear
         ? (fullYear = thisYear)
         : thisYear < presentYear
-        ? (fullYear = thisYear + " - " + presentYear)
+        ? (fullYear = thisYear + "-" + presentYear)
         : null;
 
       document.getElementById("copyRightYear").textContent = fullYear;
@@ -167,46 +241,76 @@
       let process;
       let li;
 
+      // ++++++++++++++++++++++++++++++++++++++++NOTYFY+++++++++++++++++++++++++++
+      // Manage Notification On Input Keypress
+      document
+        .querySelector("#num-input")
+        .addEventListener("keypress", function () {
+          document.querySelector("#num-input").value.length === 0
+            ? ((document.getElementById("notify").innerText =
+                "Number-Length Greater Than 308 Should Be Handled In The 2nd Box"),
+              (document.getElementById("notify_arr").innerText = ""))
+            : ((document.getElementById("notify").innerText = ""),
+              (document.getElementById("notify_arr").innerText = ""));
+        });
+
+      document
+        .querySelector("#num-input-arr")
+        .addEventListener("keypress", function () {
+          document.querySelector("#notify").innerText !== ""
+            ? ((document.getElementById("notify").innerText = ""),
+              (document.getElementById("notify_arr").innerText = ""))
+            : (document.getElementById("notify_arr").innerText = "");
+        });
+      // ++++++++++++++++++++++++++++++++++++++++NOTIFY+++++++++++++++++++++++++++
+
       // Event Listener For Single Number
       document
         .querySelector("#num-button")
         .addEventListener("click", function () {
+          // Manage Notification On BTN Click
+          document.querySelector("#num-input").value.length === 0
+            ? (document.getElementById("notify").innerText =
+                "Number-Length Greater Than 308 Should Be Handled In The 2nd Box")
+            : (document.getElementById("notify").innerHTML = "");
+
           if (document.querySelector("#num-input").value !== "") {
             // Clear ul
             document.getElementById("ul").innerHTML = "";
 
             // Put User Input Value Into A Variable As A String
-            numInput = String(document.querySelector("#num-input").value);
+            numInput = document.querySelector("#num-input").value;
+            if (
+              !String(numInput).includes(".") &&
+              !String(numInput).includes("-")
+            ) {
+              // Remove Numbers With Letters But Retain "0"
+              if (Number(numInput) || Number(numInput) === 0) {
+                // Maintain Perfect Number By removing Any Starting "0s"
+                numInput = String(BigInt(numInput));
 
-            // Allow Effective Reading Of Input Numbers Starting With MulTiple Zero's
-            numInput = String(BigInt(numInput));
+                // Clear Input
+                document.querySelector("#num-input").value = "";
+                document.querySelector("#num-input-arr").value = "";
 
-            // Clear Input
-            document.querySelector("#num-input").value = "";
-            document.querySelector("#num-input-arr").value = "";
+                process = JSnumberToWordProcessor(numInput);
 
-            process = JSnumberToWordProcessor(numInput);
+                process.forEach(function (processed) {
+                  let note =
+                    '<div style="color: gray; text-align: center; font-size: 18px">This Is A Numbers Converted To Word Using JSnumberToWordProcessor</div><hr>';
 
-            process.forEach(function (processed) {
-              let note =
-                '<div style="color: gray; text-align: center; font-size: 18px">This Is A Numbers Converted To Word Using Number To Word Processor</div><hr>';
+                  document.getElementById("note").innerHTML = note;
 
-              document.getElementById("note").innerHTML = note;
+                  li = `<li class="li"><span style="color: gray"> ${processed.displayNum}</span><span style="color: blue">:-</span> ${processed.displayWord} </li>`;
 
-              // Prevent Input Of Negative Numbers
-              if (
-                processed.displayWord !== "undefined." &&
-                parseInt(processed.displayNum) > -1
-              ) {
-                li = `<li class="li"><span style="color: gray"> ${processed.displayNum}</span><span style="color: blue">:-</span> ${processed.displayWord} </li>`;
-
-                document.getElementById("ul").innerHTML += li;
-              } else {
-                li = `<li class="li"><span style="color: gray"> SORRY: Negative Numbers Are Not Allowed </li>`;
-
-                document.getElementById("ul").innerHTML += li;
+                  document.getElementById("ul").innerHTML += li;
+                });
               }
-            });
+            } else {
+              li = `<li class="li"><span style="color: red"> SORRY: Negative Numbers & Fractions Are Not Allowed </li>`;
+
+              document.getElementById("ul").innerHTML += li;
+            }
           }
         });
 
@@ -214,12 +318,15 @@
       document
         .querySelector("#num-button-arr")
         .addEventListener("click", function () {
+          // Manage Notification On BTN Click
+          document.getElementById("notify").innerHTML = "";
+          document.getElementById("notify_arr").innerText = "";
+
           if (document.querySelector("#num-input-arr").value !== "") {
             // Clear ul
             document.getElementById("ul").innerHTML = "";
 
             numInput = document.querySelector("#num-input-arr").value;
-
             // Clear Input
             document.querySelector("#num-input-arr").value = "";
             document.querySelector("#num-input").value = "";
@@ -231,20 +338,21 @@
 
             // Separate Spliced Input Array And Push A New Number Array To NewNumInput
             numSplit.forEach(function (splitedNum) {
-              newNumInputStr.push(splitedNum);
+              // Remove Negative Numbers & Fractions From The New Array
+              if (!splitedNum.includes(".") && !splitedNum.includes("-")) {
+                // Remove Numbers With Letters But Retain "0"
+                if (Number(splitedNum) || Number(splitedNum) === 0) {
+                  // Maintain Perfect Number By removing Any Starting "0s"
+                  newNumInputStr.push(BigInt(splitedNum).toString());
+                }
+              } else {
+                // Manage Notification On BTN Click
+                document.getElementById("notify_arr").innerText =
+                  "Negative Numbers, With Fractions Were Discarded";
+              }
             });
 
-            // Discard All NaN From The New Array
-            //                newNumInput = newNumInput.filter(function(value) {
-            //                    return !Number.isNaN(value)
-            //                });
-
-            // Remove Negative Numbers From The New Array
-            newNumInputStr = newNumInputStr.filter(function (value) {
-              return value > -1;
-            });
-
-            // Convert Number String To BigInt. This Is To Handle (+) eg. +234,345 etc If NNot They Would Be Rejected
+            // Convert Number String To BigInt. This Is To Handle (+) eg. +234,345 etc If Not They Would Be Rejected
             // Now Convert The Whole Numbers Back To Strings
             newNumInputStr.forEach(function (value) {
               newNumInput.push(String(BigInt(value)));
@@ -256,13 +364,18 @@
             // Split The Variable Array
             process.forEach(function (processed) {
               let note =
-                '<div style="color: gray; text-align: center; font-size: 18px">This Is An Array Of Numbers Converted To Word Using Number To Word Processor</div><hr>';
+                '<div style="color: gray; text-align: center; font-size: 18px">This Is An Array Of Numbers Converted To Word Using JSnumberToWordProcessor</div><hr>';
 
               document.getElementById("note").innerHTML = note;
 
-              document.getElementById(
-                "ul"
-              ).innerHTML += `<li class="li"><span style="color: gray"> ${processed.displayNum}</span><span style="color: blue">:-</span> ${processed.displayWord} </li><hr>`;
+              // Display Word As Red Id decimal Number Is Exceeded
+              processed.displayWord.includes("SORRY")
+                ? (document.getElementById(
+                    "ul"
+                  ).innerHTML += `<li class="li"><span style="color: gray"> ${processed.displayNum}</span><span style="color: blue">:-</span><span style="color: red"> ${processed.displayWord} </span> </li><hr>`)
+                : (document.getElementById(
+                    "ul"
+                  ).innerHTML += `<li class="li"><span style="color: gray"> ${processed.displayNum}</span><span style="color: blue">:-</span><span style="color: black"> ${processed.displayWord} </span> </li><hr>`);
             });
           }
         });

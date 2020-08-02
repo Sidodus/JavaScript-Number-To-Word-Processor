@@ -1,35 +1,152 @@
-JavaScript Number To Word Processor
-=====================================
+<h1 align= "center"><ins>JavaScript Number To Word Processor</ins>
+<h6 align= "center" style="color: grey"><small>... #JSnumberToWordProcessor ...</small></h6></h1> <br />
 
-<h1 align="center">
-  <a href="JSnumberToWordProcessor-fullpage.png" style="margin-right: 5px"><img src="JSnumberToWordProcessor-fullpage.png" width="130"/></a>
-  <a href="JSnumberToWordProcessor-console.PNG"><img src="JSnumberToWordProcessor-console.PNG" width="500"/></a>
-</h1>
+<div align="center">
+  <a href="JSnumberToWordProcessor-fullpage.png" target="_blank" style="margin-right: 5px"><img src="JSnumberToWordProcessor-fullpage.png" width="250"/></a>
+  <a href="JSnumberToWordProcessor-console.PNG" target="_blank"><img src="JSnumberToWordProcessor-console.PNG" width="700"/></a>
+</div>
 
 <h4 align="center"><code> 123,456,789,012,345,680 </code> => <code>One Hundred and Twenty-Three Quadrillion, Four Hundred and Fifty-Six Trillion, Seven Hundred and Eighty-Nine Billion, and Twelve Million, Three Hundred and Forty-Five Thousand, Six Hundred and Eighty.</code></h4>
 
 <blockquote align="center">
-    The Goal Of <em>JavaScript Number To Word Processor</em> Is A Well Formatted <code> Number, </code> With It's Corresponding <code> Words, </code> That's Easily Readable To The Eyes
+    The Goal Of <em>JSnumberToWordProcessor</em> Is A Well Formatted Human Readable <code> Number, </code> With It's Corresponding <code> Words. </code>
+</blockquote>
+<blockquote align="center">
+    <em>JSnumberToWordProcessor</em> Is A Pure Vanilla JavaScript Plugin With No Dependencies.
 </blockquote>
 
-# UPDATE:
-- *). Application Can Now Handle Numbers Larger Than <code>2^53-1</code>.
-- *). Spelling Errors Corrected.
-- *). Code Refined.
+## Setup In Project
 
+HTML Script
 
-# How To Use Plugin In Your Project:
-- 1). Download And Attach The JSnumberToWordProcessor.js Script To Your Document.
-- 2). From Your Project Script, Call JSnumberToWordProcessor(numInput); Where (numInput) is Either A String Of Number Or An Array Of Numbers-Strings.
--     a). e.g. JSnumberToWordProcessor('123456') OR JSnumberToWordProcessor(['123','445','6','8575','8474']). Ensure You Pass in The Number Argument As A String. This Is Because JavaScript Has A Number Length Limit Of 2^53-1. But If You Would Be Dealling With Numbers Less Than This Length, Then Feel Free To Input A Number As Your Argument.
--     b). Alternatively; Just Append (n) to The End Of The Number Longer Than 2^53-1 e.g. 123456789098765432n OR [123456789098765433n,123456789098765434n,123456789098765434n]. This Calls The BigInt() Method Which Allows JavaScript To Handle BIG Numbers.
--     c). Better Still; Just Check JSnumberToWordProcessor.html to See How It Is Been Put To Use.
-- 3). Display The Result To Your Document.
+```html
+<script src="path/to/JSnumberToWordProcessor.min.js"></script>
+```
 
+## Installation
 
-Test Plugin @ [JavaScript Number To Word Processor](https://sidodus.github.io/JavaScript-Number-To-Word-Processor/)
+```sh
+npm i js-number-to-word-processor
+```
 
-Coding Exercise By Saheed Odulaja:
-> JavaScript Number To Word Processor Is Developed By Saheed Odulaja As A JavaScript Coding Exercise.
-> Feel Free To Fork This Repository as There Is Always Room For Improvement.
-> Also Be Kind Enough To Leave A STAR As A Mark Of Encouragement :)
+ES5 module:
+
+```js
+const JSnumberToWordProcessor = require("JSnumberToWordProcessor.min.js");
+```
+
+ES6 module:
+
+```js
+import JSnumberToWordProcessor from "JSnumberToWordProcessor.min.js";
+```
+
+AMD loader libraries such as requireJS::
+
+```js
+require(["JSnumberToWordProcessor"], function (num) {
+  // Use JSnumberToWordProcessor here in local scope.
+});
+```
+
+Use In Project:
+
+```js
+// Call JSnumberToWordProcessor & Pass In Either A Positive Whole Number-String
+const processeNumber = JSnumberToWordProcessor("987");
+// OR An Array Of Positive Whole Number-Strings
+const processeNumberArr = JSnumberToWordProcessor([
+  "6478",
+  "579",
+  "57682587698017236587695780",
+]);
+
+// Use The Result In Your Project
+let processedNumber;
+let processedWord;
+
+processeNumber.forEach(function (num) {
+  processedNumber = num.displayNum;
+  processedWord = num.displayWord;
+});
+
+console.log("processedNumber:- ", processedNumber);
+console.log("processedWord:- ", processedWord);
+```
+
+<div>
+      <h3 align="center"> How To Use JSnumberToWordProcessor Plugin In Your Project </h3>
+      <ul>
+          <li>Install JSnumberToWordProcessor Plugin Unsing "npm i js-number-to-word-processor" Without Quotes From CLI & "import" / "require" To Your Document</li>
+          OR
+          <li>Download, And Attach The JSnumberToWordProcessor.min.js Script To Your HTML Document.</li>
+          <li>From Your Project, Call JSnumberToWordProcessor(numInput); <br /> 
+           Where (numInput) is Either A String Of Positive Whole Number, Or An Array Of Positive Whole Number-Strings.
+            <ol type="a">
+              <li>
+                <b style="color: grey;"><i>e.g.</i></b> <br />
+                JSnumberToWordProcessor('123456') <br />
+                                  OR <br />
+                JSnumberToWordProcessor(['123', '445', '6', '8575', '84974']). <br />
+                    Ensure You Pass in The Number Argument As A String. <br />
+                    This Is Because JavaScript Has A Number Length Limit Of 2^53-1. <br />
+                    But If You Would Be Dealing With Numbers Less Than 2^53-1 Length, <br />
+                    Then Feel Free To Input A Number As Your Argument.
+              </li>
+              <li>
+                <b style="color: grey;"><i>Alternatively;</i></b> <br />
+                    Just Append (n) to The End Of The Number Longer Than 2^53-1 <br />
+                    e.g. <br />
+                        123456789098765432n <br />
+                                 OR <br />
+                        [123456789098765433n, 123456789098765434n, 123456789098765434n]. <br />
+                    This Calls The BigInt() Method Which Allows JavaScript To Handle BIG Numbers. <br />
+              </li>
+              <li>
+              <b style="color: grey;"><i>NOTE: </i></b> <br />
+                    Only Positive Whole Numbers Are Processed. Negative Numbers, With Fractions Would Be Discarded. <br />
+              </li>
+              <li>
+              <b style="color: grey;"><i>Better Still; </i></b> <br />
+                    Just Check JSnumberToWordProcessor's index.html  <br />
+                    & See How It's Been Put To Use
+                    <br />
+                    OR
+                    <br />
+                    Check <a href="https://sidodus.github.io/Sidodus-proforma-invoice-calculator/">Proforma Invoice Calculator</a> To See JSnumberToWordProcessor At Work  <br />
+                    Proforma Invoice Calculator <a href="https://github.com/Sidodus-proforma-invoice-calculator/">Source Code</a>
+              </li>
+            </ol>
+          </li>
+          <li>
+            Display The Result In Your Project.
+          </li>
+      </ul>
+    </div>
+
+<h4><ins>UPDATE</ins></h4>
+<h6 margin-bottom="-5px"><em>Version: 2.0.3</em></h6>
+  <ol>
+    <li> Application Can Now Process Numbers Up To "<code>10^33003</code>", Into Human Readable Numbers & Words Based On <a href="https://www.mrob.com/pub/math/largenum.html" target="_blank"
+          >Conway-Wechsler Numbering System</a
+        >. </li>
+    <li> Optimized Code For Efficiency (Rewrote Most Part). </li>
+    <li> Pure Vanilla JS With No Dependencies.</li>
+  </ol>
+
+<h4><ins>UPDATE</ins></h4>
+<h6 margin-bottom="-5px"><em>Version: 1.1.0</em></h6>
+  <ol>
+    <li> Application Can Now Handle Numbers Larger Than <code>2^53-1</code> Up To <code>10^126</code>. </li>
+    <li> Spelling Errors Corrected. </li>
+    <li> Code Refined. </li>
+  </ol>
+
+<h6>Install From NPM <a href="https://www.npmjs.com/package/js-number-to-word-processor" target="_blank">NPM</a></h6>
+<h6>Get Source Code From <a href="https://github.com/Sidodus/JavaScript-Number-To-Word-Processor" target="_blank">GitHub</a></h6>
+<h6>Live Site @ <a href="https://sidodus.github.io/JavaScript-Number-To-Word-Processor/" target="_blank">JSnumberToWordProcessor</a></h6>
+<h6><a href="https://sidodus.github.io/Sidodus-proforma-invoice-calculator/" target="_blank">Proforma Invoice Calculator </a>is Another Application Using #JSnumberToWordProcessor <a href="https://github.com/Sidodus-proforma-invoice-calculator/" target="_blank"> Source Code</a></h6>
+
+> JavaScript Number To Word Processor Is Developed By Saheed Odulaja.
+> Feel Free To Fork This Repository.
+> Also Be Kind Enough To Leave A STAR 🌟 As A Mark Of Encouragement 😃.

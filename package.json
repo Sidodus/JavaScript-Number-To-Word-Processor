@@ -1,0 +1,45 @@
+{
+  "name": "js-number-to-word-processor",
+  "version": "2.0.3",
+  "description": "The Goal Of JSnumberToWordProcessor Is A Well Formatted Human Readable Number, With It's Corresponding Words.",
+  "main": "JSnumberToWordProcessor.min.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Sidodus/JavaScript-Number-To-Word-Processor.git"
+  },
+  "keywords": [
+    "JS",
+    "JavaScript",
+    "React",
+    "React.js",
+    "Angular",
+    "Angular.js",
+    "Vue",
+    "Vue.js",
+    "Number",
+    "Word",
+    "Numbers",
+    "Words",
+    "Digit",
+    "Digits",
+    "Processor",
+    "JSnumberToWordProcessor",
+    "Number To Word",
+    "Number To Word Processor",
+    "Digit To Word",
+    "Digits To Words",
+    "JavaScript Number To Word",
+    "JavaScript Numbers To Words",
+    "JavaScript Number To Word Processor",
+    "JavaScript Numbers To Words Processor"
+  ],
+  "author": "Saheed Odulaja",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Sidodus/JavaScript-Number-To-Word-Processor/issues"
+  },
+  "homepage": "https://github.com/Sidodus/JavaScript-Number-To-Word-Processor#readme"
+}
