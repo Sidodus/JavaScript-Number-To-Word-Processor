@@ -118,10 +118,10 @@ console.log("processeNumberArr:- ", processeNumberArr);
     </div>
 
 <h4><ins>UPDATE</ins></h4>
-<h6 margin-bottom="-5px"><em>Version: 2.0.5</em></h6>
+<h6 margin-bottom="-5px"><em>Version: 2.0.6</em></h6>
   <ol>
-    <li> Corrected Read Me installation process.</li>
-    <li> Code Optimized.</li> 
+    <li> Corrected Read Me Installation Process.</li>
+    <li> Code Optimized (for speed).</li> 
   </ol>
 
 <h4><ins>UPDATE</ins></h4>
