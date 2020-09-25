@@ -20,7 +20,7 @@
 HTML Script
 
 ```html
-<script src="path/to/JSnumberToWordProcessor.min.js"></script>
+<script src="path/to/JavaScript-Number-To-Word-Processor"></script>
 ```
 
 ## Installation
@@ -32,19 +32,19 @@ npm i js-number-to-word-processor
 ES5 module:
 
 ```js
-const JSnumberToWordProcessor = require("JSnumberToWordProcessor.min.js");
+const JSnumberToWordProcessor = require("js-number-to-word-processor");
 ```
 
 ES6 module:
 
 ```js
-import JSnumberToWordProcessor from "JSnumberToWordProcessor.min.js";
+import JSnumberToWordProcessor from "js-number-to-word-processor";
 ```
 
 AMD loader libraries such as requireJS::
 
 ```js
-require(["JSnumberToWordProcessor"], function (num) {
+require(["js-number-to-word-processor"], function (num) {
   // Use JSnumberToWordProcessor here in local scope.
 });
 ```
@@ -54,6 +54,7 @@ Use In Project:
 ```js
 // Call JSnumberToWordProcessor & Pass In Either A Positive Whole Number-String
 const processeNumber = JSnumberToWordProcessor("987");
+
 // OR An Array Of Positive Whole Number-Strings
 const processeNumberArr = JSnumberToWordProcessor([
   "6478",
@@ -62,24 +63,16 @@ const processeNumberArr = JSnumberToWordProcessor([
 ]);
 
 // Use The Result In Your Project
-let processedNumber;
-let processedWord;
-
-processeNumber.forEach(function (num) {
-  processedNumber = num.displayNum;
-  processedWord = num.displayWord;
-});
-
-console.log("processedNumber:- ", processedNumber);
-console.log("processedWord:- ", processedWord);
+console.log("processeNumber:- ", processeNumber);
+console.log("processeNumberArr:- ", processeNumberArr);
 ```
 
 <div>
       <h3 align="center"> How To Use JSnumberToWordProcessor Plugin In Your Project </h3>
       <ul>
-          <li>Install JSnumberToWordProcessor Plugin Unsing "npm i js-number-to-word-processor" Without Quotes From CLI & "import" / "require" To Your Document</li>
+          <li>Install JSnumberToWordProcessor Plugin Using "npm i js-number-to-word-processor" Without Quotes From CLI & "import" / "require" (JSnumberToWordProcessor) In Your Document</li>
           OR
-          <li>Download, And Attach The JSnumberToWordProcessor.min.js Script To Your HTML Document.</li>
+          <li>Download, And Attach The curStrLengthFunc_2.min.js & JSnumberToWordProcessor.js Script To Your HTML Document.</li>
           <li>From Your Project, Call JSnumberToWordProcessor(numInput); <br /> 
            Where (numInput) is Either A String Of Positive Whole Number, Or An Array Of Positive Whole Number-Strings.
             <ol type="a">
@@ -123,6 +116,13 @@ console.log("processedWord:- ", processedWord);
           </li>
       </ul>
     </div>
+
+<h4><ins>UPDATE</ins></h4>
+<h6 margin-bottom="-5px"><em>Version: 2.0.5</em></h6>
+  <ol>
+    <li> Corrected Read Me installation process.</li>
+    <li> Code Optimized.</li> 
+  </ol>
 
 <h4><ins>UPDATE</ins></h4>
 <h6 margin-bottom="-5px"><em>Version: 2.0.4</em></h6>

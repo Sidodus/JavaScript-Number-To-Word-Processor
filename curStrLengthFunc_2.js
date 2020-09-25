@@ -1,4 +1,4 @@
-// ******************** LARGE NUMBERS DEFINATION (Start) ++++++++++++++++++++++++++++
+// ******************** LARGE NUMBERS DEFINITION (Start) ++++++++++++++++++++++++++++
 
 let largeNumbers;
 function curStrLengthFunc_2(curStrLengthFunc) {
@@ -22006,7 +22006,7 @@ function curStrLengthFunc_2(curStrLengthFunc) {
   return largeNumbers;
 }
 
-// ********************** LARGE NUMBERS DEFINATION (End) +++++++++++++++++++++++++++++++
+// ********************** LARGE NUMBERS DEFINITION (End) +++++++++++++++++++++++++++++++
 
 // *************** EXPORT *****************
 

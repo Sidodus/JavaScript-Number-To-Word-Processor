@@ -18,14 +18,14 @@ const JSnumberToWordProcessor = (function () {
 
   //AMD.
   if (typeof define === "function" && define.amd) {
-    curStrLengthFunc2 = require(["./curStrLengthFunc_2"]);
+    curStrLengthFunc2 = require(["./curStrLengthFunc_2.min.js"]);
     // Node and other CommonJS-like environments that support module.exports.
   } else if (typeof module !== "undefined" && module.exports) {
-    curStrLengthFunc2 = require("./curStrLengthFunc_2.js");
+    curStrLengthFunc2 = require("./curStrLengthFunc_2.min.js");
     //Browser.
   } else {
     curStrLengthFunc2 = curStrLengthFunc_2;
-  }
+  } 
 
   // ******************** Start Processing Number(s) ********************
   const processNum = function (num) {
