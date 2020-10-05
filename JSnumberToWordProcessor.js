@@ -1,5 +1,5 @@
 /*
- ** JS Number To Word Processor v3.0.0
+ ** JS Number To Word Processor v3.0.2
  ** Purpose: Improving Number / Number-Word Readability.
  ** Copyright (c) 2019-2020 Saheed Odulaja
  **
