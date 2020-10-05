@@ -1,5 +1,5 @@
 <h1 align= "center"><ins>JavaScript Number To Word Processor</ins>
-<h6 align= "center" style="color: grey; margin-top: -10px"><small><a href="https://sidodus.github.io/JavaScript-Number-To-Word-Processor/" target="_blank">... #JSnumberToWordProcessor ...</a></small></h6></h1> <br />
+<h6 align= "center" color="gray" style="margin-top: -10px"><small><a href="https://sidodus.github.io/JavaScript-Number-To-Word-Processor/" target="_blank">... #JSnumberToWordProcessor ...</a></small></h6><br />
 
 <div align="center" style="margin-top: -15px">
   <a href="JSnumberToWordProcessor-fullpage.png" target="_blank" style="margin-right: 5px"><img src="JSnumberToWordProcessor-fullpage.png" width="265"/></a>
@@ -8,7 +8,7 @@
 
 <h4 align="center"><code> 123,456,789,012,345,680 </code> => <code>One Hundred and Twenty-Three Quadrillion, Four Hundred and Fifty-Six Trillion, Seven Hundred and Eighty-Nine Billion, and Twelve Million, Three Hundred and Forty-Five Thousand, Six Hundred and Eighty.</code></h4>
 
-<h4 align="center"><code> <span style="color: red">-</span>97,000,005,430,000.<small>98,766,537,867</small> </code> => <code><span style="color: tomato">(negative)</span> Ninety-Seven Trillion, and Five Million, Four Hundred and Thirty Thousand <span style="color: tomato">(dot)</span> Ninety-Eight Billion, Seven Hundred and Sixty-Six Million, Five Hundred and Thirty-Seven Thousand, Eight Hundred and Sixty-Seven <span style="color: gray">hundred-billionths</span>.</code></h4>
+<h4 align="center"><code> <span color="red">-</span>97,000,005,430,000.<small>98,766,537,867</small> </code> => <code><span color="tomato">(negative)</span> Ninety-Seven Trillion, and Five Million, Four Hundred and Thirty Thousand <span color="tomato">(dot)</span> Ninety-Eight Billion, Seven Hundred and Sixty-Six Million, Five Hundred and Thirty-Seven Thousand, Eight Hundred and Sixty-Seven <span color="gray">hundred-billionths</span>.</code></h4>
 
 <blockquote align="center">
     The Goal Of <em>JSnumberToWordProcessor</em> Is A Well Formatted Human Readable <code> Number, </code> With It's Corresponding <code> Words. </code>
@@ -22,7 +22,7 @@
 
 <h2 align="center"> UPDATE </h2>
 
-<h6 margin-bottom="-5px"><em>Version: 3.0.0</em></h6>
+<h6 margin-bottom="-5px"><em>Version: 3.0.2</em></h6>
   <ol>
     <li> Application Now Handles Decimal Numbers, With Fractions.</li>
       <ol>
@@ -322,15 +322,15 @@ JSnumberToWordProcessor(55 !== "55"); // 1: One
                     This Is Because JavaScript Has A Number Length Limit Of 2^53-1. <br />
                     But If You Would Be Dealing With Numbers Less Than 2^53-1 Length, <br />
                     Then Feel Free To Input A Number As Your Argument. <br />
-                                  <b style="color: grey;">For Decimal Numbers </b><br />
+                                  <b color="grey">For Decimal Numbers </b><br />
           Pass A The Second Argument Which Could either Be A Number Or A String. If No Second Argument Is Passed In For Decimal Numbers Or The Second Argument Is Greater Than The Actual  Decimal Number Length, A default Value Of 2 Decimal Number Length Is Used.  <br />
-          <b style="color: grey;">e.g</b><br />
+          <b color"grey">e.g</b><br />
                 <code>JSnumberToWordProcessor('123456.78998765', 5)</code> <br />
                                   <b>OR</b> <br />
                 <code>JSnumberToWordProcessor(['123.98765', '445.556', '68', '8575.7766', '84974'], 3)</code>.                    
               </li>
               <li>
-                <b style="color: grey;"><i>Alternatively;</i></b> <br />
+                <b color="grey"><i>Alternatively;</i></b> <br />
                     Just Append <code>(n)</code> (Without Parentheses) to The End Of The Number Longer Than 2^53-1 <br />
                     e.g. <br />
                         <code>123456789098765432n</code> <br />
@@ -339,7 +339,7 @@ JSnumberToWordProcessor(55 !== "55"); // 1: One
                     This Calls The BigInt() Method Which Allows JavaScript To Handle BIG Numbers. <br />
               </li>              
               <li>
-              <b style="color: grey;"><i>Better Still; </i></b> <br />
+              <b color="grey"><i>Better Still; </i></b> <br />
                     Just Check <a href="https://sidodus.github.io/JavaScript-Number-To-Word-Processor/" target="_blank">JSnumberToWordProcessor's index.html</a> & See How It's Been Put To Use
                     <br />
                     <b>OR</b>
