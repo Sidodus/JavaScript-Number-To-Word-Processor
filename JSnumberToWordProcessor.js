@@ -1,5 +1,5 @@
 /*
- ** JS Number To Word Pocessor v2.0.4
+ ** JS Number To Word Processor v3.0.0
  ** Purpose: Improving Number / Number-Word Readability.
  ** Copyright (c) 2019-2020 Saheed Odulaja
  **
@@ -9,7 +9,11 @@
  ** NPM @ https://www.npmjs.com/package/js-number-to-word-processor.
  ** GitHub @ https://github.com/Sidodus/JavaScript-Number-To-Word-Processor.
  ** Live Application @ https://sidodus.github.io/JavaScript-Number-To-Word-Processor/.
- ** Proforma Invoice Calculator is Another Application Using #JSnumberToWordProcessor @ https://github.com/Sidodus-proforma-invoice-calculator/
+ **
+ ** Proforma Invoice Calculator is Another Application Using #JSnumberToWordProcessor
+ ** Proforma Invoice Calculator @ https://github.com/Sidodus-proforma-invoice-calculator/
+ **
+ ** LinkedIn Profile @ https://www.linkedin.com/in/saheed-odulaja-75111337
  */
 
 const JSnumberToWordProcessor = (function () {
@@ -25,21 +29,133 @@ const JSnumberToWordProcessor = (function () {
     //Browser.
   } else {
     curStrLengthFunc2 = curStrLengthFunc_2;
-  } 
+  }
+
+  // ******************** LARGE NUMBERS DEFINITION (Start) +++++++++++++++++++++++++++++
+
+  let largeNumbers;
+  // let nthWord;
+
+  function curStrLengthFunc(curStrLengthFunc) {
+    if (curStrLengthFunc >= 4 && curStrLengthFunc <= 102) {
+      curStrLengthFunc >= 4 && curStrLengthFunc <= 6
+        ? (largeNumbers = "Thousand")
+        : curStrLengthFunc >= 7 && curStrLengthFunc <= 9
+        ? (largeNumbers = "Million")
+        : curStrLengthFunc >= 10 && curStrLengthFunc <= 12
+        ? (largeNumbers = "Billion")
+        : curStrLengthFunc >= 13 && curStrLengthFunc <= 15
+        ? (largeNumbers = "Trillion")
+        : curStrLengthFunc >= 16 && curStrLengthFunc <= 18
+        ? (largeNumbers = "Quadrillion")
+        : curStrLengthFunc >= 19 && curStrLengthFunc <= 21
+        ? (largeNumbers = "Quintillion")
+        : curStrLengthFunc >= 22 && curStrLengthFunc <= 24
+        ? (largeNumbers = "Sextillion")
+        : curStrLengthFunc >= 25 && curStrLengthFunc <= 27
+        ? (largeNumbers = "Septillion")
+        : curStrLengthFunc >= 28 && curStrLengthFunc <= 30
+        ? (largeNumbers = "Octillion")
+        : curStrLengthFunc >= 31 && curStrLengthFunc <= 33
+        ? (largeNumbers = "Nonillion")
+        : curStrLengthFunc >= 34 && curStrLengthFunc <= 36
+        ? (largeNumbers = "Decillion")
+        : curStrLengthFunc >= 37 && curStrLengthFunc <= 39
+        ? (largeNumbers = "Undecillion")
+        : curStrLengthFunc >= 40 && curStrLengthFunc <= 42
+        ? (largeNumbers = "Duodecillion")
+        : curStrLengthFunc >= 43 && curStrLengthFunc <= 45
+        ? (largeNumbers = "Tredecillion")
+        : curStrLengthFunc >= 46 && curStrLengthFunc <= 48
+        ? (largeNumbers = "Quattuordecillion")
+        : curStrLengthFunc >= 49 && curStrLengthFunc <= 51
+        ? (largeNumbers = "Quindecillion")
+        : curStrLengthFunc >= 52 && curStrLengthFunc <= 54
+        ? (largeNumbers = "Sedecillion")
+        : curStrLengthFunc >= 55 && curStrLengthFunc <= 57
+        ? (largeNumbers = "Septendecillion")
+        : curStrLengthFunc >= 58 && curStrLengthFunc <= 60
+        ? (largeNumbers = "Octodecillion")
+        : curStrLengthFunc >= 61 && curStrLengthFunc <= 63
+        ? (largeNumbers = "Novendecillion")
+        : curStrLengthFunc >= 64 && curStrLengthFunc <= 66
+        ? (largeNumbers = "Vigintillion")
+        : curStrLengthFunc >= 67 && curStrLengthFunc <= 69
+        ? (largeNumbers = "Unvigintillion")
+        : curStrLengthFunc >= 70 && curStrLengthFunc <= 72
+        ? (largeNumbers = "Duovigintillion")
+        : curStrLengthFunc >= 73 && curStrLengthFunc <= 75
+        ? (largeNumbers = "Tresvigintillion")
+        : curStrLengthFunc >= 76 && curStrLengthFunc <= 78
+        ? (largeNumbers = "Quattuorvigintillion")
+        : curStrLengthFunc >= 79 && curStrLengthFunc <= 81
+        ? (largeNumbers = "Quinvigintillion")
+        : curStrLengthFunc >= 82 && curStrLengthFunc <= 84
+        ? (largeNumbers = "Sesvigintillion")
+        : curStrLengthFunc >= 85 && curStrLengthFunc <= 87
+        ? (largeNumbers = "Septemvigintillion")
+        : curStrLengthFunc >= 88 && curStrLengthFunc <= 90
+        ? (largeNumbers = "Octovigintillion")
+        : curStrLengthFunc >= 91 && curStrLengthFunc <= 93
+        ? (largeNumbers = "Novemvigintillion")
+        : curStrLengthFunc >= 94 && curStrLengthFunc <= 96
+        ? (largeNumbers = "Trigintillion")
+        : curStrLengthFunc >= 97 && curStrLengthFunc <= 99
+        ? (largeNumbers = "Untrigintillion")
+        : curStrLengthFunc >= 100 && curStrLengthFunc <= 102
+        ? (largeNumbers = "Duotrigintillion")
+        : null;
+    } else if (curStrLengthFunc >= 103 && curStrLengthFunc <= 33003) {
+      largeNumbers = curStrLengthFunc2(curStrLengthFunc);
+    }
+    return curStrLengthFunc;
+  }
+
+  // ********************** LARGE NUMBERS DEFINITION (End) +++++++++++++++++++++++++++++++
 
   // ******************** Start Processing Number(s) ********************
-  const processNum = function (num) {
+  const processNum = function (num, decimalPlace) {
     let curString;
     let processedData = "";
     let processedDataArray = [];
+    decimalPlace === undefined ? (decimalPlace = 2) : decimalPlace;
+    let negativeInt = false;
+    let decimalPoint = false;
 
-    // Process Number If Number Is An Array OR A Single Number
+    // ******************** Handle Negative Signs ********************
+    function includesNegativeNum(num) {
+      if (String(num).includes("-")) {
+        negativeInt = true;
+        // Remove The Negative Sign & Append It To processDecimalNumber
+        return (num = String(num).replace("-", ""));
+      } else {
+        negativeInt = false;
+        return num;
+      }
+    }
+
+    // ******************** Process Number If Number Is An Array OR A Single Number ********************
     if (Array.isArray(num)) {
       num.filter(function (cur) {
-        // Exclude Negative Numbers But Fractions
-        if (!String(cur).includes(".") && !String(cur).includes("-")) {
+        // Handle Fractions
+        if (String(cur).includes(".")) {
+          // Remove Numbers With Letters But Retain "0"
+          // Maintain Perfect Number By removing Any Starting "0s"
+          if (Number(cur) || Number(cur) === 0) {
+            pointToDecimal = true;
+            // Handle Negative Signs
+            cur = includesNegativeNum(cur);
+
+            // Process Decimal Number
+            processDecimalNumber(cur, decimalPlace);
+          }
+        } else if (!String(cur).includes(".")) {
+          // Exclude Negative Numbers But Fractions
           // Remove Numbers With Letters But Retain "0"
           if (Number(cur) || Number(cur) === 0) {
+            // Handle Negative Signs
+            cur = includesNegativeNum(cur);
+
             // Maintain Perfect Number By removing Any Starting "0s"
             curString = BigInt(cur).toString();
             // Process Number & Get Readable Number With Word
@@ -50,10 +166,25 @@ const JSnumberToWordProcessor = (function () {
         }
       });
     } else {
-      // Exclude Negative Numbers & Fractions
-      if (!String(num).includes(".") && !String(num).includes("-")) {
+      // Not An Array
+      // Handle Fractions
+      if (String(num).includes(".")) {
         // Remove Numbers With Letters But Retain "0"
         if (Number(num) || Number(num) === 0) {
+          pointToDecimal = true;
+          // Maintain Perfect Number By removing Any Starting "0s"
+          // Handle Negative Signs
+          num = includesNegativeNum(num);
+          // Process Decimal Number
+          processDecimalNumber(num, decimalPlace);
+        }
+      } else if (!String(num).includes(".")) {
+        // Exclude Negative Numbers & Fractions
+        // Remove Numbers With Letters But Retain "0"
+        if (Number(num) || Number(num) === 0) {
+          // Handle Negative Signs
+          num = includesNegativeNum(num);
+
           // Maintain Perfect Number By removing Any Starting "0s"
           curString = BigInt(num).toString();
           // Process Number & Get Readable Number With Word
@@ -64,7 +195,136 @@ const JSnumberToWordProcessor = (function () {
       }
     } // END OF if (Array.isArray(num))
 
-    // Number Processor(Format Number To A Readable Number & Call processCurString() To Process Number To Word)
+    function decimalPlaceWordFunc(decimalPlace) {
+      let ten = "ten";
+      let hundred = "hundred";
+      let ths = "ths";
+      let pointToDecimalWord;
+
+      Number(decimalPlace) === 1
+        ? (pointToDecimalWord = `${ten}${ths}`)
+        : Number(decimalPlace) === 2
+        ? (pointToDecimalWord = `${hundred}${ths}`)
+        : null;
+
+      if (Number(decimalPlace) >= 3) {
+        let modulusWord = decimalPlace % 3;
+
+        // Get Decimal Number word-ths
+        curStrLengthFunc(decimalPlace + 1);
+        pointToDecimalWord = largeNumbers.toLowerCase();
+
+        modulusWord === 0
+          ? (pointToDecimalWord = `${pointToDecimalWord}${ths}`)
+          : modulusWord === 1
+          ? (pointToDecimalWord = `${ten}-${pointToDecimalWord}${ths}`)
+          : modulusWord === 2
+          ? (pointToDecimalWord = `${hundred}-${pointToDecimalWord}${ths}`)
+          : null;
+      }
+
+      return pointToDecimalWord;
+    }
+
+    // ******************** Process Decimal Number(s) ********************
+    function processDecimalNumber(num, decimalPlace) {
+      //  Set decimalPoint To true
+      decimalPoint = true;
+      // Split Decimal Number
+      let newNum = String(num).split(".");
+      let newNum0 = String(BigInt(newNum[0]));
+      let newNum1 = String(BigInt(newNum[1]));
+
+      /* Use 2 Decimal Point If Proposed decimalPlace Is Longer Than Actual Decimal Length
+       ** Or decimalPlace Isn't Within The Range Of 0 - 100 */
+      if (decimalPlace >= 0 && decimalPlace <= 100) {
+        decimalPlace <= String(newNum1).length
+          ? decimalPlace
+          : (decimalPlace = 2);
+      } else {
+        decimalPlace = 2;
+      }
+
+      // Format Decimal Number with '0.' To Achieve The Desired Decimal Place
+      let sudoArrStart = ["0."];
+      let sudoArrAll = Number(
+        sudoArrStart.concat(String(newNum1)).join("")
+      ).toFixed(decimalPlace);
+
+      // Set toFixed(decimalPlace) To Carry Over Remainder One(1) When Necessary
+      let newDecimalNum;
+      let fixedNum = 1;
+      if (sudoArrAll === fixedNum.toFixed(decimalPlace)) {
+        newDecimalNum = "00";
+        newNum0 = String(BigInt(newNum0) + BigInt(1));
+      } else {
+        newDecimalNum = sudoArrAll.split(".")[1];
+      }
+
+      // Prevent newDecimalNum From Returning Zero When User's Selected Decimal Point Is 1
+      newDecimalNum === "0" ? (newDecimalNum = "00") : null;
+
+      // Preserve The Current negativeInt As It Value Would Change On Next numProcessor()
+      let SudoNegativeInt = negativeInt;
+
+      // Process Whole Number With Decimal Number
+      let processNumb = numProcessor(newNum0);
+      let processDecimalNumb = numProcessor(newDecimalNum);
+
+      // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+      // set Decimal Place Word
+      let decimalPlaceWord = decimalPlaceWordFunc(decimalPlace);
+      // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+      // Reinstate negativeInt Value
+      negativeInt = SudoNegativeInt;
+
+      /* If processDecimalNumb.displayWord === "undefined" That means Decimal Point Is .00
+       ** numProcessor() Returns 00 as undefined & 0 as Zero */
+      let processDecimalNumbToDisplayWord;
+      processDecimalNumb.displayWord === "undefined"
+        ? (processDecimalNumbToDisplayWord = "")
+        : (processDecimalNumbToDisplayWord = processDecimalNumb.displayWord);
+
+      // Format Decimal Point
+      decimalPoint === true
+        ? (decimalPoint = { sign: ".", word: " (dot) ", bool: true })
+        : (decimalPoint = { sign: "", word: "", bool: false });
+
+      // Format Negative Sign
+      negativeInt === true
+        ? (negativeInt = { sign: "-", word: "(negative) ", bool: true })
+        : (negativeInt = { sign: "", word: "", bool: false });
+
+      let newNumb =
+        processNumb.displayNum +
+        decimalPoint.sign +
+        processDecimalNumb.displayNum;
+
+      let newWord =
+        processDecimalNumbToDisplayWord === ""
+          ? processNumb.displayWord
+          : processNumb.displayWord +
+            decimalPoint.word +
+            processDecimalNumbToDisplayWord;
+
+      let newProcessedNum = {
+        displayNum: newNumb,
+        displayWord: `${newWord} ${decimalPlaceWord}`,
+        displayWholeNum: processNumb.displayWholeNum,
+        displayWholeWord: processNumb.displayWholeWord,
+        displayDecimalNum: decimalPoint.sign + processDecimalNumb.displayNum,
+        displayDecimalWord: processDecimalNumbToDisplayWord,
+        negativeInt: negativeInt.bool,
+        decimalPoint: decimalPoint.bool,
+        decimalPlaceWord,
+      };
+
+      // Parse The Object Into An Array
+      processedDataArray.push(newProcessedNum);
+    } // END OF processDecimalNumber
+
+    // ******************** Format Number To A Readable Numbers  ********************
     function numProcessor(curString) {
       let curStringSubstr;
       let newCurString = [];
@@ -86,7 +346,7 @@ const JSnumberToWordProcessor = (function () {
           // Push 1st 3 numbers to newCurString
           newCurString.push(curStringSubstr);
 
-          // Manage proceding numbers
+          // Manage proceeding numbers
           while (curStringSlice.length > 3) {
             // Pick out the first 3 numbers
             curStringSubstr = curStringSlice.substr(0, 3);
@@ -105,13 +365,12 @@ const JSnumberToWordProcessor = (function () {
           }
         }
       }
-
       if (curString.length > 3) {
         if (curString.length % 3 === 1) {
-          // Reamender 1 e.g 1,234
+          // Remainder 1 e.g 1,234
           processNum2HumanReadable(1, null);
         } else if (curString.length % 3 === 2) {
-          // Remander 2 e.g 12,345
+          // Remainder 2 e.g 12,345
           processNum2HumanReadable(2, null);
         } else if (curString.length % 3 === 0) {
           /* Remaining 3 e.g 123,456 */
@@ -134,16 +393,28 @@ const JSnumberToWordProcessor = (function () {
         displayWord = processCurString(curString);
       }
 
+      // Format Negative Sign
+      negativeInt === true
+        ? (negativeInt = { sign: "-", word: "(negative) ", bool: true })
+        : (negativeInt = { sign: "", word: "", bool: false });
+
       return {
-        displayNum,
-        displayWord,
+        displayNum: negativeInt.sign + displayNum,
+        displayWord: negativeInt.word + displayWord,
+        displayWholeNum: displayNum,
+        displayWholeWord: displayWord,
+        displayDecimalNum: "",
+        displayDecimalWord: "",
+        negativeInt: negativeInt.bool,
+        decimalPoint: false,
+        decimalPlaceWord: "",
       };
     } // END OF numProcessor()
 
     return processedDataArray;
   }; // END OF processNum(num)
 
-  // Process Number To Word
+  // ******************** Process Numbers To Word  ********************
   const processCurString = function (curString) {
     let curStringTenseAndUnit = 0;
     let processedWord = "";
@@ -172,7 +443,7 @@ const JSnumberToWordProcessor = (function () {
     } // END OF illion()
 
     /*
-     ** Match RegEx With Privious illion eg Trillion, Billion, Million
+     ** Match RegEx With Previous illion eg Trillion, Billion, Million
      ** Matched 'string' Means The If Statement Would Run
      */
     function processWordRegExMatch(
@@ -185,7 +456,7 @@ const JSnumberToWordProcessor = (function () {
       llion1,
       llion2
     ) {
-      // Chech If processedWordDummy illion Includes Comma (,) Like llionRegEx illion, Then Number Length Is Greater than (>) 3. Therefore Process The Next illion.
+      // Check If processedWordDummy illion Includes Comma (,) Like llionRegEx illion, Then Number Length Is Greater than (>) 3. Therefore Process The Next illion.
       if (processedWordDummy.match(llionRegEx)) {
         // NOTE: The 2nd Set Of illion(3&4) would Be Parsed To processedWordDummy For RegEX match()
         processRegExMatch(
@@ -244,87 +515,6 @@ const JSnumberToWordProcessor = (function () {
       }
     } // END OF funcTenseAndUnit()
 
-    // ******************** LARGE NUMBERS DEFINATION (Start) +++++++++++++++++++++++++++++
-
-    let largeNumbers;
-
-    function curStrLengthFunc(curStrLengthFunc) {
-      if (curStrLengthFunc >= 4 && curStrLengthFunc <= 102) {
-        curStrLengthFunc >= 4 && curStrLengthFunc <= 6
-          ? (largeNumbers = "Thousand")
-          : curStrLengthFunc >= 7 && curStrLengthFunc <= 9
-          ? (largeNumbers = "Million")
-          : curStrLengthFunc >= 10 && curStrLengthFunc <= 12
-          ? (largeNumbers = "Billion")
-          : curStrLengthFunc >= 13 && curStrLengthFunc <= 15
-          ? (largeNumbers = "Trillion")
-          : curStrLengthFunc >= 16 && curStrLengthFunc <= 18
-          ? (largeNumbers = "Quadrillion")
-          : curStrLengthFunc >= 19 && curStrLengthFunc <= 21
-          ? (largeNumbers = "Quintillion")
-          : curStrLengthFunc >= 22 && curStrLengthFunc <= 24
-          ? (largeNumbers = "Sextillion")
-          : curStrLengthFunc >= 25 && curStrLengthFunc <= 27
-          ? (largeNumbers = "Septillion")
-          : curStrLengthFunc >= 28 && curStrLengthFunc <= 30
-          ? (largeNumbers = "Octillion")
-          : curStrLengthFunc >= 31 && curStrLengthFunc <= 33
-          ? (largeNumbers = "Nonillion")
-          : curStrLengthFunc >= 34 && curStrLengthFunc <= 36
-          ? (largeNumbers = "Decillion")
-          : curStrLengthFunc >= 37 && curStrLengthFunc <= 39
-          ? (largeNumbers = "Undecillion")
-          : curStrLengthFunc >= 40 && curStrLengthFunc <= 42
-          ? (largeNumbers = "Duodecillion")
-          : curStrLengthFunc >= 43 && curStrLengthFunc <= 45
-          ? (largeNumbers = "Tredecillion")
-          : curStrLengthFunc >= 46 && curStrLengthFunc <= 48
-          ? (largeNumbers = "Quattuordecillion")
-          : curStrLengthFunc >= 49 && curStrLengthFunc <= 51
-          ? (largeNumbers = "Quindecillion")
-          : curStrLengthFunc >= 52 && curStrLengthFunc <= 54
-          ? (largeNumbers = "Sedecillion")
-          : curStrLengthFunc >= 55 && curStrLengthFunc <= 57
-          ? (largeNumbers = "Septendecillion")
-          : curStrLengthFunc >= 58 && curStrLengthFunc <= 60
-          ? (largeNumbers = "Octodecillion")
-          : curStrLengthFunc >= 61 && curStrLengthFunc <= 63
-          ? (largeNumbers = "Novendecillion")
-          : curStrLengthFunc >= 64 && curStrLengthFunc <= 66
-          ? (largeNumbers = "Vigintillion")
-          : curStrLengthFunc >= 67 && curStrLengthFunc <= 69
-          ? (largeNumbers = "Unvigintillion")
-          : curStrLengthFunc >= 70 && curStrLengthFunc <= 72
-          ? (largeNumbers = "Duovigintillion")
-          : curStrLengthFunc >= 73 && curStrLengthFunc <= 75
-          ? (largeNumbers = "Tresvigintillion")
-          : curStrLengthFunc >= 76 && curStrLengthFunc <= 78
-          ? (largeNumbers = "Quattuorvigintillion")
-          : curStrLengthFunc >= 79 && curStrLengthFunc <= 81
-          ? (largeNumbers = "Quinvigintillion")
-          : curStrLengthFunc >= 82 && curStrLengthFunc <= 84
-          ? (largeNumbers = "Sesvigintillion")
-          : curStrLengthFunc >= 85 && curStrLengthFunc <= 87
-          ? (largeNumbers = "Septemvigintillion")
-          : curStrLengthFunc >= 88 && curStrLengthFunc <= 90
-          ? (largeNumbers = "Octovigintillion")
-          : curStrLengthFunc >= 91 && curStrLengthFunc <= 93
-          ? (largeNumbers = "Novemvigintillion")
-          : curStrLengthFunc >= 94 && curStrLengthFunc <= 96
-          ? (largeNumbers = "Trigintillion")
-          : curStrLengthFunc >= 97 && curStrLengthFunc <= 99
-          ? (largeNumbers = "Untrigintillion")
-          : curStrLengthFunc >= 100 && curStrLengthFunc <= 102
-          ? (largeNumbers = "Duotrigintillion")
-          : null;
-      } else if (curStrLengthFunc >= 103 && curStrLengthFunc <= 33003) {
-        largeNumbers = curStrLengthFunc2(curStrLengthFunc);
-      }
-      return curStrLengthFunc;
-    }
-
-    // ********************** LARGE NUMBERS DEFINATION (End) +++++++++++++++++++++++++++++++
-
     // ***************************** START +++++++++++++++++++++++++++++++++++++++++++++++++
     // ***************************** PROCESSING ++++++++++++++++++++++++++++++++++++++++++++
     // ***************************** NUMBER ++++++++++++++++++++++++++++++++++++++++++++++++
@@ -358,13 +548,13 @@ const JSnumberToWordProcessor = (function () {
         // Don't Display New illion If Previous illion Is Closed
         let remCurStrLength = curString.length - 3;
 
-        // Pre-Number Equvalent To curString_(2 minus 3)
+        // Pre-Number Equivalent To curString_(2 minus 3)
         let preCurStringOf2 = -2;
-        // Pre-Number Equvalent To curString[(2 minus 3)]
+        // Pre-Number Equivalent To curString[(2 minus 3)]
         let preCurStringOfArr2 = -1;
-        // Pre-Number Equvalent To curString[(3 minus 3)]
+        // Pre-Number Equivalent To curString[(3 minus 3)]
         let preCurStringOfArr3 = 0;
-        // Pre-Number Equvalent To Starting substr Position Of Next Number (5 minus 3)
+        // Pre-Number Equivalent To Starting substr Position Of Next Number (5 minus 3)
         let preNum = 1;
 
         //Loop Through Each Individual Number Unit & Output It's Word Value
@@ -431,7 +621,7 @@ const JSnumberToWordProcessor = (function () {
         );
 
         // End Word With Full Stop
-        processedWord += ".";
+        // processedWord += ".";
       } // END OF if(curString.length % 3 === 1)
     } else if (curString.length > 3 && curString.length % 3 === 2) {
       /*
@@ -461,13 +651,13 @@ const JSnumberToWordProcessor = (function () {
         // Don't Display New illion If Previous illion Is Closed eg 10,000,000,000,000,000
         let remCurStrLength = curString.length - 3;
 
-        // Pre-Number Equvalent To curString_(3 minus 3)
+        // Pre-Number Equivalent To curString_(3 minus 3)
         let preCurStringOf3 = -1;
-        // Pre-Number Equvalent To curString[(3 minus 3)]
+        // Pre-Number Equivalent To curString[(3 minus 3)]
         let preCurStringOfArr3 = 0;
-        // Pre-Number Equvalent To curString[(4 minus 3)]
+        // Pre-Number Equivalent To curString[(4 minus 3)]
         let preCurStringOfArr4 = 1;
-        // Pre-Number Equvalent To Starting substr Position Of Next Number (5 minus 3)
+        // Pre-Number Equivalent To Starting substr Position Of Next Number (5 minus 3)
         let preNum = 2;
 
         //Loop Through Each Individual Number Unit & Output It's Word Value
@@ -535,7 +725,7 @@ const JSnumberToWordProcessor = (function () {
         );
 
         // End Word With Full Stop
-        processedWord += ".";
+        // processedWord += ".";
       } // END OF if(curString.length % 3 === 2)
     } else if (curString.length > 3 && curString.length % 3 === 0) {
       /*
@@ -563,13 +753,13 @@ const JSnumberToWordProcessor = (function () {
         // Don't Display New illion If Previous illion Is Closed eg 100,000,000,000,000,000
         let remCurStrLength = curString.length - 3;
 
-        // Pre-Number Equvalent To curString_(4 minus 3)
+        // Pre-Number Equivalent To curString_(4 minus 3)
         let preCurStringOf4 = 0;
-        // Pre-Number Equvalent To curString[(4 minus 3)]
+        // Pre-Number Equivalent To curString[(4 minus 3)]
         let preCurStringOfArr4 = 1;
-        // Pre-Number Equvalent To curString[(5 minus 3)]
+        // Pre-Number Equivalent To curString[(5 minus 3)]
         let preCurStringOfArr5 = 2;
-        // Pre-Number Equvalent To Starting substr Position Of Next Number (6 minus 3)
+        // Pre-Number Equivalent To Starting substr Position Of Next Number (6 minus 3)
         let preNum = 3;
 
         //Loop Through Each Individual Number Unit & Output It's Word Value
@@ -636,7 +826,7 @@ const JSnumberToWordProcessor = (function () {
         );
 
         // End Word With Full Stop
-        processedWord += ".";
+        // processedWord += ".";
       } // END OF if(curString.length % 3 === 0)
     } else if (curString.length <= 3) {
       /*
@@ -656,7 +846,7 @@ const JSnumberToWordProcessor = (function () {
         }
 
         // End Word With Full Stop
-        processedWord += ".";
+        // processedWord += ".";
       } // END OF if(curString.length === 3)
 
       // Handles 2 Length Number
@@ -666,7 +856,7 @@ const JSnumberToWordProcessor = (function () {
         processedWord = wordNum(tense_Unit);
 
         // End Word With Full Stop
-        processedWord += ".";
+        // processedWord += ".";
       } // END OF if(curString.length === 2)
 
       // Handles 1 Length Number
@@ -679,7 +869,7 @@ const JSnumberToWordProcessor = (function () {
         }
 
         // End Word With Full Stop
-        processedWord += ".";
+        // processedWord += ".";
       } // END OF if(curString.length === 1)
     } // End Of Dynamically if else (curString.length % 3)
 
@@ -805,8 +995,8 @@ const JSnumberToWordProcessor = (function () {
     return firstNum[newNum];
   }; // END OF wordNum()
 
-  return function (num) {
-    return processNum(num);
+  return function (num, decimalPlace) {
+    return processNum(num, decimalPlace);
   }; // END OF process()
 })(); // END OF numberToWord
 

@@ -36,9 +36,14 @@
       content="The Goal Of JSnumberToWordProcessor Is A Well Formatted Human Readable Number, With It's Corresponding Words."
     />
     <link rel="me" href="https://github.com/Sidodus/" type="text/html" />
-    <link rel="me" href="https://www.npmjs.com/~sidodus/" />
-    <link rel="me" href="https://twitter.com/SaheedOdulaja" />
-    <link rel="me" href="https://facebook.com/sidodus" />
+    <link rel="me" href="https://www.npmjs.com/~sidodus/" type="text/html" />
+    <link rel="me" href="https://twitter.com/SaheedOdulaja" type="text/html" />
+    <link rel="me" href="https://facebook.com/sidodus" type="text/html" />
+    <link
+      rel="me"
+      href="https://www.linkedin.com/in/saheed-odulaja-75111337"
+      type="text/html"
+    />
 
     <link
       type="text/css"
@@ -51,9 +56,58 @@
     <title>JSnumberToWordProcessor</title>
   </head>
 
-  <body class="container-fluid">
+  <style>
+    .BoxShadow {
+      width: 100%;
+      box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2),
+        0 6px 20px 0 rgba(0, 0, 0, 0.19);
+      padding: 15px 25px 15px 55px;
+    }
+
+    .BoxShadow0 {
+      width: 100%;
+      box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+      /* 0 6px 20px 0 rgba(0, 0, 0, 0.19); */
+      /* padding: 15px 25px 15px 55px; */
+    }
+
+    .BoxShadowHover:hover {
+      cursor: pointer;
+      transform: scale(1.03);
+      transition: transform 0.2s cubic-bezier(0.25, 0.45, 0.45, 0.95);
+    }
+
+    .BoxShadowFooter {
+      width: 100%;
+      box-shadow: 0 4px 8px 0 rgb(46, 46, 46), 0 6px 20px 0 rgb(100, 100, 100);
+      padding: 15px 25px 15px 55px;
+    }
+
+    .BoxShadowFooterHover:hover {
+      cursor: pointer;
+      transform: scale(1.5);
+      transition: transform 0.5s cubic-bezier(0.25, 0.45, 0.45, 0.95);
+    }
+
+    .tooltip {
+      background-color: rgb(54, 53, 53);
+      color: white;
+      position: absolute;
+      left: 55%;
+      z-index: 1;
+      padding: 7px;
+      border: 1px solid white;
+      border-radius: 15px;
+      opacity: 1;
+      text-align: center;
+      font-weight: bold;
+      transform: translateY(-8%);
+    }
+  </style>
+
+  <body class="container-fluid bg-light">
     <div
-      class="row"
+      class="row BoxShadow0 mx-auto"
       style="
         background-color: rgb(247, 240, 240);
         color: gray;
@@ -63,19 +117,25 @@
         font-weight: bold;
       "
     >
-      <div style="font-style: italic">
-        JS Number To Word Processor <small>v2.0.4</small> <br />
-        Is A JavaScript Plugin (no dependencies) That Can Process Standard
-        Dictionary Numbers Up To (<span
-          style="color: rgb(231, 167, 48)"
-          data-toggle="tooltip"
-          title="Decillinillion"
+      <div style="font-style: italic" class="BoxShadow mb-2">
+        JS Number To Word Processor <small>v3.0.0</small> <br />
+        Is A JavaScript Plugin That Can Process Standard Dictionary Numbers Up
+        To (<span id="Decillinillion" style="color: rgb(231, 167, 48)"
           >10<sup>33003</sup></span
-        >), Into Human Readable Numbers & Words <br />
+        >),
+        <div
+          style="width: 10%; display: none"
+          id="Decillinillion-title"
+          class="tooltip"
+        >
+          Decillinillion
+        </div>
+        Into Human Readable Numbers & Words <br />
         Based On
         <a
           href="https://www.mrob.com/pub/math/largenum.html"
           target="_blank"
+          class="text-info"
           style="font-style: italic"
           >Conway-Wechsler Numbering System</a
         >
@@ -83,6 +143,49 @@
         <hr class="row col-sm-6 ml-auto" />
         <hr class="row col-sm-6" />
       </div>
+
+      <form
+        id="formDecimalPoint"
+        class="mx-auto"
+        style="margin-top: -7px; margin-bottom: -16px"
+      >
+        <p>
+          <small
+            ><b>Change Decimal Length (default is 2 decimal place)</b></small
+          >
+        </p>
+        <div class="input-group input-group-sm mb-3" style="margin-top: -18px">
+          <div class="input-group-append">
+            <span id="decimalPointValue" class="input-group-text"></span>
+          </div>
+          <input
+            id="decimalPlaceInput"
+            type="number"
+            class="form-control"
+            placeholder="Decimal Place"
+          />
+          <div class="input-group-append">
+            <button
+              id="changeDecimalPointBTN"
+              class="btn btn-info"
+              type="submit"
+            >
+              Change...
+            </button>
+          </div>
+        </div>
+        <div
+          id="changeDecimalPointBTN-title"
+          style="width: 29%; display: none"
+          class="tooltip"
+        >
+          Number Would Only Be Called On Decimal Numbers. <br />If Number Is
+          Greater Than The Decimal Point Length, <br />
+          OR <br />
+          Number Falls Outside (Range Numbering) Limit, <br />
+          The Default 2 Decimal Point Would Be Used.
+        </div>
+      </form>
     </div>
     <br />
 
@@ -105,15 +208,16 @@
               id="num-input"
               style="height: 86px; background-color: lightgray"
               class="form-control"
-              placeholder="Negative Numbers Are Not Allowed"
+              step="any"
+              placeholder="Enter A Number eg. 9, -98, 98.7, -98.765 etc."
             />
             <br />
             <button
               type="button"
               id="num-button"
-              class="btn btn-primary form-control"
+              class="btn btn-info form-control"
             >
-              Process A Number
+              Process A Number ✨
             </button>
           </div>
         </form>
@@ -134,16 +238,16 @@
           class="form-control"
           rows="3"
           style="background-color: lightgray"
-          placeholder="INPUT ONLY POSITIVE WHOLE NUMBERS SEPRATED BY COMMA HERE eg. 1,12,123,1234 etc.
-      Note: All Non-Numbers, Negative Numbers With Fractions Would Be Discarded Before Processing..."
+          placeholder="INPUT NUMBERS SEPARATED BY A COMMA eg. 1, -12, 12.3, -12.345 etc.
+      Note: All Non-Numbers Would Be Discarded Before Processing..."
         ></textarea>
         <br />
         <button
           type="button"
           id="num-button-arr"
-          class="btn btn-primary form-control"
+          class="btn btn-info form-control"
         >
-          Process An Array Of Numbers
+          Process An Array Of Numbers 💥
         </button>
       </div>
     </div>
@@ -156,7 +260,13 @@
 
         <ul
           id="ul"
-          style="font-weight: bold; font-size: 1.3em; font-style: oblique"
+          style="
+            font-weight: bold;
+            font-size: 1.3em;
+            font-style: oblique;
+            display: none;
+          "
+          class="BoxShadow"
         ></ul>
       </div>
     </div>
@@ -166,14 +276,15 @@
         <small style="font-style: italic">
           <footer
             style="
-              color: gray;
+              color: rgb(75, 74, 74);
               text-align: center;
               margin-top: 58px;
               padding: 5px 0;
-              background-color: rgba(247, 246, 246, 0.918);
+              background-color: rgb(193, 201, 202);
             "
+            class="BoxShadowFooter mb-2"
           >
-            <div>
+            <div class="BoxShadowFooterHover">
               Install From
               <a
                 href="https://www.npmjs.com/package/js-number-to-word-processor"
@@ -181,7 +292,7 @@
                 >NPM</a
               >
             </div>
-            <div>
+            <div class="BoxShadowFooterHover">
               Get Source Code From
               <a
                 href="https://github.com/Sidodus/JavaScript-Number-To-Word-Processor"
@@ -189,7 +300,7 @@
                 >GitHub</a
               >
             </div>
-            <div>
+            <div class="BoxShadowFooterHover">
               Live Site: @
               <a
                 href="https://sidodus.github.io/JavaScript-Number-To-Word-Processor/"
@@ -197,7 +308,7 @@
                 >JSnumberToWordProcessor</a
               >
             </div>
-            <div>
+            <div class="BoxShadowFooterHover">
               <a
                 href="https://sidodus.github.io/Sidodus-proforma-invoice-calculator/"
                 target="_blank"
@@ -212,7 +323,13 @@
               >
             </div>
             <br />
-            Copyright (c) <span id="copyRightYear"></span> Saheed Odulaja
+            Copyright (c) <span id="copyRightYear"></span>
+            <a
+              href="https://www.linkedin.com/in/saheed-odulaja-75111337"
+              target="_blank"
+            >
+              Saheed Odulaja
+            </a>
           </footer>
         </small>
       </div>
@@ -222,6 +339,7 @@
     <script src="JSnumberToWordProcessor.js"></script>
 
     <script>
+      // (((((((((((((((((((((((((((((((((((((((((((((( Init START ))))))))))))))))))))))))))))))))))))))))))))))
       // Set Footer Year
       const thisYear = new Date("2019").getFullYear();
       let presentYear = new Date().getFullYear();
@@ -235,13 +353,140 @@
 
       document.getElementById("copyRightYear").textContent = fullYear;
 
+      /* Create decimalPlaceLength If It Doesn't Exist In SS & Put The Value In decimalPointValue
+       ** Else Just Pull the Value From decimalPlaceLength Into decimalPointValue */
       let numInput;
       let numSplit;
       let newNumInput;
       let process;
       let li;
 
-      // ++++++++++++++++++++++++++++++++++++++++NOTYFY+++++++++++++++++++++++++++
+      sessionStorage.getItem("decimalPlaceLength") === null
+        ? (sessionStorage.setItem("decimalPlaceLength", "2"),
+          (document.getElementById(
+            "decimalPointValue"
+          ).innerHTML = `<b> ${sessionStorage.getItem(
+            "decimalPlaceLength"
+          )} </b>`))
+        : (document.getElementById(
+            "decimalPointValue"
+          ).innerHTML = `<b>${sessionStorage.getItem(
+            "decimalPlaceLength"
+          )}</b>`);
+
+      // Pull display2Document To Document If Available In SS
+      let previousSession = JSON.parse(
+        sessionStorage.getItem("display2Document")
+      );
+      let isPreviousSessionArr = JSON.parse(sessionStorage.getItem("arrOfNum"));
+
+      previousSession
+        ? display2Document(previousSession, isPreviousSessionArr)
+        : null;
+
+      // (((((((((((((((((((((((((((((((((((((((((((((( Init END ))))))))))))))))))))))))))))))))))))))))))))))
+
+      // ****************************************** TOOLTIP START **************************************************
+      document
+        .querySelector("#Decillinillion")
+        .addEventListener("mouseover", function () {
+          document.querySelector("#Decillinillion-title").style.display =
+            "block";
+        });
+      document
+        .querySelector("#Decillinillion")
+        .addEventListener("mouseout", function () {
+          document.querySelector("#Decillinillion-title").style.display =
+            "none";
+        });
+
+      document
+        .querySelector("#changeDecimalPointBTN")
+        .addEventListener("mouseover", function () {
+          document.querySelector("#changeDecimalPointBTN-title").style.display =
+            "block";
+        });
+      document
+        .querySelector("#changeDecimalPointBTN")
+        .addEventListener("mouseout", function () {
+          document.querySelector("#changeDecimalPointBTN-title").style.display =
+            "none";
+        });
+      // ****************************************** TOOLTIP END **************************************************
+
+      // ++++++++++++++++++++++++++++++ START MANAGE NUMBER / WORD STYLES +++++++++++++++++++++++++++
+
+      function manageNumWordStyle(processed) {
+        let negativeIntSign;
+        let decimalPointWord;
+        let negativeIntWord;
+        let unit;
+
+        if (processed.negativeInt === true) {
+          negativeIntSign = `<span style="color: red">-</span>`;
+          negativeIntWord = `<span style="color: tomato">(negative) </span>`;
+        } else {
+          negativeIntSign = "";
+          negativeIntWord = "";
+        }
+
+        if (
+          processed.decimalPoint === true &&
+          processed.displayDecimalNum !== ".00"
+        ) {
+          decimalPointWord = `<span style="color: tomato"> (dot) </span>`;
+          unit = `<span style="color: gray"> ${processed.decimalPlaceWord}</span>`;
+        } else {
+          decimalPointWord = "";
+          unit = "";
+        }
+
+        let numOutput = `${negativeIntSign}${processed.displayWholeNum}<small><b>${processed.displayDecimalNum}</b></small>`;
+
+        let wordOutput = `${negativeIntWord}${processed.displayWholeWord}${decimalPointWord}${processed.displayDecimalWord}${unit}`;
+
+        let numMaxErrorOutput = `${negativeIntSign}${processed.displayWholeNum}${processed.displayDecimalNum}`;
+
+        return {
+          numOutput,
+          wordOutput,
+          numMaxErrorOutput,
+        };
+      }
+      // ++++++++++++++++++++++++++++++ END MANAGE NUMBER / WORD STYLES +++++++++++++++++++++++++++
+
+      // ++++++++++++++++++++++++++++++ DISPLAY TO DOCUMENT +++++++++++++++++++++++++++
+      function display2Document(process, description) {
+        let hr;
+        description
+          ? ((description =
+              "This Is An Array Of Number(s) Converted To Word Using JSnumberToWordProcessor"),
+            (hr = "<hr />"))
+          : ((description =
+              "This Is A Number Converted To Word Using JSnumberToWordProcessor"),
+            (hr = ""));
+        // Split The Variable Array
+        process.forEach(function (processed) {
+          let processStyle = manageNumWordStyle(processed);
+
+          let note = `<div style="color: gray; text-align: center; font-size: 18px">${description}</div><hr />`;
+
+          let li = `<div class="BoxShadow BoxShadowHover"><li class="li"><span style="color: gray">${processStyle.numOutput} </span><span style="color: blue">:-</span> ${processStyle.wordOutput}. </li></div>${hr}`;
+
+          let liMaxError = `<div class='BoxShadow BoxShadowHover'><li class="li"><span style="color: gray">${processStyle.numMaxErrorOutput}</span><span style="color: blue">:-</span><span style="color: red"> ${processed.displayWholeWord}. </span> </li></div>${hr}`;
+
+          document.getElementById("note").innerHTML = note;
+          document.getElementById("ul").style.display = "block";
+
+          // Display Word As Red Id decimal Number Is Exceeded
+          processed.displayWord.includes("SORRY")
+            ? (document.getElementById("ul").innerHTML += liMaxError)
+            : (document.getElementById("ul").innerHTML += li);
+        });
+      }
+      // ++++++++++++++++++++++++++++++ END DISPLAY TO DOCUMENT +++++++++++++++++++++++++++
+
+      // ++++++++++++++++++++++++++++++++++++++++ NOTYFY +++++++++++++++++++++++++++
       // Manage Notification On Input Keypress
       document
         .querySelector("#num-input")
@@ -262,9 +507,32 @@
               (document.getElementById("notify_arr").innerText = ""))
             : (document.getElementById("notify_arr").innerText = "");
         });
-      // ++++++++++++++++++++++++++++++++++++++++NOTIFY+++++++++++++++++++++++++++
+      // ++++++++++++++++++++++++++++++++++++++++ END NOTIFY +++++++++++++++++++++++++++
 
-      // Event Listener For Single Number
+      // ++++++++++++++++++++++++++++++++++++++++ EVENTS +++++++++++++++++++++++++++
+      // Event Listener For Decimal Place BTN
+      document
+        .getElementById("changeDecimalPointBTN")
+        .addEventListener("click", function (e) {
+          e.preventDefault();
+
+          let decimalPlaceInputValue = document.getElementById(
+            "decimalPlaceInput"
+          ).value;
+
+          decimalPlaceInputValue === ""
+            ? (decimalPlaceInputValue = document.getElementById(
+                "decimalPointValue"
+              ).innerText)
+            : (document.getElementById(
+                "decimalPointValue"
+              ).innerHTML = `<b>${decimalPlaceInputValue}</b>`),
+            (document.getElementById("decimalPlaceInput").value = "");
+
+          sessionStorage.setItem("decimalPlaceLength", decimalPlaceInputValue);
+        });
+
+      // Event Listener For Single Number Input
       document
         .querySelector("#num-button")
         .addEventListener("click", function () {
@@ -280,36 +548,30 @@
 
             // Put User Input Value Into A Variable As A String
             numInput = document.querySelector("#num-input").value;
-            if (
-              !String(numInput).includes(".") &&
-              !String(numInput).includes("-")
-            ) {
-              // Remove Numbers With Letters But Retain "0"
-              if (Number(numInput) || Number(numInput) === 0) {
-                // Maintain Perfect Number By removing Any Starting "0s"
-                numInput = String(BigInt(numInput));
+            // Remove Numbers With Letters But Retain "0"
+            if (Number(numInput) || Number(numInput) === 0) {
+              // Maintain Perfect Number By removing Any Starting "0s"
 
-                // Clear Input
-                document.querySelector("#num-input").value = "";
-                document.querySelector("#num-input-arr").value = "";
+              // Clear Input
+              document.querySelector("#num-input").value = "";
+              document.querySelector("#num-input-arr").value = "";
 
-                process = JSnumberToWordProcessor(numInput);
+              // Manage Decimal Place
+              let toDecimalPlace = Number(
+                document.getElementById("decimalPointValue").innerText
+              );
 
-                process.forEach(function (processed) {
-                  let note =
-                    '<div style="color: gray; text-align: center; font-size: 18px">This Is A Numbers Converted To Word Using JSnumberToWordProcessor</div><hr>';
+              process = JSnumberToWordProcessor(numInput, toDecimalPlace);
 
-                  document.getElementById("note").innerHTML = note;
+              // Display Output To Document
+              display2Document(process, false);
 
-                  li = `<li class="li"><span style="color: gray"> ${processed.displayNum}</span><span style="color: blue">:-</span> ${processed.displayWord} </li>`;
-
-                  document.getElementById("ul").innerHTML += li;
-                });
-              }
-            } else {
-              li = `<li class="li"><span style="color: red"> SORRY: Negative Numbers & Fractions Are Not Allowed </li>`;
-
-              document.getElementById("ul").innerHTML += li;
+              // Save To SS
+              sessionStorage.setItem(
+                "display2Document",
+                JSON.stringify(process)
+              );
+              sessionStorage.setItem("arrOfNum", JSON.stringify(false));
             }
           }
         });
@@ -339,46 +601,36 @@
             // Separate Spliced Input Array And Push A New Number Array To NewNumInput
             numSplit.forEach(function (splitedNum) {
               // Remove Negative Numbers & Fractions From The New Array
-              if (!splitedNum.includes(".") && !splitedNum.includes("-")) {
-                // Remove Numbers With Letters But Retain "0"
-                if (Number(splitedNum) || Number(splitedNum) === 0) {
-                  // Maintain Perfect Number By removing Any Starting "0s"
-                  newNumInputStr.push(BigInt(splitedNum).toString());
-                }
-              } else {
-                // Manage Notification On BTN Click
-                document.getElementById("notify_arr").innerText =
-                  "Negative Numbers, With Fractions Were Discarded";
+              // Remove Numbers With Letters But Retain "0"
+              if (Number(splitedNum) || Number(splitedNum) === 0) {
+                // Maintain Perfect Number By removing Any Starting "0s"
+                newNumInputStr.push(splitedNum);
               }
             });
 
             // Convert Number String To BigInt. This Is To Handle (+) eg. +234,345 etc If Not They Would Be Rejected
             // Now Convert The Whole Numbers Back To Strings
             newNumInputStr.forEach(function (value) {
-              newNumInput.push(String(BigInt(value)));
+              newNumInput.push(value);
             });
+
+            // Manage Decimal Place
+            let toDecimalPlace = Number(
+              document.getElementById("decimalPointValue").innerText
+            );
 
             // Input The Details Of Number To Word Processor Into A Variable
-            process = JSnumberToWordProcessor(newNumInput);
+            process = JSnumberToWordProcessor(newNumInput, toDecimalPlace);
 
-            // Split The Variable Array
-            process.forEach(function (processed) {
-              let note =
-                '<div style="color: gray; text-align: center; font-size: 18px">This Is An Array Of Numbers Converted To Word Using JSnumberToWordProcessor</div><hr>';
+            // Display Output To Document
+            display2Document(process, true);
 
-              document.getElementById("note").innerHTML = note;
-
-              // Display Word As Red Id decimal Number Is Exceeded
-              processed.displayWord.includes("SORRY")
-                ? (document.getElementById(
-                    "ul"
-                  ).innerHTML += `<li class="li"><span style="color: gray"> ${processed.displayNum}</span><span style="color: blue">:-</span><span style="color: red"> ${processed.displayWord} </span> </li><hr>`)
-                : (document.getElementById(
-                    "ul"
-                  ).innerHTML += `<li class="li"><span style="color: gray"> ${processed.displayNum}</span><span style="color: blue">:-</span><span style="color: black"> ${processed.displayWord} </span> </li><hr>`);
-            });
+            // Save To SS
+            sessionStorage.setItem("display2Document", JSON.stringify(process));
+            sessionStorage.setItem("arrOfNum", JSON.stringify(true));
           }
         });
+      // ++++++++++++++++++++++++++++++++++++++++ END EVENTS +++++++++++++++++++++++++++
     </script>
   </body>
 </html>
