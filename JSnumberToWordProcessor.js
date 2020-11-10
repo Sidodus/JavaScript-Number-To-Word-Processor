@@ -1,5 +1,5 @@
 /*
- ** JS Number To Word Processor v3.0.2
+ ** JS Number To Word Processor v3.0.3
  ** Purpose: Improving Number / Number-Word Readability.
  ** Copyright (c) 2019-2020 Saheed Odulaja
  **
@@ -232,8 +232,10 @@ const JSnumberToWordProcessor = (function () {
       decimalPoint = true;
       // Split Decimal Number
       let newNum = String(num).split(".");
+      // Ensure A Perfect Whole Number By Including BigInt
       let newNum0 = String(BigInt(newNum[0]));
-      let newNum1 = String(BigInt(newNum[1]));
+      // Maintain Leading 0s. (therefore no need for BigInt)
+      let newNum1 = String(newNum[1]);
 
       /* Use 2 Decimal Point If Proposed decimalPlace Is Longer Than Actual Decimal Length
        ** Or decimalPlace Isn't Within The Range Of 0 - 100 */

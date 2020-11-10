@@ -22,16 +22,11 @@
 
 <h2 align="center"> UPDATE </h2>
 
-<h6 margin-bottom="-5px"><em>Version: 3.0.2</em></h6>
+<h6 margin-bottom="-5px"><em>Version: 3.0.3</em></h6>
   <ol>
-    <li> Application Now Handles Decimal Numbers, With Fractions.</li>
-      <ol>
-        <li>For decimal numbers, users can pass in a second argument which would indicate the decimal number length</li>
-        <li>If a second  argument isn't passed in for decimal numbers, a default 2 decimal point would be used</li>
-      </ol>
-    <li> Application Now Handles Negative Numbers.</li>
-    <li>Application Can Solve Arithmetic Operations and Output The Result In Human Readable Number & Word </li>
+    <li> Corrected Application Dismissal Of Starting Zeros After A Decimal Point.</li>
   </ol>
+
   <br />
 
 <hr />
@@ -358,6 +353,17 @@ JSnumberToWordProcessor(55 !== "55"); // 1: One
 <hr />
 
 <h2 align="center">UPDATE History</h2>
+
+<h6 margin-bottom="-5px"><em>Version: 3.0.2</em></h6>
+  <ol>
+    <li> Application Now Handles Decimal Numbers, With Fractions.</li>
+      <ol>
+        <li>For decimal numbers, users can pass in a second argument which would indicate the decimal number length</li>
+        <li>If a second  argument isn't passed in for decimal numbers, a default 2 decimal point would be used</li>
+      </ol>
+    <li> Application Now Handles Negative Numbers.</li>
+    <li>Application Can Solve Arithmetic Operations and Output The Result In Human Readable Number & Word </li>
+  </ol>
 
 <h6 margin-bottom="-5px"><em>Version: 2.0.5</em></h6>
   <ol>

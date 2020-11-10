@@ -1,6 +1,6 @@
 {
   "name": "js-number-to-word-processor",
-  "version": "3.0.2",
+  "version": "3.0.3",
   "description": "The Goal Of JSnumberToWordProcessor Is A Well Formatted Human Readable Number, With It's Corresponding Words.",
   "main": "JSnumberToWordProcessor.js",
   "scripts": {
