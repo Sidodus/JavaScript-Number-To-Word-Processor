@@ -1,5 +1,5 @@
 /*
- ** JS Number To Word Processor v3.0.3
+ ** JS Number To Word Processor v3.0.4
  ** Purpose: Improving Number / Number-Word Readability.
  ** Copyright (c) 2019-2020 Saheed Odulaja
  **
@@ -201,7 +201,9 @@ const JSnumberToWordProcessor = (function () {
       let ths = "ths";
       let pointToDecimalWord;
 
-      Number(decimalPlace) === 1
+      Number(decimalPlace) === 0
+        ? (pointToDecimalWord = "")
+        : Number(decimalPlace) === 1
         ? (pointToDecimalWord = `${ten}${ths}`)
         : Number(decimalPlace) === 2
         ? (pointToDecimalWord = `${hundred}${ths}`)
@@ -240,9 +242,14 @@ const JSnumberToWordProcessor = (function () {
       /* Use 2 Decimal Point If Proposed decimalPlace Is Longer Than Actual Decimal Length
        ** Or decimalPlace Isn't Within The Range Of 0 - 100 */
       if (decimalPlace >= 0 && decimalPlace <= 100) {
-        decimalPlace <= String(newNum1).length
-          ? decimalPlace
-          : (decimalPlace = 2);
+        if (decimalPlace <= String(newNum1).length) {
+          // Prevent Displaying Of More Than 2 Zeros If All DecimalPlace Numbers Would Only Produce 0
+          if (Number(newNum1.substr(0, decimalPlace)) === 0) {
+            decimalPlace = 2;
+          } else {
+            decimalPlace = newNum1.substr(0, decimalPlace).length;
+          }
+        }
       } else {
         decimalPlace = 2;
       }
@@ -275,6 +282,13 @@ const JSnumberToWordProcessor = (function () {
 
       // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
       // set Decimal Place Word
+      // Prevent 0 To Be Read As 1 Length
+      let newDecimalPlace = Number(newNum1.substr(0, decimalPlace));
+      newDecimalPlace === 0
+        ? (decimalPlace = 0)
+        : (decimalPlace = String(Number(newNum1.substr(0, decimalPlace)))
+            .length);
+
       let decimalPlaceWord = decimalPlaceWordFunc(decimalPlace);
       // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
@@ -392,7 +406,8 @@ const JSnumberToWordProcessor = (function () {
           "SORRY..., YOU JUST EXCEEDED THE SUPPORTED LENGTH OF (10\u00B3\u2070\u2070\u2070\u00B3) NUMBERS";
       } else {
         // Call A Function & Pass curString
-        displayWord = processCurString(curString);
+        // Remove Starting Zeros By 1st Converting Too BigInt
+        displayWord = processCurString(String(BigInt(curString)));
       }
 
       // Format Negative Sign

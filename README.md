@@ -22,9 +22,16 @@
 
 <h2 align="center"> UPDATE </h2>
 
-<h6 margin-bottom="-5px"><em>Version: 3.0.3</em></h6>
+<h6 margin-bottom="-5px"><em>Version: 3.0.4</em></h6>
   <ol>
-    <li> Corrected Application Dismissal Of Starting Zeros After A Decimal Point.</li>
+    <li> Fixed Display Of Multiple Zeros Greater Than 2 Length.
+      <ul>
+        <li>If A Decimal Place Length Greater Than 2 Is Specified, And Its Corresponding Decimal  Number Is 0, Application Would Fallback To A  2 Decimal Place Number of (.00) <br /> <b>e.g</b> <br /> <code>JSnumberToWordProcessor(26.00000232, 5)</code> would return <code>26.00</code> instead of <code>26.00000</code> </li>
+      </ul>
+    </li>
+    <li>Correct Decimal Place Word With Starting Zeros <br /><b>e.g</b><br />
+      <code>JSnumberToWordProcessor(26.00002, 5)</code> Now Returns <code>Twenty-Six (dot) Two tenths</code> Instead Of <code>Twenty-Six (dot) undefined Thousand, and Two hundred-thousandths</code>
+    </li>
   </ol>
 
   <br />
@@ -353,6 +360,11 @@ JSnumberToWordProcessor(55 !== "55"); // 1: One
 <hr />
 
 <h2 align="center">UPDATE History</h2>
+
+<h6 margin-bottom="-5px"><em>Version: 3.0.3</em></h6>
+  <ol>
+    <li> Corrected Application Dismissal Of Starting Zeros After A Decimal Point.</li>
+  </ol>
 
 <h6 margin-bottom="-5px"><em>Version: 3.0.2</em></h6>
   <ol>
