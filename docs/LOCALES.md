@@ -1,0 +1,116 @@
+# Adding a Locale (v4.1)
+
+The locale layer makes every human-facing word a data decision. English (`"en"`)
+ships built in, in British (default, "and") and American (no "and") styles.
+**French (`"fr"`) shipped as the pilot in 4.1.0**, exercising every hook in the
+layer. New locales are **additive data** — the engine never changes.
+
+## The exactness rule (ADR-008)
+
+Only locales whose number-naming rules can be **stated algorithmically and
+verified** are accepted. Number words are the API: a locale with hand-guessed
+words is a wrong-output generator. For languages with complex traditional
+numeration (e.g. Yoruba's vigesimal subtraction), do not approximate —
+implement the real system or wait until it can be specified properly.
+
+## The expansion process (per locale)
+
+```
+1. SPEC      Write docs/locales/<code>-SPEC.md: the full algorithm with an
+             authoritative reference for every rule, worked examples for
+             0-25, 30, 40...90, 100/101/200/201, 1000, 1001, 1100, 2000,
+             1e6, 2e6, 1e9, 1e12, and the ordinal rules.
+             Open linguistic questions get settled HERE, in writing, before
+             any code (see the per-locale roadmaps below).
+2. IMPL      Copy packages/core/src/locales/_template.ts, implement the spec,
+             register in src/locales/registry.ts.
+3. TEST      Add a <code> describe block to test/unit/locales.test.ts with the
+             spec's worked examples as assertions, plus the generic contract
+             tests (they run for every registered locale automatically).
+4. GATE      npm run build && node scripts/validate-locale.mjs --all
+             (also enforced in CI by .github/workflows/code-quality.yml).
+5. DOCS      Add a row to the shipped-locales table; note any limitations.
+```
+
+A `.github/ISSUE_TEMPLATE/locale_request.yml` issue template captures the
+source-authority questions up front for community requests.
+
+## Engine capabilities a locale can use (all hooks optional)
+
+| Hook | Purpose | Used by |
+|------|---------|---------|
+| `smallNumbers` (0..99) | Units/teens/tens table | all |
+| `hundredWord` / `thousandWord` | Base scale words | all |
+| `andStyle` + `supportsBothStyles` | "and" joining + whether `style` may switch it | en |
+| `hundredPhraseFor(h, r)` | Hundreds inflection ("deux cents" vs "deux cent un") | fr |
+| `thousandPhraseFor(v)` | Thousands phrase ("mille", never "un mille") | fr |
+| `scaleWordFor(i, v)` | Value-aware scale words (long scale, pluralization) | fr |
+| `groupSeparator` | Inter-group join (default ", ", fr " ") | fr |
+| `ordinalize(cardinal)` | Sentence-level ordinals (article rules: "un million" → "millionième") | fr, en default |
+| `decimalOrdinal(place, singular)` | Localized decimal ordinals — **not yet used by any locale** | — |
+
+## Limitations (current)
+
+- **Decimal-place ordinals** are localized only for `en` (via the built-in
+  construction). Locales without a `decimalOrdinal` hook REJECT decimal inputs
+  with a descriptive `InvalidOptionsError` — mixed-language output like
+  "cinq (virgule) cinq tenths" is never produced. Whole numbers and currency
+  mode work everywhere.
+- Scale names default to the English short-scale Conway-Wechsler system;
+  long-scale locales (fr) supply `scaleWordFor`.
+
+## Shipped locales
+
+| Code | Styles | Scale | Ordinals | Decimals | Notes |
+|------|--------|-------|----------|----------|-------|
+| `en` | british (default), american | short (Conway-Wechsler to 10^33003) | full (First/-ieth) | full | The reference locale. |
+| `fr` | american (no "and"; toggle rejected) | **long** (million/milliard/billion/billiard... with pluralization) | full (premier, -ième, unième, article drop) | rejected with clear error | Traditional orthography; 0-99 generated algorithmically. |
+
+## Roadmap (in priority order)
+
+### `ha` — Hausa (Nigeria)
+Decimal, fairly regular: ɗaya...goma, "sha-" teens, tens with "da"
+(ashirin da ɗaya), dubu (1000), miliyan. **Open questions:** standard written
+form of large numbers beyond miliyan (loanword or coinage?); Boko orthography
+diacritics (ɗ, ɓ, ƙ, ') must be exact; regional variants (Kano standard
+recommended). **Effort: spec + implementation, medium.** Source: standard
+Hausa grammars (e.g. Bargery's dictionary numerals, Newman's grammar).
+
+### `yo` — Yoruba (Nigeria) — highest cultural value, hardest
+Vigesimal system: 20-base with additive AND subtractive forms
+(35 = ọgbọ̀n-dín-árún-un family), ten-multiples (ogójì, ọgbọ̀n, àádọ́ta, ọ́ta...),
+diacritics are semantic (ọ̀kan ≠ okan). **Open questions:** modern standard
+Yoruba vs traditional counting for 100+ (ẹ̀dẹgbẹ̀rùn? ẹgbẹ̀rún = 1000);
+subtractive-rule boundary (which numbers use dín-); tone mark fidelity in code
+(UTF-8 combining vs precomposed — precomposed NFC required). **Effort: SPEC
+FIRST (linguistics), then implementation — do not start coding before the spec
+is signed off.** Source candidates: A Dictionary of the Yoruba Language
+(University Press plc), Yorùbá orthography guides.
+
+### `ig` — Igbo (Nigeria)
+Multiplicative-additive: iri (10), iri abụọ (20 = ten-twice), narị/ọ̀tụ (100),
+puku (1000); "na" joiner; 1-6 have special multiplying forms (abụọ → abụọ,
+iso/atọ...). **Open questions:** number-word agreement classes (puku na atọ?),
+standard orthography (Onwu alphabet). **Effort: spec + implementation,
+medium-hard.**
+
+### `fr` extensions — decimal ordinals (`decimalOrdinal` hook)
+dixièmes, centièmes, millièmes... straightforward (-ième family) once the
+hook is wired into the UI-facing flow; spec'd trivially from the same sources.
+
+### Others considered
+`pcm` (Nigerian Pidgin) — numerals are English-based; low differentiation
+value. `ar`, `de`, `es`, `hi` — well-documented but require long-scale/lakh
+grouping decisions; accept PRs via the process above.
+
+## Checklist for a locale PR
+
+1. `docs/locales/<code>-SPEC.md` exists with authoritative references quoted.
+2. `smallNumbers` covers 0..99 exactly; index 0 === `zeroWord`; no duplicates
+   (the contract test enforces this for every registered locale).
+3. Unit tests: 0, 1, 7, 21, 100, 101, 9012, 1005, 1000012, negative, the
+   10^6/10^9 scales, one extreme scale, ordinals (or the documented
+   limitation), currency mode.
+4. `style` behaviour documented (does the "and" concept exist in the language?).
+5. `node scripts/validate-locale.mjs --all` passes.
+6. This file gains a row in the shipped-locales table.
