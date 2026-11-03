@@ -1,0 +1,72 @@
+/* JSnumberToWordProcessor v4 console - theme-first custom styles.
+   Bootstrap 5 utilities carry the layout; these rules add the library's
+   visual identity (colored negative signs, dots and ordinal units). */
+
+:root {
+  --n2w-negative: tomato;
+  --n2w-negative-sign: red;
+  --n2w-dot: tomato;
+  --n2w-unit: gray;
+  --n2w-number: gray;
+  --n2w-arrow: blue;
+}
+
+.n2w-card {
+  box-shadow:
+    0 4px 8px 0 rgba(0, 0, 0, 0.2),
+    0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  transition: transform 0.2s cubic-bezier(0.25, 0.45, 0.45, 0.95);
+}
+
+.n2w-card:hover {
+  transform: scale(1.01);
+}
+
+.n2w-negative-sign {
+  color: var(--n2w-negative-sign);
+}
+
+.n2w-negative-word {
+  color: var(--n2w-negative);
+}
+
+.n2w-dot {
+  color: var(--n2w-dot);
+}
+
+.n2w-unit {
+  color: var(--n2w-unit);
+}
+
+.n2w-number {
+  color: var(--n2w-number);
+}
+
+.n2w-arrow {
+  color: var(--n2w-arrow);
+}
+
+.n2w-hero {
+  background-color: rgb(247, 240, 240);
+  color: gray;
+  text-align: center;
+}
+
+.n2w-hero .n2w-limit {
+  color: rgb(231, 167, 48);
+}
+
+.n2w-result-word {
+  font-size: 1.15rem;
+  font-weight: 600;
+  font-style: oblique;
+}
+
+.n2w-input-monospace {
+  font-family:
+    ui-monospace,
+    SFMono-Regular,
+    Menlo,
+    Consolas,
+    monospace;
+}

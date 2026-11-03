@@ -1,45 +1,44 @@
 {
-  "name": "js-number-to-word-processor",
-  "version": "3.0.4",
-  "description": "The Goal Of JSnumberToWordProcessor Is A Well Formatted Human Readable Number, With It's Corresponding Words.",
-  "main": "JSnumberToWordProcessor.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
+  "name": "javascript-number-to-word-processor-monorepo",
+  "version": "4.0.0",
+  "private": true,
+  "description": "Monorepo for JSnumberToWordProcessor v4 - the core NPM library and the Next.js quick-usage UI.",
+  "license": "MIT",
+  "author": "Saheed Odulaja",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Sidodus/JavaScript-Number-To-Word-Processor.git"
   },
-  "keywords": [
-    "JS",
-    "JavaScript",
-    "React",
-    "React.js",
-    "Angular",
-    "Angular.js",
-    "Vue",
-    "Vue.js",
-    "Number",
-    "Word",
-    "Numbers",
-    "Words",
-    "Digit",
-    "Digits",
-    "Processor",
-    "JSnumberToWordProcessor",
-    "Number To Word",
-    "Number To Word Processor",
-    "Digit To Word",
-    "Digits To Words",
-    "JavaScript Number To Word",
-    "JavaScript Numbers To Words",
-    "JavaScript Number To Word Processor",
-    "JavaScript Numbers To Words Processor"
+  "workspaces": [
+    "packages/*"
   ],
-  "author": "Saheed Odulaja",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/Sidodus/JavaScript-Number-To-Word-Processor/issues"
+  "engines": {
+    "node": ">=18.18.0"
   },
-  "homepage": "https://github.com/Sidodus/JavaScript-Number-To-Word-Processor#readme"
+  "scripts": {
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "format": "prettier --write \"**/*.{ts,tsx,mjs,json,md,scss,css}\"",
+    "format:check": "prettier --check \"**/*.{ts,tsx,mjs,json,md,scss,css}\"",
+    "typecheck": "npm run typecheck --workspaces --if-present",
+    "build": "npm run build:core && npm run build:ui",
+    "build:core": "npm run build --workspace js-number-to-word-processor",
+    "build:ui": "npm run build --workspace @jsnumber/ui",
+    "dev:ui": "npm run dev --workspace @jsnumber/ui",
+    "verify": "npm run lint && npm run typecheck && npm run test && npm run build"
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^8.46.0",
+    "@typescript-eslint/parser": "^8.46.0",
+    "@vitest/coverage-v8": "^2.1.9",
+    "eslint": "^8.57.1",
+    "eslint-config-prettier": "^9.1.0",
+    "prettier": "^3.4.2",
+    "tsup": "^8.3.6",
+    "typescript": "^5.7.3",
+    "vitest": "^2.1.9"
+  }
 }
