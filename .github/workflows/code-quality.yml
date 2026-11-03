@@ -1,0 +1,115 @@
+name: Code Quality Checks
+
+# Strategy (mirrors MATCHMASTER-AI's code-quality.yml, adapted to npm workspaces):
+# - CI runs the full flat-config ESLint + tsc (this repo has no ESLint 9/Next 16
+#   compat constraints, so no generated CI config is needed)
+# - Vitest enforces the coverage thresholds (90/85) as part of `npm run test`
+# - Trivy uploads SARIF to GitHub Code Scanning when the repo has it enabled
+# - A locale-contract gate validates every registered locale's structure so a
+#   malformed community locale can never reach npm (ADR-008)
+
+on:
+  push:
+    branches: [master, develop]
+  pull_request:
+    branches: [master, develop]
+
+permissions:
+  contents: read
+  security-events: write # Required to upload SARIF results to GitHub Security
+  actions: read # Required by CodeQL Action telemetry/status reporting
+
+jobs:
+  code-quality:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [20.x]
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run TypeScript type checking (all workspaces)
+        run: npm run typecheck
+
+      - name: Run ESLint (flat config)
+        run: npm run lint
+
+      - name: Run tests with coverage gate (90% lines/functions/statements, 85% branches)
+        run: npm run test:coverage
+
+      - name: Run build (core ESM/CJS/IIFE + UI static export)
+        run: npm run build
+
+      - name: Locale contract gate (ADR-008)
+        run: |
+          # Structural validation of every registered locale: 100 small-number
+          # words, zeroWord alignment, scale/ordinal hooks callable. Guards the
+          # exactness contract for community locale PRs.
+          node scripts/validate-locale.mjs --all
+
+      - name: Run Trivy security scan (filesystem)
+        uses: aquasecurity/trivy-action@master
+        with:
+          scan-type: "fs"
+          scan-ref: "."
+          format: "sarif"
+          output: "trivy-results.sarif"
+          severity: "HIGH,CRITICAL"
+          ignore-unfixed: true
+          exit-code: 0
+
+      # Trivy may not emit a file when zero HIGH/CRITICAL findings exist;
+      # upload-sarif fails hard on a missing path, so guarantee a valid file.
+      - name: Ensure SARIF results file exists
+        if: always()
+        run: |
+          if [ ! -f trivy-results.sarif ]; then
+            echo '{"version":"2.1.0","$schema":"https://json.schemastore.org/sarif-2.1.0.json","runs":[{"tool":{"driver":{"name":"Trivy","rules":[]}},"results":[]}]}' > trivy-results.sarif
+          fi
+
+      # GitHub Code Scanning (SARIF uploads) is only available when the repo is
+      # public OR runs on Team/Enterprise with GitHub Code Security enabled.
+      # Probe the REST API first so the upload step is skipped gracefully.
+      - name: Detect code scanning availability
+        if: always()
+        id: code-scanning
+        run: |
+          HTTP=$(curl -sS -o /dev/null -w "%{http_code}" \
+            -H "Authorization: Bearer ${{ github.token }}" \
+            -H "Accept: application/vnd.github+json" \
+            -H "X-GitHub-Api-Version: 2022-11-28" \
+            "${{ github.api_url }}/repos/${{ github.repository }}/code-scanning/default-setup")
+          echo "http=$HTTP" >> "$GITHUB_OUTPUT"
+          if [ "$HTTP" = "200" ]; then
+            echo "✅ Code scanning API reachable - SARIF upload will proceed."
+          else
+            echo "::notice::GitHub Code Security is not available for this repository (HTTP $HTTP). Skipping SARIF upload."
+          fi
+
+      - name: Upload Trivy results to GitHub Security
+        uses: github/codeql-action/upload-sarif@v4
+        if: always() && steps.code-scanning.outputs.http == '200'
+        with:
+          sarif_file: "trivy-results.sarif"
+
+      - name: Run npm audit for dependency vulnerabilities
+        run: npm audit --omit=dev || true
+
+      - name: Check for unused dependencies (per workspace)
+        run: |
+          npx --yes depcheck packages/core \
+            --ignores="@types/*,eslint*,typescript,@typescript-eslint/*,bootstrap-icons" || true
+          npx --yes depcheck packages/ui \
+            --ignores="@types/*,eslint*,typescript,@typescript-eslint/*" || true

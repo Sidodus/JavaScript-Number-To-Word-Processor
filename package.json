@@ -1,6 +1,6 @@
 {
   "name": "javascript-number-to-word-processor-monorepo",
-  "version": "4.0.0",
+  "version": "4.1.0",
   "private": true,
   "description": "Monorepo for JSnumberToWordProcessor v4 - the core NPM library and the Next.js quick-usage UI.",
   "license": "MIT",
@@ -36,6 +36,7 @@
     "@vitest/coverage-v8": "^2.1.9",
     "eslint": "^8.57.1",
     "eslint-config-prettier": "^9.1.0",
+    "fast-check": "^4.10.2",
     "prettier": "^3.4.2",
     "tsup": "^8.3.6",
     "typescript": "^5.7.3",

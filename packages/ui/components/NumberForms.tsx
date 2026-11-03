@@ -6,9 +6,11 @@ import { Alert, Button, Col, Form, Row } from "react-bootstrap";
 import JSnumberToWordProcessor from "js-number-to-word-processor";
 
 import type { ConsoleState } from "./NumberToWordConsole";
+import type { ConsoleOptions } from "./OptionsBar";
 
 export interface NumberFormsProps {
   decimalPlaces: number;
+  options: ConsoleOptions;
   onProcessed: (state: ConsoleState) => void;
 }
 
@@ -17,12 +19,21 @@ export interface NumberFormsProps {
  * Both inputs are plain text fields (v3's `type="number"` mangled long
  * numbers and blocked scientific notation), processed strictly: invalid
  * input raises a visible error instead of being silently dropped.
+ * v4.1: the console's style/output/currency options flow into the core call.
  */
-export default function NumberForms({ decimalPlaces, onProcessed }: NumberFormsProps) {
+export default function NumberForms({ decimalPlaces, options, onProcessed }: NumberFormsProps) {
   const [singleValue, setSingleValue] = useState("");
   const [arrayValue, setArrayValue] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [notice, setNotice] = useState<string | null>(null);
+
+  const coreOptions = {
+    decimalPlaces,
+    locale: options.locale,
+    style: options.style,
+    output: options.output,
+    ...(options.currency !== null ? { currency: options.currency } : {}),
+  };
 
   const runSingle = (event: React.FormEvent) => {
     event.preventDefault();
@@ -33,7 +44,7 @@ export default function NumberForms({ decimalPlaces, onProcessed }: NumberFormsP
       return;
     }
     try {
-      const results = JSnumberToWordProcessor(singleValue.trim(), decimalPlaces);
+      const results = JSnumberToWordProcessor(singleValue.trim(), coreOptions);
       onProcessed({ results, isFromArray: false, processedInput: singleValue.trim() });
       setSingleValue("");
       setArrayValue("");
@@ -59,7 +70,7 @@ export default function NumberForms({ decimalPlaces, onProcessed }: NumberFormsP
       return;
     }
     try {
-      const results = JSnumberToWordProcessor(entries, { decimalPlaces });
+      const results = JSnumberToWordProcessor(entries, coreOptions);
       onProcessed({ results, isFromArray: true, processedInput: arrayValue.trim() });
       setSingleValue("");
       setArrayValue("");

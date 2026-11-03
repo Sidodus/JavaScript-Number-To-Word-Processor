@@ -1,34 +1,44 @@
 /**
- * Word engine: converts canonical digit strings into English words.
+ * Word engine: converts canonical digit strings into words for a locale.
  *
- * Style (v4, "standard British" - see docs/DECISIONS.md):
- * - "and" inside every spoken group with hundreds and a remainder:
- *   "One Hundred and Twenty-Three Million".
- * - "and" (no comma) before the final spoken group when that group is a bare
- *   tens/units value (< 100): "Nine Thousand and Twelve".
- * - No comma before "and" - this is the deliberate v4 change from v3's
- *   "Nine Thousand, and Twelve".
+ * Joining styles (ADR-001, extended in v4.1 by the `style` option):
+ * - British: "and" inside every spoken group with hundreds and a remainder
+ *   ("One Hundred and Twenty-Three Million"), plus "and" (no comma) before the
+ *   final bare tens/units group ("Nine Thousand and Twelve").
+ * - American: no "and" anywhere ("One Hundred Twenty-Three Million", "Nine
+ *   Thousand Twelve").
  * - Empty groups are skipped: 1,000,005 -> "One Million and Five".
  */
 
 import { groupDigits } from "./format.js";
 import { illionName } from "./illions.js";
-import { smallNumberWord } from "./scales.js";
+import type { LocaleDefinition } from "./locales/types.js";
 
-/** Words for a single 3-digit group (1..999): "Seven Hundred and Eighty-Nine". */
-function groupWord(group: number): string {
+export type WordStyle = "british" | "american";
+
+/** Words for a single 3-digit group (1..999) in the locale's style. */
+function groupWord(group: number, locale: LocaleDefinition, style: WordStyle): string {
   const hundreds = Math.floor(group / 100);
   const remainder = group % 100;
+  const small = (value: number): string => locale.smallNumbers[value] as string;
 
   if (hundreds === 0) {
-    return smallNumberWord(remainder) as string;
+    return small(remainder);
   }
 
-  const hundredsWord = `${smallNumberWord(hundreds)} Hundred`;
+  // v4.1 hook: locales whose hundreds phrase inflects with the remainder
+  // (French "deux cents" vs "deux cent un").
+  const hundredsPart =
+    locale.hundredPhraseFor !== undefined
+      ? locale.hundredPhraseFor(hundreds, remainder)
+      : `${small(hundreds)} ${locale.hundredWord}`;
+
   if (remainder === 0) {
-    return hundredsWord;
+    return hundredsPart;
   }
-  return `${hundredsWord} and ${smallNumberWord(remainder)}`;
+  return style === "british"
+    ? `${hundredsPart} and ${small(remainder)}`
+    : `${hundredsPart} ${small(remainder)}`;
 }
 
 /** Splits a canonical digit string into 3-digit numeric groups indexed from the units side. */
@@ -39,18 +49,26 @@ function toGroups(digits: string): number[] {
   return grouped.map(Number).reverse();
 }
 
-/** Scale word for a group index: 1 -> "Thousand", 2 -> "Million", 33 -> "Trestrigintillion"... */
-function scaleWord(groupIndex: number): string {
-  return groupIndex === 1 ? "Thousand" : illionName(groupIndex - 1);
+/** Scale word for a group index >= 2: 2 -> "Million", 33 -> "Trestrigintillion"... */
+function scaleWord(groupIndex: number, groupValue: number, locale: LocaleDefinition): string {
+  // v4.1 hook: value-aware scale words (French long scale + pluralization).
+  if (locale.scaleWordFor !== undefined) {
+    return locale.scaleWordFor(groupIndex, groupValue);
+  }
+  return locale.scaleWord !== undefined ? locale.scaleWord(groupIndex) : illionName(groupIndex - 1);
 }
 
 /**
  * Converts a canonical whole-part digit string ("0", "987", "123456789012")
- * into English words.
+ * into words for the given locale and style.
  */
-export function wholePartToWords(digits: string): string {
+export function wholePartToWords(
+  digits: string,
+  locale: LocaleDefinition,
+  style: WordStyle,
+): string {
   if (digits === "0") {
-    return "Zero";
+    return locale.zeroWord;
   }
 
   const groups = toGroups(digits);
@@ -61,21 +79,37 @@ export function wholePartToWords(digits: string): string {
     if (value === 0) {
       continue;
     }
-    const word = index === 0 ? groupWord(value) : `${groupWord(value)} ${scaleWord(index)}`;
+    let word: string;
+    if (index === 0) {
+      word = groupWord(value, locale, style);
+    } else if (index === 1) {
+      // Thousands: the hook (French "mille"/"deux mille") replaces the whole
+      // "group + scale" composition when present.
+      word =
+        locale.thousandPhraseFor !== undefined
+          ? locale.thousandPhraseFor(value)
+          : `${groupWord(value, locale, style)} ${locale.thousandWord}`;
+    } else {
+      word = `${groupWord(value, locale, style)} ${scaleWord(index, value, locale)}`;
+    }
     spoken.push({ index, word });
   }
 
   const last = spoken[spoken.length - 1] as { index: number; word: string };
   const lastGroupValue = groups[last.index] as number;
-  const needsFinalAnd = spoken.length > 1 && last.index === 0 && lastGroupValue < 100;
+  const needsFinalAnd =
+    style === "british" && spoken.length > 1 && last.index === 0 && lastGroupValue < 100;
+
+  // v4.1: the inter-group separator is locale-aware (French joins with spaces).
+  const separator = locale.groupSeparator ?? ", ";
 
   const head = spoken
     .slice(0, -1)
     .map((entry) => entry.word)
-    .join(", ");
+    .join(separator);
 
   if (spoken.length === 1) {
     return last.word;
   }
-  return needsFinalAnd ? `${head} and ${last.word}` : `${head}, ${last.word}`;
+  return needsFinalAnd ? `${head} and ${last.word}` : `${head}${separator}${last.word}`;
 }

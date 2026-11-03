@@ -70,3 +70,36 @@
     Consolas,
     monospace;
 }
+
+/* Dark mode (Bootstrap 5.3 native color modes) - the hero panel and card
+   shadows need explicit counterparts; result accent colors stay readable. */
+[data-bs-theme="dark"] .n2w-hero {
+  background-color: #1c1f23;
+  color: #b6b9be;
+}
+
+[data-bs-theme="dark"] .n2w-number,
+[data-bs-theme="dark"] .n2w-unit {
+  color: #9fa4a9;
+}
+
+[data-bs-theme="dark"] .n2w-negative-sign {
+  color: #ff6b6b;
+}
+
+[data-bs-theme="dark"] .n2w-negative-word,
+[data-bs-theme="dark"] .n2w-dot {
+  color: #ff8f70;
+}
+
+[data-bs-theme="dark"] .n2w-arrow {
+  color: #6ea8fe;
+}
+
+[data-bs-theme="dark"] .n2w-card {
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.55), 0 6px 20px 0 rgba(0, 0, 0, 0.45);
+}
+
+[data-bs-theme="dark"] .n2w-limit {
+  color: #f0b75a;
+}

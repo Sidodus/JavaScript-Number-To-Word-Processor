@@ -1,0 +1,55 @@
+name: Locale request / contribution
+description: Propose a new number-words locale for JSnumberToWordProcessor
+title: "Locale: <code> (<Language>)"
+labels: ["locale"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Read `docs/LOCALES.md` first (ADR-008): a locale is accepted only when
+        its number-naming rules can be stated algorithmically with an
+        authoritative reference. Wrong words are worse than no words.
+  - type: input
+    id: code
+    attributes:
+      label: Locale code (BCP-47-ish)
+      description: e.g. "yo" (Yoruba), "ha" (Hausa), "fr" (French)
+    validations:
+      required: true
+  - type: textarea
+    id: source
+    attributes:
+      label: Authoritative source(s)
+      description: |
+        The grammar/dictionary/standard that every rule will be quoted from.
+        For example: "A Dictionary of the Yoruba Language (University Press plc)",
+        "Académie française / Le Petit Robert conventions", "Hausa grammar (Newman)".
+      placeholder: Name the exact reference(s) and which sections cover numerals.
+    validations:
+      required: true
+  - type: dropdown
+    id: grouping
+    attributes:
+      label: Number grouping system
+      options:
+        - Decimal short scale (like English: million = 10^6)
+        - Decimal long scale (like French: milliard = 10^9)
+        - Vigesimal / other (like Yoruba) - spec required first
+        - Lakh/crore (Indian)
+        - Not sure - needs research
+    validations:
+      required: true
+  - type: textarea
+    id: open-questions
+    attributes:
+      label: Open linguistic questions
+      description: |
+        Anything that must be settled before coding: orthography/variants,
+        subtractive forms, agreement rules, large-number names, tone marks.
+  - type: checkboxes
+    attributes:
+      label: Willing to author the SPEC (docs/locales/<code>-SPEC.md)?
+      options:
+        - label: Yes, I can write the spec with sources before implementation
+        - label: I can provide sources but need help writing the spec
+        - label: Request only - I cannot contribute the spec right now

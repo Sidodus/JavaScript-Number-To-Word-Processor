@@ -1,8 +1,15 @@
 <h1 align="center"><ins>JavaScript Number To Word Processor</ins></h1>
 
 <h6 align="center" style="color: grey; margin-top: -10px">
-  <small>... #JSnumberToWordProcessor ... v4.0.0 ... TypeScript rewrite of the 2019 classic</small>
+  <small>... #JSnumberToWordProcessor ... v4.1.0 ... TypeScript rewrite of the 2019 classic</small>
 </h6>
+
+<div align="center">
+  <a href="https://github.com/Sidodus/JavaScript-Number-To-Word-Processor/actions/workflows/ci.yml"><img src="https://github.com/Sidodus/JavaScript-Number-To-Word-Processor/actions/workflows/ci.yml/badge.svg" alt="CI" /></a>
+  <a href="https://www.npmjs.com/package/js-number-to-word-processor"><img src="https://img.shields.io/npm/v/js-number-to-word-processor" alt="npm version" /></a>
+  <a href="https://www.npmjs.com/package/js-number-to-word-processor"><img src="https://img.shields.io/bundlephobia/minzip/js-number-to-word-processor" alt="minified size" /></a>
+  <a href="https://github.com/Sidodus/JavaScript-Number-To-Word-Processor/blob/master/LICENSE"><img src="https://img.shields.io/npm/l/js-number-to-word-processor" alt="license" /></a>
+</div>
 
 <div align="center">
   <p><code>123,456,789,012,345,680</code> => <em>One Hundred and Twenty-Three Quadrillion, Four Hundred and Fifty-Six Trillion, Seven Hundred and Eighty-Nine Billion, Twelve Million, Three Hundred and Forty-Five Thousand, Six Hundred and Eighty.</em></p>
@@ -108,6 +115,26 @@ JSnumberToWordProcessor(555n * 111n); // 61,605: Sixty-One Thousand, Six Hundred
 ```js
 JSnumberToWordProcessor(input, { decimalPlaces: 4 }); // integer 0..33003; default 2; 0 = whole
 JSnumberToWordProcessor(arrayInput, { lenient: true }); // skip invalid entries (default: throw)
+```
+
+### New in 4.1 — currency, styles, ordinals, locales
+
+```js
+// Money words (check-writing ready)
+JSnumberToWordProcessor("1234.56", {
+  currency: { major: "Naira", majorPlural: "Naira", minor: "Kobo" },
+});
+// 1,234.56: One Thousand, Two Hundred and Thirty-Four Naira, Fifty-Six Kobo
+
+// American style (no "and")
+JSnumberToWordProcessor("123456789", { style: "american" });
+// One Hundred Twenty-Three Million, Four Hundred Fifty-Six Thousand, Seven Hundred Eighty-Nine
+
+// Ordinals
+JSnumberToWordProcessor("21", { output: "ordinal" }); // 21: Twenty-First
+
+// Locales (en built in; register your own)
+JSnumberToWordProcessor("987", { locale: "en" });
 ```
 
 Invalid input throws a descriptive, typed error — see
