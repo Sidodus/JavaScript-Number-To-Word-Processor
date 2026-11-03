@@ -1,0 +1,66 @@
+{
+  "name": "js-number-to-word-processor",
+  "version": "4.0.0",
+  "description": "JSnumberToWordProcessor v4 - Converts numbers into well formatted, human readable numbers and words. Pure, dependency-free, exact string/BigInt arithmetic.",
+  "license": "MIT",
+  "author": "Saheed Odulaja",
+  "type": "module",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    },
+    "./package.json": "./package.json"
+  },
+  "unpkg": "./JSnumberToWordProcessor.js",
+  "jsdelivr": "./JSnumberToWordProcessor.js",
+  "files": [
+    "dist",
+    "JSnumberToWordProcessor.js",
+    "JSnumberToWordProcessor.js.map",
+    "README.md",
+    "LICENSE"
+  ],
+  "keywords": [
+    "number-to-word",
+    "numbers-to-words",
+    "JSnumberToWordProcessor",
+    "number",
+    "word",
+    "spell",
+    "bigint",
+    "conway-wechsler",
+    "large-numbers",
+    "decimal",
+    "ordinal"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Sidodus/JavaScript-Number-To-Word-Processor.git",
+    "directory": "packages/core"
+  },
+  "bugs": {
+    "url": "https://github.com/Sidodus/JavaScript-Number-To-Word-Processor/issues"
+  },
+  "homepage": "https://github.com/Sidodus/JavaScript-Number-To-Word-Processor#readme",
+  "sideEffects": false,
+  "scripts": {
+    "build": "tsup && node scripts/build-browser.mjs",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run"
+  },
+  "tsup": {
+    "entry": {
+      "index": "src/index.ts"
+    },
+    "format": ["esm", "cjs"],
+    "dts": true,
+    "sourcemap": true,
+    "clean": true,
+    "target": "es2020"
+  }
+}

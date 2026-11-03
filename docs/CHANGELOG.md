@@ -1,0 +1,85 @@
+# Changelog
+
+All notable changes are documented here. Format based on
+[Keep a Changelog](https://keepachangelog.com/); versioning: SemVer.
+**Any change to output words, display formatting, or error behavior is a
+breaking change → major bump.**
+
+## [4.0.0] — 2026-11-03
+
+Modern rewrite of the 2019 v3 library (TypeScript, monorepo, strict
+semantics). Call signature and result-object shape are v3-compatible;
+outputs changed where v3 was wrong. Full guide: `MIGRATION_v3_to_v4.md`.
+
+### Fixed (see `BUG_AUDIT_v3.md` for evidence)
+- Decimal place value with leading zeros no longer collapses
+  (`0.0005 @4` → "Five ten-thousandths", was "Five tenths").
+- Rounding into a whole number no longer says "(dot) Zero ..."
+  (`9.999 @2` → "Ten", was "Ten (dot) Zero hundredths").
+- Exact half-up rounding on digit strings — no float `toFixed` artifacts
+  (`0.995 @2` → "1"; `2.675 @2` → "2.68").
+- Display and words always agree (`.5` → `0.50` / "Fifty hundredths").
+- Scientific notation: `"1e21"` string no longer crashes; number-form
+  exponents expand exactly (`2**70` no longer mangles).
+- All-zero decimals render cleanly (`"5."` → "Five"; `"0.00"` → "Zero").
+- Typed error contract: `InvalidNumberError` (with array index context),
+  `NumberTooLargeError`, `InvalidOptionsError` — replaces silent "Zero"/`[]`
+  fallbacks and raw crashes (`null`, `Infinity`).
+- `-0` → "Zero" (no "(negative)").
+- Decimal ordinals ≥ 33002 no longer read stale module state.
+- Oversized input throws `NumberTooLargeError` instead of returning a fake
+  "SORRY..." word sentence.
+- UI: "Change Decimal Length" rejects negative/non-integer/>33003 values
+  with inline feedback (previously accepted negatives silently).
+
+### Changed (deliberate, breaking)
+- Standard British word style: "Nine Thousand and Twelve" (v3: "Nine
+  Thousand, and Twelve"); no mid-number "and" (ADR-001).
+- Singular decimal grammar when the value is exactly 1 ("One tenth", "One
+  hundredth").
+- All-zero decimals are omitted entirely (`26.00000232 @5` → "26" /
+  "Twenty-Six", was "26.00" with junk words).
+- Requested `decimalPlaces` is authoritative (digits shown = digits
+  described; padding to the requested place).
+- AMD support dropped; true ESM + CJS + types shipped; `unpkg`/`jsdelivr`
+  point at the single-file browser bundle.
+
+### Added
+- TypeScript rewrite with generated `.d.ts` (strict mode).
+- `{ lenient: true }` option: skip invalid array entries (v3 behavior,
+  explicit).
+- Named exports: error classes, `decimalPlaceOrdinal`, `illionName`,
+  `MAX_DECIMAL_PLACES`, `MAX_WHOLE_DIGITS`.
+- Algorithmic Conway-Wechsler generator — 19.6KB bundle replacing the 1.3MB
+  lookup table; verified entry-for-entry against the published v3 table
+  (33,000 names) by golden tests.
+- Monorepo UI: Next.js 15 + React-Bootstrap 5 console with static export
+  (GitHub Pages compatible), text-based inputs (paste any size number),
+  loud error alerts, v3 visual identity.
+- Documentation set: `ARCHITECTURE.md`, `API_REFERENCE.md`,
+  `MIGRATION_v3_to_v4.md`, `CONWAY_WECHSLER.md`, `BUG_AUDIT_v3.md`,
+  `TESTING_STRATEGY.md`, `DECISIONS.md` (ADR-001..007) and this changelog.
+- Enterprise `AGENTS.md` governing future development.
+- Test suite: 101 tests across unit / regression / golden-parity / UI
+  integration layers.
+
+## [3.0.4] — 2020
+- Fixed display of multiple zeros greater than 2 length (fallback to .00).
+- "Corrected" decimal place word with starting zeros (26.00002 @5 → "Two
+  tenths") — later identified as still wrong (place-value collapse, bug #1
+  in `BUG_AUDIT_v3.md`); properly fixed in 4.0.0.
+
+## [3.0.3] — 2020
+- Corrected dismissal of starting zeros after a decimal point.
+
+## [3.0.2] — 2020
+- Decimal/fraction support with a second decimal-place argument (default 2).
+- Negative number support.
+- Arithmetic expression outputs.
+
+## [2.0.6 / 2.0.5 / 2.0.4] — 2019/2020
+- Code optimization; README corrections; support up to 10^33003 via the
+  Conway-Wechsler lookup (hard-coded table); pure vanilla JS.
+
+## [1.1.0] — 2019
+- Numbers beyond 2^53-1 up to 10^126; spelling fixes.
