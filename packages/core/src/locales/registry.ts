@@ -7,12 +7,14 @@
 import { InvalidOptionsError } from "../errors.js";
 import { enLocale } from "./en.js";
 import { frLocale } from "./fr.js";
+import { haLocale } from "./ha.js";
 import type { LocaleDefinition } from "./types.js";
 
 const registry = new Map<string, LocaleDefinition>();
 
 registry.set(enLocale.code, enLocale);
 registry.set(frLocale.code, frLocale);
+registry.set(haLocale.code, haLocale);
 
 /** Registers (or replaces) a locale definition. Returns the registry size. */
 export function registerLocale(definition: LocaleDefinition): number {

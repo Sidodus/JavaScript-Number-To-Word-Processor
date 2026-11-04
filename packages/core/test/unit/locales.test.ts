@@ -7,6 +7,7 @@ import { describe, expect, it } from "vitest";
 
 import JSnumberToWordProcessor, { getLocale, localeCodes } from "../../src/index.js";
 import { frLocale } from "../../src/locales/fr.js";
+import { haLocale } from "../../src/locales/ha.js";
 
 const one = (input: Parameters<typeof JSnumberToWordProcessor>[0], options?: unknown) =>
   JSnumberToWordProcessor(input, options as never)[0] as ReturnType<
@@ -14,11 +15,11 @@ const one = (input: Parameters<typeof JSnumberToWordProcessor>[0], options?: unk
   >[number];
 
 describe("locale contract (every registered locale)", () => {
-  it("registry exposes en and fr", () => {
-    expect(localeCodes().sort()).toEqual(["en", "fr"]);
+  it("registry exposes en, fr and ha", () => {
+    expect(localeCodes().sort()).toEqual(["en", "fr", "ha"]);
   });
 
-  for (const code of ["en", "fr"]) {
+  for (const code of ["en", "fr", "ha"]) {
     describe(`contract: ${code}`, () => {
       const locale = getLocale(code);
 
@@ -42,8 +43,7 @@ describe("locale contract (every registered locale)", () => {
 
       it("ordinalizes every small-number cardinal without throwing (when the locale provides the hook)", () => {
         if (locale.ordinalize === undefined) {
-          expect(locale.code).toBe("en"); // en uses the engine's default rules
-          return;
+          return; // locales without the hook reject ordinal output (guarded in process.ts)
         }
         for (const word of locale.smallNumbers) {
           const ordinal = locale.ordinalize(word);
@@ -146,5 +146,68 @@ describe("french locale (fr) - verified samples", () => {
     // Money words need no ordinal hook: whole + minor words only.
     expect(r.displayWord).toBe("vingt-cinq euros, cinquante centimes");
     expect(r.currency?.majorLabel).toBe("euros");
+  });
+});
+
+describe("hausa locale (ha) - verified samples (docs/locales/ha-SPEC.md)", () => {
+  const ha = (input: Parameters<typeof JSnumberToWordProcessor>[0], options?: unknown) =>
+    one(input, { ...(options as object), locale: "ha" });
+
+  it("builds the units, goma-sha teens and da-joined tens", () => {
+    expect(haLocale.smallNumbers.slice(0, 12)).toEqual([
+      "sifili", "ɗaya", "biyu", "uku", "huɗu", "biyar", "shida", "bakwai", "takwas", "tara",
+      "goma", "goma sha ɗaya",
+    ]);
+    expect(ha("19").displayWord).toBe("goma sha tara");
+    expect(ha("21").displayWord).toBe("ashirin da ɗaya");
+    expect(ha("40").displayWord).toBe("arba'in");
+    expect(ha("90").displayWord).toBe("casa'in");
+    expect(ha("99").displayWord).toBe("casa'in da tara");
+  });
+
+  it("puts the multiplier after the scale word", () => {
+    expect(ha("100").displayWord).toBe("ɗari");
+    expect(ha("101").displayWord).toBe("ɗari da ɗaya");
+    expect(ha("150").displayWord).toBe("ɗari da hamsin");
+    expect(ha("200").displayWord).toBe("ɗari biyu");
+    expect(ha("999").displayWord).toBe("ɗari tara da casa'in da tara");
+    expect(ha("1000").displayWord).toBe("dubu ɗaya");
+    expect(ha("1001").displayWord).toBe("dubu ɗaya da ɗaya");
+    expect(ha("1100").displayWord).toBe("dubu ɗaya da ɗari");
+    expect(ha("2000").displayWord).toBe("dubu biyu");
+    expect(ha("2150").displayWord).toBe("dubu biyu da ɗari da hamsin");
+    expect(ha("10000").displayWord).toBe("dubu goma");
+    expect(ha("100000").displayWord).toBe("dubu ɗari");
+  });
+
+  it("uses the attested scale loans and joins every component with da", () => {
+    expect(ha("1000000").displayWord).toBe("miliyan ɗaya");
+    expect(ha("2000000").displayWord).toBe("miliyan biyu");
+    expect(ha("1000000000").displayWord).toBe("biliyan ɗaya");
+    expect(ha("1000000000000").displayWord).toBe("tiriliyan ɗaya");
+    expect(ha("1234567").displayWord).toBe(
+      "miliyan ɗaya da dubu ɗari biyu da talatin da huɗu da ɗari biyar da sittin da bakwai",
+    );
+  });
+
+  it("code-switches to English scale names beyond 10^12 (SPEC §6, documented practice)", () => {
+    expect(ha("1000000000000000").displayWord).toBe("quadrillion ɗaya");
+  });
+
+  it("handles negatives and rejects decimals/styles it cannot express", () => {
+    expect(ha("-5").displayWord).toBe("(negative) biyar");
+    expect(() => ha("5.5")).toThrow(/does not support decimal numbers yet/);
+    expect(() => one("5", { locale: "ha", style: "american" })).toThrow(
+      /only supports the "british" word style/,
+    );
+  });
+
+  it("still works in currency mode", () => {
+    const r = ha("1234.56", {
+      currency: { major: "Naira", majorPlural: "Naira", minor: "Kobo", minorPlural: "Kobo" },
+    });
+    expect(r.displayWord).toBe(
+      "dubu ɗaya da ɗari biyu da talatin da huɗu Naira, hamsin da shida Kobo",
+    );
   });
 });

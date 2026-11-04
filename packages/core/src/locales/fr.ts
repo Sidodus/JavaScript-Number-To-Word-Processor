@@ -89,11 +89,12 @@ function buildSmallNumbers(): string[] {
 }
 
 /** French long scale: group index i >= 2 -> million/milliard/billion/billiard/... */
-function frScaleWord(groupIndex: number, groupValue: number): string {
+function frScaleWord(groupIndex: number, groupValue: number, groupWords: string): string {
   const k = groupIndex - 2; // 0 -> million (10^6), 1 -> milliard (10^9), ...
   const base = illionName(Math.floor(k / 2) + 1).toLowerCase();
   const singular = k % 2 === 0 ? base : base.replace(/illion$/, "illiard");
-  return groupValue === 1 ? singular : `${singular}s`;
+  const scale = groupValue === 1 ? singular : `${singular}s`;
+  return `${groupWords} ${scale}`; // group-first: "cent vingt-trois millions"
 }
 
 const frSmall = (value: number): string => FR_SMALL_NUMBERS[value] as string;
