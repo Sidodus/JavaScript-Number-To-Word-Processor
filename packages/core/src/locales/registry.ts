@@ -10,6 +10,7 @@ import { frLocale } from "./fr.js";
 import { haLocale } from "./ha.js";
 import { yoLocale } from "./yo.js";
 import { igLocale } from "./ig.js";
+import { esLocale } from "./es.js";
 import type { LocaleDefinition } from "./types.js";
 
 const registry = new Map<string, LocaleDefinition>();
@@ -19,6 +20,7 @@ registry.set(frLocale.code, frLocale);
 registry.set(haLocale.code, haLocale);
 registry.set(yoLocale.code, yoLocale);
 registry.set(igLocale.code, igLocale);
+registry.set(esLocale.code, esLocale);
 
 /** Registers (or replaces) a locale definition. Returns the registry size. */
 export function registerLocale(definition: LocaleDefinition): number {

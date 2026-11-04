@@ -68,6 +68,7 @@ source-authority questions up front for community requests.
 | `ha` | british with `andWord: "da"` (toggle rejected) | multiplier-AFTER ("ɗari biyu", "dubu ɗaya", "miliyan ɗaya"); loans miliyan/biliyan/tiriliyan, English code-switch beyond 10^12 | **full** (na-linker: na farko, na biyu; feminine ta-linker unmodeled) | rejected with clear error | Boko orthography with hooked letters; every component joined by "da". Spec: `docs/locales/ha-SPEC.md`. |
 | `yo` | american (no joiner; toggle rejected) | vigesimal 0-99 (lé/dín), traditional hundreds chain, modern decimal thousands ("ẹgbẹ̀rún méjì"), loans mílíọ̀nù/bílíọ̀nù, English code-switch beyond 10^9 | rejected (periphrastic; SPEC §7) | rejected with clear error | **Flagship locale.** Traditional register 0-999 + modern decimal above; diacritics NFC. Spec: `docs/locales/yo-SPEC.md`. |
 | `ig` | british with `andWord: "na"` (toggle rejected) | decimal multiplier-after ("iri abụọ", "narị abụọ", "puku abụọ"); loans nde/ijiri, English code-switch beyond 10^9 | **full** (nke-linker: nke mbụ, nke abụọ) | rejected with clear error | Attested asymmetry preserved: "otu narị" (100) vs "narị abụọ" (200). Spec: `docs/locales/ig-SPEC.md`. |
+| `es` | american (the "y" lives in the 0..99 words; toggle rejected) | decimal, multiplier-before mil ("dos mil"), RAE long scale (un millón / mil millones / un billón = 10¹²) | rejected (periphrastic preference; SPEC §6) | **full** (décimas ... milmillonésimas, feminine agreement via `decimalDigitWord`) | Masculine forms throughout (no gender context). Spec: `docs/locales/es-SPEC.md`. |
 
 ## Roadmap (in priority order)
 
@@ -93,10 +94,16 @@ the "efu" zero form.
 dixièmes, centièmes, millièmes... straightforward (-ième family) once the
 hook is wired into the UI-facing flow; spec'd trivially from the same sources.
 
+### ~~`es` — Español~~ → SHIPPED in 4.6.0
+Implemented from `docs/locales/es-SPEC.md` (RAE DPD + tabla de numerales +
+Fundéu). OPEN items: cardinal-style ordinals (periphrastic preference), the
+feminine paradigm (masculine shipped), and scale words beyond decillón
+(English code-switch).
+
 ### Others considered
 `pcm` (Nigerian Pidgin) — numerals are English-based; low differentiation
-value. `ar`, `de`, `es`, `hi` — well-documented but require long-scale/lakh
-grouping decisions; accept PRs via the process above.
+value. `ar`, `de`, `hi` — well-documented but require gender/agreement or
+lakh-crore grouping decisions; accept PRs via the process above.
 
 ## Checklist for a locale PR
 

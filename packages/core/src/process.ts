@@ -148,7 +148,12 @@ function buildResult(parsed: ParsedNumber, options: ResolvedOptions): ProcessedN
     );
   }
   const decimalValue = BigInt(digits);
-  const decimalDigitWord = decimalValue === 0n ? "Zero" : wholePartToWords(digits, options.locale, options.style);
+  const decimalDigitWord =
+    options.locale.decimalDigitWord !== undefined
+      ? options.locale.decimalDigitWord(digits, decimalValue)
+      : decimalValue === 0n
+        ? "Zero"
+        : wholePartToWords(digits, options.locale, options.style);
   const ordinal =
     options.locale.decimalOrdinal !== undefined
       ? options.locale.decimalOrdinal(places, decimalValue === 1n)
