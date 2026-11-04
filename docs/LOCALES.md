@@ -66,6 +66,7 @@ source-authority questions up front for community requests.
 | `en` | british (default), american | short (Conway-Wechsler to 10^33003) | full (First/-ieth) | full | The reference locale. |
 | `fr` | american (no "and"; toggle rejected) | **long** (million/milliard/billion/billiard... with pluralization) | full (premier, -ième, unième, article drop) | rejected with clear error | Traditional orthography; 0-99 generated algorithmically. |
 | `ha` | british with `andWord: "da"` (toggle rejected) | multiplier-AFTER ("ɗari biyu", "dubu ɗaya", "miliyan ɗaya"); loans miliyan/biliyan/tiriliyan, English code-switch beyond 10^12 | rejected (OPEN, SPEC §7) | rejected with clear error | Boko orthography with hooked letters; every component joined by "da". Spec: `docs/locales/ha-SPEC.md`. |
+| `yo` | american (no joiner; toggle rejected) | vigesimal 0-99 (lé/dín), traditional hundreds chain, modern decimal thousands ("ẹgbẹ̀rún méjì"), loans mílíọ̀nù/bílíọ̀nù, English code-switch beyond 10^9 | rejected (periphrastic; SPEC §7) | rejected with clear error | **Flagship locale.** Traditional register 0-999 + modern decimal above; diacritics NFC. Spec: `docs/locales/yo-SPEC.md`. |
 
 ## Roadmap (in priority order)
 
@@ -75,16 +76,11 @@ Omniglot, Polyglot Club, Nkenne, Peace Corps/Sigurd). OPEN items: Hausa
 ordinals (periphrastic "na"-forms need a verified source) and the negative
 prefix (kept as the English loan). Contributions welcome against the SPEC.
 
-### `yo` — Yoruba (Nigeria) — highest cultural value, hardest
-Vigesimal system: 20-base with additive AND subtractive forms
-(35 = ọgbọ̀n-dín-árún-un family), ten-multiples (ogójì, ọgbọ̀n, àádọ́ta, ọ́ta...),
-diacritics are semantic (ọ̀kan ≠ okan). **Open questions:** modern standard
-Yoruba vs traditional counting for 100+ (ẹ̀dẹgbẹ̀rùn? ẹgbẹ̀rún = 1000);
-subtractive-rule boundary (which numbers use dín-); tone mark fidelity in code
-(UTF-8 combining vs precomposed — precomposed NFC required). **Effort: SPEC
-FIRST (linguistics), then implementation — do not start coding before the spec
-is signed off.** Source candidates: A Dictionary of the Yoruba Language
-(University Press plc), Yorùbá orthography guides.
+### ~~`yo` — Yoruba (Nigeria)~~ → SHIPPED in 4.3.0 (flagship)
+Implemented from `docs/locales/yo-SPEC.md` (sources: Wikipedia's Yoruba
+numerals analysis citing Lounge 2009, Preply, Science in Yorùbá). Register
+decision documented: traditional 0-999 + modern decimal thousands + loans.
+OPEN items: ordinals (periphrastic) and the negative prefix (English loan).
 
 ### `ig` — Igbo (Nigeria)
 Multiplicative-additive: iri (10), iri abụọ (20 = ten-twice), narị/ọ̀tụ (100),
