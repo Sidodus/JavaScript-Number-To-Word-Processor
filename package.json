@@ -1,6 +1,6 @@
 {
   "name": "javascript-number-to-word-processor-monorepo",
-  "version": "4.5.0",
+  "version": "4.6.0",
   "private": true,
   "description": "Monorepo for JSnumberToWordProcessor v4 - the core NPM library and the Next.js quick-usage UI.",
   "license": "MIT",

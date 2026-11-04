@@ -10,6 +10,7 @@ import { frLocale } from "../../src/locales/fr.js";
 import { haLocale } from "../../src/locales/ha.js";
 import { yoLocale } from "../../src/locales/yo.js";
 import { igLocale } from "../../src/locales/ig.js";
+import { esLocale } from "../../src/locales/es.js";
 
 const one = (input: Parameters<typeof JSnumberToWordProcessor>[0], options?: unknown) =>
   JSnumberToWordProcessor(input, options as never)[0] as ReturnType<
@@ -17,11 +18,11 @@ const one = (input: Parameters<typeof JSnumberToWordProcessor>[0], options?: unk
   >[number];
 
 describe("locale contract (every registered locale)", () => {
-  it("registry exposes en, fr, ha, yo and ig", () => {
-    expect(localeCodes().sort()).toEqual(["en", "fr", "ha", "ig", "yo"]);
+  it("registry exposes en, fr, ha, yo, ig and es", () => {
+    expect(localeCodes().sort()).toEqual(["en", "es", "fr", "ha", "ig", "yo"]);
   });
 
-  for (const code of ["en", "fr", "ha", "ig", "yo"]) {
+  for (const code of ["en", "es", "fr", "ha", "ig", "yo"]) {
     describe(`contract: ${code}`, () => {
       const locale = getLocale(code);
 
@@ -378,6 +379,87 @@ describe("igbo locale (ig) - verified samples (docs/locales/ig-SPEC.md)", () => 
     });
     expect(r.displayWord).toBe(
       "otu puku na narị abụọ na iri atọ na anọ Naira, iri ise na isii Kobo",
+    );
+  });
+});
+
+
+describe("spanish locale (es) - verified samples (docs/locales/es-SPEC.md)", () => {
+  const es = (input: Parameters<typeof JSnumberToWordProcessor>[0], options?: unknown) =>
+    one(input, { ...(options as object), locale: "es" });
+
+  it("builds the units, teens and veinti contractions", () => {
+    expect(esLocale.smallNumbers.slice(0, 30)).toEqual([
+      "cero", "uno", "dos", "tres", "cuatro", "cinco", "seis", "siete", "ocho", "nueve",
+      "diez", "once", "doce", "trece", "catorce", "quince", "dieciséis", "diecisiete",
+      "dieciocho", "diecinueve", "veinte", "veintiuno", "veintidós", "veintitrés",
+      "veinticuatro", "veinticinco", "veintiséis", "veintisiete", "veintiocho",
+      "veintinueve",
+    ]);
+    expect(es("31").displayWord).toBe("treinta y uno");
+    expect(es("99").displayWord).toBe("noventa y nueve");
+  });
+
+  it("applies the cien/ciento split and the irregular hundreds", () => {
+    expect(es("100").displayWord).toBe("cien");
+    expect(es("101").displayWord).toBe("ciento uno");
+    expect(es("150").displayWord).toBe("ciento cincuenta");
+    expect(es("200").displayWord).toBe("doscientos");
+    expect(es("500").displayWord).toBe("quinientos");
+    expect(es("700").displayWord).toBe("setecientos");
+    expect(es("900").displayWord).toBe("novecientos");
+    expect(es("999").displayWord).toBe("novecientos noventa y nueve");
+  });
+
+  it("applies the RAE apocope before mil", () => {
+    expect(es("1000").displayWord).toBe("mil");
+    expect(es("1001").displayWord).toBe("mil uno");
+    expect(es("2000").displayWord).toBe("dos mil");
+    expect(es("21000").displayWord).toBe("veintiún mil");
+    expect(es("31000").displayWord).toBe("treinta y un mil");
+    expect(es("100000").displayWord).toBe("cien mil");
+    expect(es("101000").displayWord).toBe("ciento un mil");
+    expect(es("234000").displayWord).toBe("doscientos treinta y cuatro mil");
+  });
+
+  it("uses the long-scale million family", () => {
+    expect(es("1000000").displayWord).toBe("un millón");
+    expect(es("2000000").displayWord).toBe("dos millones");
+    expect(es("5000000").displayWord).toBe("cinco millones");
+    expect(es("1000000000").displayWord).toBe("mil millones");
+    expect(es("5000000000").displayWord).toBe("cinco mil millones");
+    expect(es("1000000000000").displayWord).toBe("un billón");
+    expect(es("2000000000000").displayWord).toBe("dos billones");
+    expect(es("1234567").displayWord).toBe(
+      "un millón doscientos treinta y cuatro mil quinientos sesenta y siete",
+    );
+  });
+
+  it("localizes decimal ordinals per the RAE scale", () => {
+    expect(es("0.1", { decimalPlaces: 1 }).displayWord).toBe("cero (punto) una décima");
+    expect(es("0.12", { decimalPlaces: 2 }).displayWord).toBe("cero (punto) doce centésimas");
+    expect(es("0.001", { decimalPlaces: 3 }).displayWord).toBe("cero (punto) una milésima");
+    expect(es("0.000000001", { decimalPlaces: 9 }).displayWord).toBe(
+      "cero (punto) una milmillonésima",
+    );
+  });
+
+  it("handles negatives and rejects ordinals/styles it cannot express", () => {
+    expect(es("-5").displayWord).toBe("(negativo) cinco");
+    expect(() => es("21", { output: "ordinal" })).toThrow(
+      /does not support ordinal output yet/,
+    );
+    expect(() => one("5", { locale: "es", style: "british" })).toThrow(
+      /only supports the "american" word style/,
+    );
+  });
+
+  it("still works in currency mode", () => {
+    const r = es("1234.56", {
+      currency: { major: "Naira", majorPlural: "Naira", minor: "Kobo", minorPlural: "Kobo" },
+    });
+    expect(r.displayWord).toBe(
+      "mil doscientos treinta y cuatro Naira, cincuenta y seis Kobo",
     );
   });
 });

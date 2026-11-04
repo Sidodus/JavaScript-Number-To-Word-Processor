@@ -64,6 +64,15 @@ export interface LocaleDefinition {
   readonly decimalOrdinal?: (place: number, singular: boolean) => string;
 
   /**
+   * Locale-styled words for the decimal DIGITS themselves (v4.6), e.g. for
+   * Spanish's feminine fraction agreement ("una décima", "veintiuna
+   * centésimas", "doscientas milésimas"). Receives the exact digit string
+   * and its BigInt value. When absent, the digits render through
+   * `wholePartToWords` (English "Zero" for the built-in default).
+   */
+  readonly decimalDigitWord?: (digits: string, value: bigint) => string;
+
+  /**
    * Scale word for group index i >= 2 (10^(3i)). Defaults to the short-scale
    * Conway-Wechsler name `illionName(i - 1)`.
    */

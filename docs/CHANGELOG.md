@@ -5,6 +5,22 @@ All notable changes are documented here. Format based on
 **Any change to output words, display formatting, or error behavior is a
 breaking change → major bump.**
 
+## [4.6.0] — 2026-11-04
+
+### Added
+- **`es` locale (Español)** — RAE-sourced: irregular hundreds chain
+  (quinientos/seiscientos/setecientos/ochocientos/novecientos), the cien vs
+  ciento split, veinti- contractions, the apocope before mil (veintiún mil,
+  treinta y un mil, ciento un mil), the long-scale million family (un millón /
+  dos millones / mil millones / un billón = 10¹² per RAE), and **localized
+  decimal ordinals with feminine agreement** (una décima, veintiuna
+  centésimas, doscientas milésimas). Spec: `docs/locales/es-SPEC.md`.
+  Cardinal-style ordinals (primero/segundo) are periphrastic-preferred and
+  reject loudly (SPEC §6).
+- **`decimalDigitWord` locale hook** — locale-styled words for the decimal
+  digits themselves, enabling the Spanish feminine fraction agreement.
+  Masculine-forms caveat: the engine has no gender context (SPEC §1).
+
 ## [4.5.0] — 2026-11-04
 
 ### Added
