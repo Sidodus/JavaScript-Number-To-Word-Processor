@@ -27,7 +27,7 @@ function groupWord(group: number, locale: LocaleDefinition, style: WordStyle): s
   }
 
   // v4.1 hook: locales whose hundreds phrase inflects with the remainder
-  // (French "deux cents" vs "deux cent un").
+  // (French "deux cents" vs "deux cent un"; Hausa "ɗari biyu").
   const hundredsPart =
     locale.hundredPhraseFor !== undefined
       ? locale.hundredPhraseFor(hundreds, remainder)
@@ -36,8 +36,9 @@ function groupWord(group: number, locale: LocaleDefinition, style: WordStyle): s
   if (remainder === 0) {
     return hundredsPart;
   }
+  const joiner = style === "british" ? (locale.andWord ?? "and") : "";
   return style === "british"
-    ? `${hundredsPart} and ${small(remainder)}`
+    ? `${hundredsPart} ${joiner} ${small(remainder)}`
     : `${hundredsPart} ${small(remainder)}`;
 }
 
@@ -50,10 +51,16 @@ function toGroups(digits: string): number[] {
 }
 
 /** Scale word for a group index >= 2: 2 -> "Million", 33 -> "Trestrigintillion"... */
-function scaleWord(groupIndex: number, groupValue: number, locale: LocaleDefinition): string {
-  // v4.1 hook: value-aware scale words (French long scale + pluralization).
+function scaleWord(
+  groupIndex: number,
+  groupValue: number,
+  locale: LocaleDefinition,
+  groupWords: string,
+): string {
+  // v4.1 hook: value-aware scale words (French long scale + pluralization);
+  // v4.2: groupWords lets multiplier-after locales embed the spoken group.
   if (locale.scaleWordFor !== undefined) {
-    return locale.scaleWordFor(groupIndex, groupValue);
+    return locale.scaleWordFor(groupIndex, groupValue, groupWords);
   }
   return locale.scaleWord !== undefined ? locale.scaleWord(groupIndex) : illionName(groupIndex - 1);
 }
@@ -83,14 +90,18 @@ export function wholePartToWords(
     if (index === 0) {
       word = groupWord(value, locale, style);
     } else if (index === 1) {
-      // Thousands: the hook (French "mille"/"deux mille") replaces the whole
-      // "group + scale" composition when present.
+      // Thousands: the hook (French "mille"/"deux mille"; Hausa "dubu ɗaya")
+      // replaces the whole "group + scale" composition when present.
       word =
         locale.thousandPhraseFor !== undefined
-          ? locale.thousandPhraseFor(value)
+          ? locale.thousandPhraseFor(value, groupWord(value, locale, style))
           : `${groupWord(value, locale, style)} ${locale.thousandWord}`;
+    } else if (locale.scaleWordFor !== undefined) {
+      // The hook owns the WHOLE group phrase (French: group-first
+      // "cent vingt-trois millions"; Hausa: scale-first "miliyan ɗaya").
+      word = scaleWord(index, value, locale, groupWord(value, locale, style));
     } else {
-      word = `${groupWord(value, locale, style)} ${scaleWord(index, value, locale)}`;
+      word = `${groupWord(value, locale, style)} ${scaleWord(index, value, locale, groupWord(value, locale, style))}`;
     }
     spoken.push({ index, word });
   }
@@ -99,6 +110,7 @@ export function wholePartToWords(
   const lastGroupValue = groups[last.index] as number;
   const needsFinalAnd =
     style === "british" && spoken.length > 1 && last.index === 0 && lastGroupValue < 100;
+  const andJoiner = locale.andWord ?? "and";
 
   // v4.1: the inter-group separator is locale-aware (French joins with spaces).
   const separator = locale.groupSeparator ?? ", ";
@@ -111,5 +123,5 @@ export function wholePartToWords(
   if (spoken.length === 1) {
     return last.word;
   }
-  return needsFinalAnd ? `${head} and ${last.word}` : `${head}${separator}${last.word}`;
+  return needsFinalAnd ? `${head} ${andJoiner} ${last.word}` : `${head}${separator}${last.word}`;
 }

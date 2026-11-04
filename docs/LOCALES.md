@@ -65,16 +65,15 @@ source-authority questions up front for community requests.
 |------|--------|-------|----------|----------|-------|
 | `en` | british (default), american | short (Conway-Wechsler to 10^33003) | full (First/-ieth) | full | The reference locale. |
 | `fr` | american (no "and"; toggle rejected) | **long** (million/milliard/billion/billiard... with pluralization) | full (premier, -ième, unième, article drop) | rejected with clear error | Traditional orthography; 0-99 generated algorithmically. |
+| `ha` | british with `andWord: "da"` (toggle rejected) | multiplier-AFTER ("ɗari biyu", "dubu ɗaya", "miliyan ɗaya"); loans miliyan/biliyan/tiriliyan, English code-switch beyond 10^12 | rejected (OPEN, SPEC §7) | rejected with clear error | Boko orthography with hooked letters; every component joined by "da". Spec: `docs/locales/ha-SPEC.md`. |
 
 ## Roadmap (in priority order)
 
-### `ha` — Hausa (Nigeria)
-Decimal, fairly regular: ɗaya...goma, "sha-" teens, tens with "da"
-(ashirin da ɗaya), dubu (1000), miliyan. **Open questions:** standard written
-form of large numbers beyond miliyan (loanword or coinage?); Boko orthography
-diacritics (ɗ, ɓ, ƙ, ') must be exact; regional variants (Kano standard
-recommended). **Effort: spec + implementation, medium.** Source: standard
-Hausa grammars (e.g. Bargery's dictionary numerals, Newman's grammar).
+### ~~`ha` — Hausa (Nigeria)~~ → SHIPPED in 4.2.0
+Implemented from `docs/locales/ha-SPEC.md` (sources: languagesandnumbers.com,
+Omniglot, Polyglot Club, Nkenne, Peace Corps/Sigurd). OPEN items: Hausa
+ordinals (periphrastic "na"-forms need a verified source) and the negative
+prefix (kept as the English loan). Contributions welcome against the SPEC.
 
 ### `yo` — Yoruba (Nigeria) — highest cultural value, hardest
 Vigesimal system: 20-base with additive AND subtractive forms

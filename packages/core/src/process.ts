@@ -269,6 +269,16 @@ function resolveOptions(options: number | ProcessOptions | undefined): ResolvedO
   // Capability guards (ADR-008): a locale that cannot express a requested
   // feature rejects the call instead of producing impossible output.
   if (
+    resolved.output === "ordinal" &&
+    resolved.locale.ordinalize === undefined &&
+    resolved.locale.code !== "en"
+  ) {
+    throw new InvalidOptionsError(
+      `Locale "${resolved.locale.code}" does not support ordinal output yet ` +
+        `(no ordinalize hook) - see docs/LOCALES.md.`,
+    );
+  }
+  if (
     options.style !== undefined &&
     options.style !== locale.andStyle &&
     locale.supportsBothStyles !== true

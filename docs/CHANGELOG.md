@@ -5,6 +5,35 @@ All notable changes are documented here. Format based on
 **Any change to output words, display formatting, or error behavior is a
 breaking change → major bump.**
 
+## [4.2.0] — 2026-11-04
+
+Additive feature release: Hausa locale + locale-inflection hooks. Defaults
+remain byte-identical (parity suite green).
+
+### Added
+- **`ha` locale (Hausa)** — the multiplier-after scale pattern ("ɗari biyu",
+  "dubu ɗaya", "miliyan ɗaya") with every component joined by "da";
+  attested scale loans miliyan/biliyan/tiriliyan and documented English
+  code-switching beyond 10^12. Spec: `docs/locales/ha-SPEC.md`. Ordinals and
+  decimals are OPEN items and reject loudly (SPEC §7).
+- **Locale engine hooks**: `andWord` (localized "and": Hausa "da"),
+  `thousandPhraseFor(value, groupWords)` and `scaleWordFor(index, value,
+  groupWords)` now receive the pre-rendered group words and OWN the whole
+  group phrase (enables multiplier-after orders); `groupSeparator` finalized.
+- **Loud capability guards**: `output: "ordinal"` with a locale lacking
+  `ordinalize` throws (no English suffixes on non-English words).
+- **npm README**: the package page now ships the full documentation
+  (packages/core/README.md, links absolutized).
+- **Code-quality workflow** (MATCHMASTER-AI pattern): typecheck → lint →
+  coverage-gated tests → locale contract gate → builds → Trivy (pinned
+  v0.33.1, advisory) → npm audit → depcheck; added to this repo and the
+  proforma-invoice-calculator repo.
+
+### Fixed
+- CI: `npm ci` lock-file sync after the workspace rename/version bump; UI
+  typecheck now resolves the workspace core by building it first
+  (`verify`/`typecheck`/`dev:ui` all self-sufficient on fresh clones).
+
 ## [4.1.0] — 2026-11-03
 
 Additive feature release: the default output of every v4.0.0 call is

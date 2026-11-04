@@ -17,5 +17,6 @@ export const enLocale: LocaleDefinition = {
   negativePrefix: "(negative) ",
   dotSeparator: " (dot) ",
   andStyle: "british",
+  andWord: "and",
   supportsBothStyles: true,
 };

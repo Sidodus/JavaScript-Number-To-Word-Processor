@@ -41,6 +41,13 @@ export interface LocaleDefinition {
   readonly andStyle: "british" | "american";
 
   /**
+   * The joiner word used in british-style positions (v4.2). Defaults to
+   * "and" (English); Hausa joins with "da": "ɗari da hamsin", "dubu ɗaya da
+   * ɗari". Only meaningful when `andStyle` is "british".
+   */
+  readonly andWord?: string;
+
+  /**
    * True when the language supports BOTH joining styles so the `style` option
    * may switch them (English: yes; French: no - it has no "and" concept).
    * When false, passing a `style` different from `andStyle` throws
@@ -63,12 +70,20 @@ export interface LocaleDefinition {
   readonly scaleWord?: (groupIndex: number) => string;
 
   /**
-   * Scale word with the group VALUE for locales that inflect scale names
-   * (v4.1: French "un million" vs "deux millions", and its long scale
-   * milliard/billion/billiard alternation). When present this wins over
-   * {@link scaleWord}. Group index 1 is still handled by `thousandWord`.
+   * Scale word with the group VALUE and the pre-rendered group words
+   * (v4.1: French "un million" vs "deux millions" and its long scale;
+   * v4.2: Hausa's multiplier-after order - "miliyan ɗaya", "ɗari biyu" style).
+   * `groupWords` is the value spoken as a standalone group (1..999) in this
+   * locale. When present, the hook owns the WHOLE group phrase - it decides
+   * where the group words sit (French group-first: "cent vingt-trois
+   * millions"; Hausa scale-first: "miliyan ɗaya"). Group index 1 is handled
+   * by `thousandPhraseFor`.
    */
-  readonly scaleWordFor?: (groupIndex: number, groupValue: number) => string;
+  readonly scaleWordFor?: (
+    groupIndex: number,
+    groupValue: number,
+    groupWords: string,
+  ) => string;
 
   /**
    * Full phrase for the hundreds part of a group (v4.1). Lets locales express
@@ -84,7 +99,7 @@ export interface LocaleDefinition {
    * ("deux mille"). When absent the engine renders
    * `${smallNumberWord(value)} ${thousandWord}`.
    */
-  readonly thousandPhraseFor?: (groupValue: number) => string;
+  readonly thousandPhraseFor?: (groupValue: number, groupWords: string) => string;
 
   /**
    * Separator between spoken scale groups (default ", "). French joins with
