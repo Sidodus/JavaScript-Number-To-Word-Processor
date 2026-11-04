@@ -57,13 +57,15 @@ Hausa news media. **Beyond 10^12 the locale code-switches to the English
 Conway-Wechsler name** (documented media practice), e.g. 10^15 → "quadrillion
 ɗaya". This is a documented practice choice, not an invented word.
 
-## 7. Ordinals & decimals — OPEN (rejected loudly)
+## 7. Ordinals — SHIPPED (periphrastic); decimals — OPEN
 
-No authoritative Hausa ordinal formation was verified (Hausa ordinals are
-periphrastic, often using the English loan "na" + number in media). Therefore:
-`ordinalize` is NOT provided (the engine's English default would only be
-reached for `en`), and decimal inputs REJECT with a descriptive error.
-Currency mode works (no ordinals needed).
+Ordinals ARE periphrastic and now implemented: the **na-linker** + cardinal,
+with the special lexical **na farko** for first (not derived from ɗaya).
+Sources: [elon.io Hausa grammar](https://elon.io/grammar/hausa/numbers/cardinals/basic-ordinals-with-na-and-ta),
+[UCLA Hausa Online Grammar](https://aflang.humanities.ucla.edu/language-materials/chadic-languages/hausa/hausa-online-grammar/noun-modifiers).
+Documented limitation: the feminine **ta**-linker paradigm exists but the
+engine has no gender context — the masculine/plural **na** is used.
+Decimals still reject (no `decimalOrdinal` source yet). Currency mode works.
 
 ## 8. Worked examples → test assertions (test/unit/locales.test.ts)
 

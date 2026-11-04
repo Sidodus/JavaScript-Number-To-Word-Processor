@@ -106,6 +106,7 @@ export default function NumberToWordConsole() {
       try {
         const results = processor(number.trim(), {
           decimalPlaces: urlOptions.decimalPlaces ?? 2,
+          locale: urlOptions.locale ?? "en",
           style: urlOptions.style ?? "british",
           output: urlOptions.output ?? "cardinal",
         });
