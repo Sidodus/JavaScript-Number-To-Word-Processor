@@ -9,6 +9,7 @@ import JSnumberToWordProcessor, { getLocale, localeCodes } from "../../src/index
 import { frLocale } from "../../src/locales/fr.js";
 import { haLocale } from "../../src/locales/ha.js";
 import { yoLocale } from "../../src/locales/yo.js";
+import { igLocale } from "../../src/locales/ig.js";
 
 const one = (input: Parameters<typeof JSnumberToWordProcessor>[0], options?: unknown) =>
   JSnumberToWordProcessor(input, options as never)[0] as ReturnType<
@@ -16,11 +17,11 @@ const one = (input: Parameters<typeof JSnumberToWordProcessor>[0], options?: unk
   >[number];
 
 describe("locale contract (every registered locale)", () => {
-  it("registry exposes en, fr, ha and yo", () => {
-    expect(localeCodes().sort()).toEqual(["en", "fr", "ha", "yo"]);
+  it("registry exposes en, fr, ha, yo and ig", () => {
+    expect(localeCodes().sort()).toEqual(["en", "fr", "ha", "ig", "yo"]);
   });
 
-  for (const code of ["en", "fr", "ha", "yo"]) {
+  for (const code of ["en", "fr", "ha", "ig", "yo"]) {
     describe(`contract: ${code}`, () => {
       const locale = getLocale(code);
 
@@ -130,8 +131,16 @@ describe("french locale (fr) - verified samples", () => {
     expect(fr("1000000", { output: "ordinal" }).displayWord).toBe("millionième");
   });
 
-  it("rejects decimals loudly (no decimalOrdinal hook yet) - never mixed-language output", () => {
-    expect(() => fr("5.5")).toThrow(/does not support decimal numbers yet/);
+  it("localizes decimal ordinals on the long scale (decimalOrdinal hook)", () => {
+    expect(fr("5.5", { decimalPlaces: 1 }).displayWord).toBe("cinq (virgule) cinq dixièmes");
+    expect(fr("5.5").displayWord).toBe("cinq (virgule) cinquante centièmes"); // default 2 places
+    expect(fr("0.001", { decimalPlaces: 3 }).displayWord).toBe("zéro (virgule) un millième");
+    expect(fr("0.001", { decimalPlaces: 3 }).decimalPlaceWord).toBe("millième");
+    expect(fr("0.000000001", { decimalPlaces: 9 }).displayWord).toBe(
+      "zéro (virgule) un milliardième",
+    );
+    expect(fr("0.12", { decimalPlaces: 2 }).displayWord).toBe("zéro (virgule) douze centièmes");
+    expect(fr("0.1", { decimalPlaces: 1 }).displayWord).toBe("zéro (virgule) un dixième");
   });
 
   it("rejects the british style (no 'and' concept in French)", () => {
@@ -298,6 +307,72 @@ describe("yoruba locale (yo) - verified samples (docs/locales/yo-SPEC.md)", () =
     });
     expect(r.displayWord).toBe(
       "ẹgbẹ̀rún igba ọgbọ̀n lé ẹ̀rin Naira, ẹ̀rìndínlọ́ta Kobo",
+    );
+  });
+});
+
+
+describe("igbo locale (ig) - verified samples (docs/locales/ig-SPEC.md)", () => {
+  const ig = (input: Parameters<typeof JSnumberToWordProcessor>[0], options?: unknown) =>
+    one(input, { ...(options as object), locale: "ig" });
+
+  it("builds the units, iri-na teens and na-joined tens", () => {
+    expect(igLocale.smallNumbers.slice(0, 12)).toEqual([
+      "efu", "otu", "abụọ", "atọ", "anọ", "ise", "isii", "asaa", "asatọ", "itoolu",
+      "iri", "iri na otu",
+    ]);
+    expect(ig("19").displayWord).toBe("iri na itoolu");
+    expect(ig("34").displayWord).toBe("iri atọ na anọ");
+    expect(ig("90").displayWord).toBe("iri itoolu");
+    expect(ig("99").displayWord).toBe("iri itoolu na itoolu");
+  });
+
+  it("preserves the attested 100-vs-200 asymmetry", () => {
+    expect(ig("100").displayWord).toBe("otu narị");
+    expect(ig("101").displayWord).toBe("otu narị na otu");
+    expect(ig("200").displayWord).toBe("narị abụọ");
+    expect(ig("999").displayWord).toBe("narị itoolu na iri itoolu na itoolu");
+  });
+
+  it("uses otu-puku/nde/ijiri with explicit otu for a multiplier of 1", () => {
+    expect(ig("1000").displayWord).toBe("otu puku");
+    expect(ig("1001").displayWord).toBe("otu puku na otu");
+    expect(ig("1100").displayWord).toBe("otu puku na otu narị");
+    expect(ig("2000").displayWord).toBe("puku abụọ");
+    expect(ig("2150").displayWord).toBe("puku abụọ na otu narị na iri ise");
+    expect(ig("1000000").displayWord).toBe("otu nde");
+    expect(ig("2000000").displayWord).toBe("nde abụọ");
+    expect(ig("5000000").displayWord).toBe("nde ise");
+    expect(ig("1000000000").displayWord).toBe("otu ijiri");
+  });
+
+  it("joins every component with na", () => {
+    expect(ig("1234567").displayWord).toBe(
+      "otu nde na puku narị abụọ na iri atọ na anọ na narị ise na iri isii na asaa",
+    );
+  });
+
+  it("code-switches to English scale names beyond 10^9 (SPEC §4, documented practice)", () => {
+    expect(ig("1000000000000").displayWord).toBe("otu trillion"); // Igbo word order kept
+  });
+
+  it("handles negatives and rejects decimals/ordinals/styles it cannot express", () => {
+    expect(ig("-5").displayWord).toBe("(negative) ise");
+    expect(() => ig("5.5")).toThrow(/does not support decimal numbers yet/);
+    expect(() => ig("21", { output: "ordinal" })).toThrow(
+      /does not support ordinal output yet/,
+    );
+    expect(() => one("5", { locale: "ig", style: "american" })).toThrow(
+      /only supports the "british" word style/,
+    );
+  });
+
+  it("still works in currency mode", () => {
+    const r = ig("1234.56", {
+      currency: { major: "Naira", majorPlural: "Naira", minor: "Kobo", minorPlural: "Kobo" },
+    });
+    expect(r.displayWord).toBe(
+      "otu puku na narị abụọ na iri atọ na anọ Naira, iri ise na isii Kobo",
     );
   });
 });

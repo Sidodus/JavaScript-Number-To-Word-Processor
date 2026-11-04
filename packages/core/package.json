@@ -1,6 +1,6 @@
 {
   "name": "js-number-to-word-processor",
-  "version": "4.3.0",
+  "version": "4.4.0",
   "description": "JSnumberToWordProcessor v4 - Converts numbers into well formatted, human readable numbers and words. Pure, dependency-free, exact string/BigInt arithmetic.",
   "license": "MIT",
   "author": "Saheed Odulaja",

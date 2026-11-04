@@ -64,9 +64,10 @@ source-authority questions up front for community requests.
 | Code | Styles | Scale | Ordinals | Decimals | Notes |
 |------|--------|-------|----------|----------|-------|
 | `en` | british (default), american | short (Conway-Wechsler to 10^33003) | full (First/-ieth) | full | The reference locale. |
-| `fr` | american (no "and"; toggle rejected) | **long** (million/milliard/billion/billiard... with pluralization) | full (premier, -ième, unième, article drop) | rejected with clear error | Traditional orthography; 0-99 generated algorithmically. |
+| `fr` | american (no "and"; toggle rejected) | **long** (million/milliard/billion/billiard... with pluralization) | full (premier, -ième, unième, article drop) | **full** (long-scale denominators: dixième ... milliardième, pluralized) | Traditional orthography; 0-99 generated algorithmically. |
 | `ha` | british with `andWord: "da"` (toggle rejected) | multiplier-AFTER ("ɗari biyu", "dubu ɗaya", "miliyan ɗaya"); loans miliyan/biliyan/tiriliyan, English code-switch beyond 10^12 | rejected (OPEN, SPEC §7) | rejected with clear error | Boko orthography with hooked letters; every component joined by "da". Spec: `docs/locales/ha-SPEC.md`. |
 | `yo` | american (no joiner; toggle rejected) | vigesimal 0-99 (lé/dín), traditional hundreds chain, modern decimal thousands ("ẹgbẹ̀rún méjì"), loans mílíọ̀nù/bílíọ̀nù, English code-switch beyond 10^9 | rejected (periphrastic; SPEC §7) | rejected with clear error | **Flagship locale.** Traditional register 0-999 + modern decimal above; diacritics NFC. Spec: `docs/locales/yo-SPEC.md`. |
+| `ig` | british with `andWord: "na"` (toggle rejected) | decimal multiplier-after ("iri abụọ", "narị abụọ", "puku abụọ"); loans nde/ijiri, English code-switch beyond 10^9 | rejected (periphrastic "nke..."; SPEC §5) | rejected with clear error | Attested asymmetry preserved: "otu narị" (100) vs "narị abụọ" (200). Spec: `docs/locales/ig-SPEC.md`. |
 
 ## Roadmap (in priority order)
 
@@ -82,12 +83,11 @@ numerals analysis citing Lounge 2009, Preply, Science in Yorùbá). Register
 decision documented: traditional 0-999 + modern decimal thousands + loans.
 OPEN items: ordinals (periphrastic) and the negative prefix (English loan).
 
-### `ig` — Igbo (Nigeria)
-Multiplicative-additive: iri (10), iri abụọ (20 = ten-twice), narị/ọ̀tụ (100),
-puku (1000); "na" joiner; 1-6 have special multiplying forms (abụọ → abụọ,
-iso/atọ...). **Open questions:** number-word agreement classes (puku na atọ?),
-standard orthography (Onwu alphabet). **Effort: spec + implementation,
-medium-hard.**
+### ~~`ig` — Igbo (Nigeria)~~ → SHIPPED in 4.3.0
+Implemented from `docs/locales/ig-SPEC.md` (sources: emeriwo4christ tables,
+Master Any Language, the ResearchGate Igbo/Chinese numerals paper). OPEN
+items: ordinals (periphrastic "nke..."), the negative prefix (English loan),
+the "efu" zero form.
 
 ### `fr` extensions — decimal ordinals (`decimalOrdinal` hook)
 dixièmes, centièmes, millièmes... straightforward (-ième family) once the
