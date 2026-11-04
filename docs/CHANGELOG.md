@@ -5,14 +5,24 @@ All notable changes are documented here. Format based on
 **Any change to output words, display formatting, or error behavior is a
 breaking change → major bump.**
 
-## [4.3.0] — 2026-11-04
+## [4.5.0] — 2026-11-04
+
+### Added
+- **Hausa & Igbo ordinals** (closing both locales' OPEN items): periphrastic
+  linkers implemented — Hausa **na**-linker with the special *na farko*
+  (feminine *ta*-paradigm documented but unmodeled), Igbo **nke**-linker with
+  the special *nke mbụ*. Sources quoted in the two SPECs.
+  Examples: `N("21", { locale: "ha", output: "ordinal" })` → "na ashirin da
+  ɗaya"; `N("21", { locale: "ig", output: "ordinal" })` → "nke iri abụọ na otu".
+
+## [4.4.0] — 2026-11-04
 
 ### Added
 - **`ig` locale (Igbo)** — decimal multiplier-after system joined by "na"
   (*iri atọ na anọ* = 34), the attested *otu narị* / *narị abụọ* asymmetry,
   *otu puku/nde/ijiri* scales, English code-switch beyond 10^9. Spec:
   `docs/locales/ig-SPEC.md`. Ordinals ("nke..." periphrastic) and decimals
-  reject loudly (SPEC §5); currency mode works.
+  rejected at this release (shipped in 4.5.0); currency mode works.
 - **French decimal ordinals** (`decimalOrdinal` hook): long-scale denominators
   (*dixième, centième, millième, milliardième, billionième, billiardième*...)
   with singular/plural agreement — French decimals now localize instead of
@@ -23,31 +33,16 @@ breaking change → major bump.**
   the full traditional hundreds chain (*igba*, *irinwó*, *ọ̀ọ́dúrún*,
   *ẹ̀ẹ́dẹ́gbẹ̀ta*...), and the modern decimal register for thousands
   (*ẹgbẹ̀rún méjì*) with *mílíọ̀nù/bílíọ̀nù* loans. Spec with sources:
-  `docs/locales/yo-SPEC.md`. Ordinals (periphrastic in Yorùbá) and decimals
-  reject loudly (SPEC §7); currency mode works.
-- UI locale selector label "Yorùbá (yo)".
+  `docs/locales/yo-SPEC.md`. Ordinals and decimals rejected at this release
+  (ordinals shipped in 4.5.0); currency mode works.
+- UI locale selector labels ("Français (fr)", "Hausa (ha)", "Yorùbá (yo)").
 
-## [4.2.0] — 2026-11-04
+## [4.3.0] — 2026-11-04 (npm snapshot)
 
-Additive feature release: Hausa locale + locale-inflection hooks. Defaults
-remain byte-identical (parity suite green).
+Infrastructure release aligned with the CI/developer-experience fixes below;
+locale content identical to 4.2.0.
 
 ### Added
-- **`ha` locale (Hausa)** — the multiplier-after scale pattern ("ɗari biyu",
-  "dubu ɗaya", "miliyan ɗaya") with every component joined by "da";
-  attested scale loans miliyan/biliyan/tiriliyan and documented English
-  code-switching beyond 10^12. Spec: `docs/locales/ha-SPEC.md`. Ordinals and
-  decimals are OPEN items and reject loudly (SPEC §7).
-- **Locale engine hooks**: `andWord` (localized "and": Hausa "da"),
-  `thousandPhraseFor(value, groupWords)` and `scaleWordFor(index, value,
-  groupWords)` now receive the pre-rendered group words and OWN the whole
-  group phrase (enables multiplier-after orders); `groupSeparator` finalized.
-- **Loud capability guards**: `output: "ordinal"` with a locale lacking
-  `ordinalize` throws (no English suffixes on non-English words).
-- **Hausa & Igbo ordinals** (closing the 4.4.0 OPEN items): periphrastic
-  linkers implemented — Hausa **na**-linker with the special *na farko*
-  (feminine *ta*-paradigm documented but unmodeled), Igbo **nke**-linker with
-  the special *nke mbụ*. Sources in the two SPECs.
 - **npm README**: the package page now ships the full documentation
   (packages/core/README.md, links absolutized).
 - **Code-quality workflow** (MATCHMASTER-AI pattern): typecheck → lint →
@@ -59,6 +54,23 @@ remain byte-identical (parity suite green).
 - CI: `npm ci` lock-file sync after the workspace rename/version bump; UI
   typecheck now resolves the workspace core by building it first
   (`verify`/`typecheck`/`dev:ui` all self-sufficient on fresh clones).
+
+## [4.2.0] — 2026-11-04
+
+Additive feature release: Hausa locale + locale-inflection hooks. Defaults
+remain byte-identical (parity suite green).
+
+### Added
+- **`ha` locale (Hausa)** — the multiplier-after scale pattern ("ɗari biyu",
+  "dubu ɗaya", "miliyan ɗaya") with every component joined by "da";
+  attested scale loans miliyan/biliyan/tiriliyan and documented English
+  code-switching beyond 10^12. Spec: `docs/locales/ha-SPEC.md`.
+- **Locale engine hooks**: `andWord` (localized "and": Hausa "da"),
+  `thousandPhraseFor(value, groupWords)` and `scaleWordFor(index, value,
+  groupWords)` now receive the pre-rendered group words and OWN the whole
+  group phrase (enables multiplier-after orders); `groupSeparator` finalized.
+- **Loud capability guards**: `output: "ordinal"` with a locale lacking
+  `ordinalize` throws (no English suffixes on non-English words).
 
 ## [4.1.0] — 2026-11-03
 
