@@ -5,6 +5,19 @@ All notable changes are documented here. Format based on
 **Any change to output words, display formatting, or error behavior is a
 breaking change → major bump.**
 
+## [4.3.0] — 2026-11-04
+
+### Added
+- **`yo` locale (Yorùbá)** — the flagship locale: the authentic mixed
+  additive/subtractive vigesimal system for 0..99 (*ogún lé ọ̀kan*,
+  *ẹ̀ẹ́dọ́gbọ̀n* = 25, *ẹ̀rìndínlọ́gbọ̀n* = 26, *aárùn-dínlógójì* = 35...),
+  the full traditional hundreds chain (*igba*, *irinwó*, *ọ̀ọ́dúrún*,
+  *ẹ̀ẹ́dẹ́gbẹ̀ta*...), and the modern decimal register for thousands
+  (*ẹgbẹ̀rún méjì*) with *mílíọ̀nù/bílíọ̀nù* loans. Spec with sources:
+  `docs/locales/yo-SPEC.md`. Ordinals (periphrastic in Yorùbá) and decimals
+  reject loudly (SPEC §7); currency mode works.
+- UI locale selector label "Yorùbá (yo)".
+
 ## [4.2.0] — 2026-11-04
 
 Additive feature release: Hausa locale + locale-inflection hooks. Defaults

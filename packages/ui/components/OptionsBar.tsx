@@ -75,7 +75,7 @@ export default function OptionsBar({ options, onChange }: OptionsBarProps) {
           >
             {LOCALES.map((code) => (
               <option key={code} value={code}>
-                {code === "en" ? "English (en)" : code === "fr" ? "Français (fr)" : code === "ha" ? "Hausa (ha)" : code}
+                {code === "en" ? "English (en)" : code === "fr" ? "Français (fr)" : code === "ha" ? "Hausa (ha)" : code === "yo" ? "Yorùbá (yo)" : code}
               </option>
             ))}
           </Form.Select>

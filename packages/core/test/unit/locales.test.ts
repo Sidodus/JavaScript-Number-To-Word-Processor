@@ -8,6 +8,7 @@ import { describe, expect, it } from "vitest";
 import JSnumberToWordProcessor, { getLocale, localeCodes } from "../../src/index.js";
 import { frLocale } from "../../src/locales/fr.js";
 import { haLocale } from "../../src/locales/ha.js";
+import { yoLocale } from "../../src/locales/yo.js";
 
 const one = (input: Parameters<typeof JSnumberToWordProcessor>[0], options?: unknown) =>
   JSnumberToWordProcessor(input, options as never)[0] as ReturnType<
@@ -15,11 +16,11 @@ const one = (input: Parameters<typeof JSnumberToWordProcessor>[0], options?: unk
   >[number];
 
 describe("locale contract (every registered locale)", () => {
-  it("registry exposes en, fr and ha", () => {
-    expect(localeCodes().sort()).toEqual(["en", "fr", "ha"]);
+  it("registry exposes en, fr, ha and yo", () => {
+    expect(localeCodes().sort()).toEqual(["en", "fr", "ha", "yo"]);
   });
 
-  for (const code of ["en", "fr", "ha"]) {
+  for (const code of ["en", "fr", "ha", "yo"]) {
     describe(`contract: ${code}`, () => {
       const locale = getLocale(code);
 
@@ -208,6 +209,95 @@ describe("hausa locale (ha) - verified samples (docs/locales/ha-SPEC.md)", () =>
     });
     expect(r.displayWord).toBe(
       "dubu ɗaya da ɗari biyu da talatin da huɗu Naira, hamsin da shida Kobo",
+    );
+  });
+});
+
+
+describe("yoruba locale (yo) - verified samples (docs/locales/yo-SPEC.md)", () => {
+  const yo = (input: Parameters<typeof JSnumberToWordProcessor>[0], options?: unknown) =>
+    one(input, { ...(options as object), locale: "yo" });
+
+  it("builds the units, lá-teens and the special 15", () => {
+    expect(yoLocale.smallNumbers.slice(0, 20)).toEqual([
+      "òdo", "ọ̀kan", "èjì", "ẹ̀ta", "ẹ̀rin", "àrún", "ẹ̀fà", "èje", "ẹ̀jọ", "ẹ̀sán",
+      "ẹ̀wá", "ọ̀kanlá", "èjìlá", "ẹ̀tàlá", "ẹ̀rìnlá", "ẹ̀ẹ́dógún",
+      "ẹ̀rìndínlógún", "ẹ̀tàdínlógún", "èjìdínlógún", "ọ̀kàndínlógún",
+    ]);
+  });
+
+  it("applies the additive lé and subtractive dín patterns per decade", () => {
+    expect(yo("20").displayWord).toBe("ogún");
+    expect(yo("21").displayWord).toBe("ogún lé ọ̀kan");
+    expect(yo("24").displayWord).toBe("ogún lé ẹ̀rin");
+    expect(yo("25").displayWord).toBe("ẹ̀ẹ́dọ́gbọ̀n");
+    expect(yo("28").displayWord).toBe("èjìdínlọ́gbọ̀n");
+    expect(yo("30").displayWord).toBe("ọgbọ̀n");
+    expect(yo("35").displayWord).toBe("aárùn-dínlógójì");
+    expect(yo("40").displayWord).toBe("ogójì");
+    expect(yo("50").displayWord).toBe("àádọ́ta");
+    expect(yo("55").displayWord).toBe("aárùn-dínlọ́ta");
+    expect(yo("65").displayWord).toBe("aárùn-dínlàádọ́rin");
+    expect(yo("75").displayWord).toBe("aárùn-dínlọ́rin");
+    expect(yo("85").displayWord).toBe("aárùn-dínlàádọ́rùn-ún");
+    expect(yo("95").displayWord).toBe("aárùn-dínlọ̀rún-ún");
+    expect(yo("99").displayWord).toBe("ọ̀kàndínlọ̀rún-ún");
+  });
+
+  it("uses the traditional hundreds chain", () => {
+    expect(yo("100").displayWord).toBe("ọgọ́rùn-ún");
+    expect(yo("200").displayWord).toBe("igba");
+    expect(yo("300").displayWord).toBe("ọ̀ọ́dúrún");
+    expect(yo("400").displayWord).toBe("irinwó");
+    expect(yo("500").displayWord).toBe("ẹ̀ẹ́dẹ́gbẹ̀ta");
+    expect(yo("600").displayWord).toBe("ẹgbẹ̀ta");
+    expect(yo("700").displayWord).toBe("ẹ̀ẹ́dẹ́gbẹ̀rin");
+    expect(yo("800").displayWord).toBe("ẹgbẹ̀rin");
+    expect(yo("900").displayWord).toBe("ẹ̀ẹ́dẹ́gbẹ̀rún");
+    expect(yo("250").displayWord).toBe("igba àádọ́ta");
+    expect(yo("999").displayWord).toBe("ẹ̀ẹ́dẹ́gbẹ̀rún ọ̀kàndínlọ̀rún-ún");
+  });
+
+  it("uses the modern decimal thousands with object multipliers", () => {
+    expect(yo("1000").displayWord).toBe("ẹgbẹ̀rún");
+    expect(yo("2000").displayWord).toBe("ẹgbẹ̀rún méjì");
+    expect(yo("3000").displayWord).toBe("ẹgbẹ̀rún mẹ́ta");
+    expect(yo("10000").displayWord).toBe("ẹgbẹ̀rún mẹ́wá");
+    expect(yo("11000").displayWord).toBe("ẹgbẹ̀rún ọ̀kanlá");
+    expect(yo("100000").displayWord).toBe("ẹgbẹ̀rún ọgọ́rùn-ún");
+  });
+
+  it("composes loans and the traditional chain exactly", () => {
+    expect(yo("1000000").displayWord).toBe("mílíọ̀nù kan");
+    expect(yo("2000000").displayWord).toBe("mílíọ̀nù méjì");
+    expect(yo("5000000").displayWord).toBe("mílíọ̀nù márùn-ún");
+    expect(yo("1000000000").displayWord).toBe("bílíọ̀nù kan");
+    expect(yo("1234567").displayWord).toBe(
+      "mílíọ̀nù kan ẹgbẹ̀rún igba ọgbọ̀n lé ẹ̀rin ẹ̀ẹ́dẹ́gbẹ̀ta ẹ̀tàdínlàádọ́rin",
+    );
+  });
+
+  it("code-switches to English scale names beyond 10^9 (SPEC §6, documented practice)", () => {
+    expect(yo("1000000000000").displayWord).toBe("trillion kan");
+  });
+
+  it("handles negatives and rejects decimals/ordinals/styles it cannot express", () => {
+    expect(yo("-5").displayWord).toBe("(negative) àrún");
+    expect(() => yo("5.5")).toThrow(/does not support decimal numbers yet/);
+    expect(() => yo("21", { output: "ordinal" })).toThrow(
+      /does not support ordinal output yet/,
+    );
+    expect(() => one("5", { locale: "yo", style: "british" })).toThrow(
+      /only supports the "american" word style/,
+    );
+  });
+
+  it("still works in currency mode", () => {
+    const r = yo("1234.56", {
+      currency: { major: "Naira", majorPlural: "Naira", minor: "Kobo", minorPlural: "Kobo" },
+    });
+    expect(r.displayWord).toBe(
+      "ẹgbẹ̀rún igba ọgbọ̀n lé ẹ̀rin Naira, ẹ̀rìndínlọ́ta Kobo",
     );
   });
 });
