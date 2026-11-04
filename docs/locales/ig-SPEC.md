@@ -1,6 +1,6 @@
 # Locale SPEC: `ig` (Igbo)
 
-Status: **IMPLEMENTED in 4.3.0**. Orthography: standard Igbo with subscript
+Status: **IMPLEMENTED in 4.4.0**. Orthography: standard Igbo with subscript
 vowels/dots where attested (abụọ, atọ, anọ, narị, puku), NFC precomposed.
 
 ## 1. Authoritative sources

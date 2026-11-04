@@ -1,6 +1,6 @@
 # Locale SPEC: `yo` (Yorùbá)
 
-Status: **IMPLEMENTED in 4.3.0** (flagship locale — the mixed additive/subtractive
+Status: **IMPLEMENTED in 4.4.0** (flagship locale — the mixed additive/subtractive
 vigesimal system). Orthography: standard Yorùbá diacritics (ọ̀, ẹ̀, ẹ́, á...),
 NFC precomposed.
 
