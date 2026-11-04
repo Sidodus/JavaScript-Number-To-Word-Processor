@@ -149,7 +149,10 @@ function buildResult(parsed: ParsedNumber, options: ResolvedOptions): ProcessedN
   }
   const decimalValue = BigInt(digits);
   const decimalDigitWord = decimalValue === 0n ? "Zero" : wholePartToWords(digits, options.locale, options.style);
-  const ordinal = decimalPlaceOrdinal(places, decimalValue === 1n);
+  const ordinal =
+    options.locale.decimalOrdinal !== undefined
+      ? options.locale.decimalOrdinal(places, decimalValue === 1n)
+      : decimalPlaceOrdinal(places, decimalValue === 1n);
 
   const groupedDecimal = groupDigits(digits);
   const negativePrefix = negative ? options.locale.negativePrefix : "";

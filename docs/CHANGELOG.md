@@ -8,6 +8,15 @@ breaking change → major bump.**
 ## [4.3.0] — 2026-11-04
 
 ### Added
+- **`ig` locale (Igbo)** — decimal multiplier-after system joined by "na"
+  (*iri atọ na anọ* = 34), the attested *otu narị* / *narị abụọ* asymmetry,
+  *otu puku/nde/ijiri* scales, English code-switch beyond 10^9. Spec:
+  `docs/locales/ig-SPEC.md`. Ordinals ("nke..." periphrastic) and decimals
+  reject loudly (SPEC §5); currency mode works.
+- **French decimal ordinals** (`decimalOrdinal` hook): long-scale denominators
+  (*dixième, centième, millième, milliardième, billionième, billiardième*...)
+  with singular/plural agreement — French decimals now localize instead of
+  rejecting.
 - **`yo` locale (Yorùbá)** — the flagship locale: the authentic mixed
   additive/subtractive vigesimal system for 0..99 (*ogún lé ọ̀kan*,
   *ẹ̀ẹ́dọ́gbọ̀n* = 25, *ẹ̀rìndínlọ́gbọ̀n* = 26, *aárùn-dínlógójì* = 35...),
