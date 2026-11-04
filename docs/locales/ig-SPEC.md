@@ -40,8 +40,10 @@ the English Conway-Wechsler name (documented media practice, as with fr/ha/yo).
 
 ## 5. OPEN items (rejected loudly, not guessed)
 
-- **Ordinals**: periphrastic ("nke mbụ" = first, "nke abụọ" = second) — a
-  different sentence structure; `ordinalize` not provided.
+- **Ordinals**: periphrastic **nke-linker** + cardinal, SHIPPED: **nke mbụ**
+  (first, special lexical form), nke abụọ, nke atọ... Sources:
+  [ResearchGate Igbo/Igala comparison](https://www.researchgate.net/publication/304703424_A_Comparative_Analysis_of_the_Numerals_and_CountingSystems_of_Igbo_and_Igala),
+  [Harvard Igbo materials](https://elias.unix.fas.harvard.edu/languages/Igbo/Beginning/5/Numbers).
 - **Decimals**: no verified Igbo decimal-place ordinal forms; decimal inputs
   reject until `decimalOrdinal` is sourced.
 - **Negative prefix**: kept as the English loan "(negative) " pending a source.

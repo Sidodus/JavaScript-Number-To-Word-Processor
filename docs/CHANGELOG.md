@@ -44,6 +44,10 @@ remain byte-identical (parity suite green).
   group phrase (enables multiplier-after orders); `groupSeparator` finalized.
 - **Loud capability guards**: `output: "ordinal"` with a locale lacking
   `ordinalize` throws (no English suffixes on non-English words).
+- **Hausa & Igbo ordinals** (closing the 4.4.0 OPEN items): periphrastic
+  linkers implemented — Hausa **na**-linker with the special *na farko*
+  (feminine *ta*-paradigm documented but unmodeled), Igbo **nke**-linker with
+  the special *nke mbụ*. Sources in the two SPECs.
 - **npm README**: the package page now ships the full documentation
   (packages/core/README.md, links absolutized).
 - **Code-quality workflow** (MATCHMASTER-AI pattern): typecheck → lint →

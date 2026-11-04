@@ -210,6 +210,9 @@ describe("hausa locale (ha) - verified samples (docs/locales/ha-SPEC.md)", () =>
     expect(() => one("5", { locale: "ha", style: "american" })).toThrow(
       /only supports the "british" word style/,
     );
+    expect(ha("1", { output: "ordinal" }).displayWord).toBe("na farko");
+    expect(ha("2", { output: "ordinal" }).displayWord).toBe("na biyu");
+    expect(ha("21", { output: "ordinal" }).displayWord).toBe("na ashirin da ɗaya");
   });
 
   it("still works in currency mode", () => {
@@ -295,7 +298,7 @@ describe("yoruba locale (yo) - verified samples (docs/locales/yo-SPEC.md)", () =
     expect(() => yo("5.5")).toThrow(/does not support decimal numbers yet/);
     expect(() => yo("21", { output: "ordinal" })).toThrow(
       /does not support ordinal output yet/,
-    );
+    ); // Yoruba ordinals stay periphrastic-rejected (SPEC §7)
     expect(() => one("5", { locale: "yo", style: "british" })).toThrow(
       /only supports the "american" word style/,
     );
@@ -359,8 +362,10 @@ describe("igbo locale (ig) - verified samples (docs/locales/ig-SPEC.md)", () => 
   it("handles negatives and rejects decimals/ordinals/styles it cannot express", () => {
     expect(ig("-5").displayWord).toBe("(negative) ise");
     expect(() => ig("5.5")).toThrow(/does not support decimal numbers yet/);
-    expect(() => ig("21", { output: "ordinal" })).toThrow(
-      /does not support ordinal output yet/,
+    expect(ig("1", { output: "ordinal" }).displayWord).toBe("nke mbụ");
+    expect(ig("2", { output: "ordinal" }).displayWord).toBe("nke abụọ");
+    expect(ig("21", { output: "ordinal" }).displayWord).toBe(
+      "nke iri abụọ na otu",
     );
     expect(() => one("5", { locale: "ig", style: "american" })).toThrow(
       /only supports the "british" word style/,

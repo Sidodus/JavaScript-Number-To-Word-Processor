@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { Button, Col, Dropdown, Form, Row } from "react-bootstrap";
 
-import { localeCodes } from "js-number-to-word-processor";
+import { getLocale, localeCodes } from "js-number-to-word-processor";
 import type { CurrencyLabels } from "js-number-to-word-processor";
 
 /** Currency presets exposed by the console (labels are free-form in the core API). */
@@ -71,7 +71,15 @@ export default function OptionsBar({ options, onChange }: OptionsBarProps) {
           <Form.Select
             size="sm"
             value={options.locale}
-            onChange={(event) => set({ locale: event.target.value })}
+            onChange={(event) =>
+              // Switching locales reconciles the word style to the new
+              // locale's own default - otherwise a pinned "british" would be
+              // rejected by locales without an "and" concept (fr/yo/ig).
+              set({
+                locale: event.target.value,
+                style: getLocale(event.target.value).andStyle,
+              })
+            }
           >
             {LOCALES.map((code) => (
               <option key={code} value={code}>
@@ -92,6 +100,12 @@ export default function OptionsBar({ options, onChange }: OptionsBarProps) {
           <Form.Select
             size="sm"
             value={options.style}
+            disabled={!getLocale(options.locale).supportsBothStyles}
+            title={
+              getLocale(options.locale).supportsBothStyles
+                ? undefined
+                : "This locale has a fixed word style."
+            }
             onChange={(event) => set({ style: event.target.value as ConsoleOptions["style"] })}
           >
             <option value="british">British (with &quot;and&quot;)</option>
