@@ -118,3 +118,23 @@ like v3.
 
 **Consequences.** One extra build script; verified by the packaging checks in
 the final gate.
+
+---
+
+## ADR-008 — Locale layer: additive data only, verifiable locales only (v4.1.0)
+
+**Context.** Internationalization was the top product request. Number naming
+in many languages is non-trivial (Yoruba's vigesimal subtraction, French/German
+long scale, Hindi's lakh/crore grouping); hand-guessed words would violate the
+exactness contract.
+
+**Decision.** All human-facing vocabulary moves behind a `LocaleDefinition`
+registry (v4.1). `en` ships built in with both British and American styles.
+New locales are additive data registered via `registerLocale()`; a locale is
+accepted only when its rules can be stated algorithmically and verified with
+tests (see `docs/LOCALES.md`). Decimal-place ordinals remain English-form for
+now (documented limitation). `illionName` is memoized (pure, immutable values).
+
+**Consequences.** The engine is locale-agnostic; no competitor-checked output
+changes (defaults byte-identical, verified by the parity suite). Non-English
+locale contributions become data PRs with a defined checklist.

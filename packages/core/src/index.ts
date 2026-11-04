@@ -55,9 +55,14 @@ export { MAX_DECIMAL_PLACES } from "./ordinals.js";
 export { MAX_WHOLE_DIGITS } from "./parse.js";
 export { decimalPlaceOrdinal } from "./ordinals.js";
 export { illionName } from "./illions.js";
+export { ordinalizeWord } from "./ordinalWords.js";
+export { registerLocale, getLocale, localeCodes } from "./locales/registry.js";
+export type { LocaleDefinition } from "./locales/types.js";
 export type {
   NumberInput,
   ProcessOptions,
   ProcessResult,
   ProcessedNumber,
+  CurrencyLabels,
+  CurrencyResult,
 } from "./types.js";

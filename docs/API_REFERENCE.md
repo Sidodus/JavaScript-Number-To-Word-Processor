@@ -42,6 +42,10 @@ function JSnumberToWordProcessor(
 interface ProcessOptions {
   decimalPlaces?: number; // integer 0..33003; default 2; 0 = round to whole
   lenient?: boolean;      // arrays: skip invalid entries (default: throw)
+  style?: "british" | "american"; // default "british" (v4.1)
+  locale?: string;                // registry key; default "en" (v4.1)
+  output?: "cardinal" | "ordinal"; // default "cardinal" (v4.1)
+  currency?: CurrencyLabels;      // money words; default off (v4.1)
 }
 ```
 
@@ -139,6 +143,60 @@ All errors extend `NumberToWordError`.
 `lenient: true` skips invalid **array** entries (v3 behavior). Single inputs
 are always validated strictly.
 
+## v4.1 features (additive — defaults unchanged)
+
+### Currency mode
+
+```js
+const naira = { major: "Naira", majorPlural: "Naira", minor: "Kobo", minorPlural: "Kobo" };
+
+JSnumberToWordProcessor("1234.56", { currency: naira });
+// 1,234.56: One Thousand, Two Hundred and Thirty-Four Naira, Fifty-Six Kobo
+
+JSnumberToWordProcessor("1000.00", { currency: naira });
+// 1,000: One Thousand Naira                      <- zero minor part omitted
+
+JSnumberToWordProcessor("9.999", { currency: naira });
+// 10: Ten Naira                                  <- money rounds to 2 minor places
+
+JSnumberToWordProcessor("25.50", { currency: { ...naira, suffix: "Only" } });
+// 25.50: Twenty-Five Naira, Fifty Kobo Only      <- check-writing convention
+```
+
+Rules: money always rounds to 2 minor places (or whole major units when no
+`minor` label); labels pluralize with "+ s" unless already ending in "s" or
+overridden via `majorPlural`/`minorPlural`; singular labels for the value 1.
+Results carry an additive `currency: { majorLabel, minorLabel, suffix } | null`
+field.
+
+### Style: British vs American
+
+```js
+JSnumberToWordProcessor("123456789", { style: "american" });
+// 123,456,789: One Hundred Twenty-Three Million, Four Hundred Fifty-Six Thousand,
+//              Seven Hundred Eighty-Nine
+```
+
+`"british"` (default) keeps the "and" joins; `"american"` drops every "and"
+but keeps the group commas.
+
+### Ordinal output
+
+```js
+JSnumberToWordProcessor("21", { output: "ordinal" });   // 21: Twenty-First
+JSnumberToWordProcessor("112", { output: "ordinal" });  // 112: One Hundred and Twelfth
+JSnumberToWordProcessor("0", { output: "ordinal" });    // 0: Zeroth
+```
+
+Only the whole part is ordinalized; decimal phrases are unaffected.
+
+### Locales
+
+`locale: "en"` is the default. Custom locales register additively — see
+`docs/LOCALES.md` (`registerLocale`, `getLocale`, `localeCodes`). Invalid
+option values (`style`, `output`, `locale`, `currency` labels) throw
+`InvalidOptionsError` with the accepted values in the message.
+
 ## Named exports
 
 ```ts
@@ -146,7 +204,8 @@ export default JSnumberToWordProcessor;
 export { JSnumberToWordProcessor,                       // named form
          InvalidNumberError, InvalidOptionsError,
          NumberTooLargeError, NumberToWordError,
-         decimalPlaceOrdinal, illionName,               // advanced/internals
+         decimalPlaceOrdinal, illionName, ordinalizeWord, // advanced/internals
+         registerLocale, getLocale, localeCodes,        // locale extension (v4.1)
          MAX_DECIMAL_PLACES,                            // 33003
          MAX_WHOLE_DIGITS };                            // 33003
 export type { NumberInput, ProcessOptions, ProcessedNumber, ProcessResult };

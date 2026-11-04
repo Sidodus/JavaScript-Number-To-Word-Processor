@@ -68,9 +68,10 @@ describe("v3 parity - outputs that must not change", () => {
     expect(one((BigInt(55) / BigInt(11)) * BigInt(10)).displayWord).toBe("Fifty");
   });
 
-  it("keeps the v3 result-object field set", () => {
+  it("keeps the v3 result-object field set (plus the v4.1 additive `currency` field)", () => {
     const r = one("-4783484773.7634656549", 9);
     expect(Object.keys(r).sort()).toEqual([
+      "currency",
       "decimalPlaceWord",
       "decimalPoint",
       "displayDecimalNum",
@@ -81,6 +82,7 @@ describe("v3 parity - outputs that must not change", () => {
       "displayWord",
       "negativeInt",
     ]);
+    expect(r.currency).toBeNull();
     expect(r.displayNum).toBe("-4,783,484,773.763,465,655");
     expect(r.displayWord).toBe(
       "(negative) Four Billion, Seven Hundred and Eighty-Three Million, Four Hundred " +

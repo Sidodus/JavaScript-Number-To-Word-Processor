@@ -2,15 +2,24 @@ import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import { beforeEach, describe, expect, it } from "vitest";
 
 import NumberForms from "../components/NumberForms";
+import type { ConsoleOptions } from "../components/OptionsBar";
+
+const DEFAULT_OPTIONS: ConsoleOptions = {
+  locale: "en",
+  style: "british",
+  output: "cardinal",
+  currency: null,
+};
 
 describe("NumberForms end-to-end conversion", () => {
   let captured: { displayWord: string; displayNum: string }[] | null = null;
 
-  const harness = () => {
+  const harness = (options: ConsoleOptions = DEFAULT_OPTIONS) => {
     captured = null;
     render(
       <NumberForms
         decimalPlaces={2}
+        options={options}
         onProcessed={(state) => {
           captured = state.results.map((r) => ({
             displayWord: r.displayWord,
@@ -85,5 +94,53 @@ describe("NumberForms end-to-end conversion", () => {
     await waitFor(() => expect(captured).not.toBeNull());
     // 9.999 @2 rounds up and the vanished decimal is dropped: "Ten", not "Ten (dot) Zero".
     expect(captured?.[0]?.displayWord).toBe("Ten");
+  });
+});
+
+describe("NumberForms v4.1 options", () => {
+  let captured: { displayWord: string }[] | null = null;
+
+  const harnessWith = (options: ConsoleOptions) => {
+    captured = null;
+    render(
+      <NumberForms
+        decimalPlaces={2}
+        options={options}
+        onProcessed={(state) => {
+          captured = state.results.map((r) => ({ displayWord: r.displayWord }));
+        }}
+      />,
+    );
+  };
+
+  it("applies american style end-to-end", async () => {
+    harnessWith({ ...DEFAULT_OPTIONS, style: "american" });
+    fireEvent.change(screen.getByLabelText(/Input A Number/i), { target: { value: "9012" } });
+    fireEvent.click(screen.getByRole("button", { name: /Process A Number/i }));
+    await waitFor(() => expect(captured).not.toBeNull());
+    expect(captured?.[0]?.displayWord).toBe("Nine Thousand, Twelve");
+  });
+
+  it("applies currency mode end-to-end", async () => {
+    harnessWith({
+      ...DEFAULT_OPTIONS,
+      currency: { major: "Naira", majorPlural: "Naira", minor: "Kobo", minorPlural: "Kobo" },
+    });
+    fireEvent.change(screen.getByLabelText(/Input A Number/i), {
+      target: { value: "1234.56" },
+    });
+    fireEvent.click(screen.getByRole("button", { name: /Process A Number/i }));
+    await waitFor(() => expect(captured).not.toBeNull());
+    expect(captured?.[0]?.displayWord).toBe(
+      "One Thousand, Two Hundred and Thirty-Four Naira, Fifty-Six Kobo",
+    );
+  });
+
+  it("applies ordinal output end-to-end", async () => {
+    harnessWith({ ...DEFAULT_OPTIONS, output: "ordinal" });
+    fireEvent.change(screen.getByLabelText(/Input A Number/i), { target: { value: "21" } });
+    fireEvent.click(screen.getByRole("button", { name: /Process A Number/i }));
+    await waitFor(() => expect(captured).not.toBeNull());
+    expect(captured?.[0]?.displayWord).toBe("Twenty-First");
   });
 });

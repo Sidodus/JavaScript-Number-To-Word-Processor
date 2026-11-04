@@ -5,6 +5,53 @@ All notable changes are documented here. Format based on
 **Any change to output words, display formatting, or error behavior is a
 breaking change → major bump.**
 
+## [4.1.0] — 2026-11-03
+
+Additive feature release: the default output of every v4.0.0 call is
+byte-identical (verified by the golden parity suite). New capabilities are
+opt-in options.
+
+### Added
+- **Currency mode** (`currency` option): money words instead of the decimal
+  sentence — `N("1234.56", { currency: { major: "Naira", minor: "Kobo",
+  majorPlural: "Naira" } })` → "One Thousand, Two Hundred and Thirty-Four
+  Naira, Fifty-Six Kobo". Money is always 2 minor places (or whole major
+  units when no minor label); zero minor parts are omitted; labels pluralize
+  with "+ s" unless already invariant or overridden; optional `suffix`
+  ("... Only") supports the check-writing convention. Results carry a new
+  additive `currency` field (`{ majorLabel, minorLabel, suffix } | null`).
+- **`style` option**: `"british"` (default, unchanged) or `"american"` (no
+  "and" anywhere: "One Hundred Twenty-Three Million...").
+- **`output: "ordinal"`**: whole words become ordinals ("21" → "Twenty-First",
+  "0" → "Zeroth", "112" → "One Hundred and Twelfth"); decimal phrases are
+  unaffected.
+- **`locale` option + locale registry**: `registerLocale()` / `getLocale()` /
+  `localeCodes()`; **`en` and `fr` ship built in**. French is the pilot locale:
+  long scale (million/milliard/billion/billiard), cent/cents/mille inflection,
+  premier/-ième/unième ordinals with the article-drop rule, locale-aware group
+  separator, and capability declarations (it rejects the "british" style and
+  decimal inputs with descriptive errors instead of mixed-language output).
+  Locale engine hooks: `hundredPhraseFor`, `thousandPhraseFor`,
+  `scaleWordFor`, `groupSeparator`, `ordinalize`, `decimalOrdinal`,
+  `supportsBothStyles`. Extension guide + per-locale roadmap:
+  `docs/LOCALES.md` (ADR-008: only verifiable, algorithmic locales are
+  accepted); locale contract gate (`scripts/validate-locale.mjs`) runs in CI.
+- **`illionName` memoization** — repeated/huge conversions reuse composed
+  scale names.
+- **Property-based tests** (fast-check): display==word invariant, no
+  "undefined"/", and"/double-space leakage, determinism, currency sentence
+  shape — 1,000 randomized cases per run.
+- **Coverage gate**: 90% lines/functions/statements, 85% branches (measured:
+  98.2% lines).
+- **CI/CD**: GitHub Actions (verify gate), GitHub Pages deploy for the UI,
+  npm publish with provenance, Dependabot, CodeQL.
+
+### UI (packages/ui)
+- Dark mode (Bootstrap 5.3 native `data-bs-theme`), persisted per browser.
+- Copy-to-clipboard on every result.
+- Shareable URLs (`?n=…&dp=…&style=…&currency=…`) with replaceState updates.
+- Currency, style and ordinal controls with Naira/Dollar/Euro/Pound presets.
+
 ## [4.0.0] — 2026-11-03
 
 Modern rewrite of the 2019 v3 library (TypeScript, monorepo, strict

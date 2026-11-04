@@ -16,7 +16,19 @@ export default defineConfig({
     coverage: {
       provider: "v8",
       include: ["packages/core/src/**/*.ts"],
-      exclude: ["packages/core/src/umd.ts"],
+      exclude: [
+        "packages/core/src/umd.ts",
+        // Type-only files carry no runtime code.
+        "packages/core/src/types.ts",
+        "packages/core/src/locales/types.ts",
+        "**/*.d.ts",
+      ],
+      thresholds: {
+        lines: 90,
+        functions: 90,
+        branches: 85,
+        statements: 90,
+      },
     },
   },
 });

@@ -171,6 +171,13 @@ function capitalize(name: string): string {
 }
 
 /**
+ * Memoization cache. Conversions of huge numbers request many scale names and
+ * repeated conversions recompute the same ones; composition is pure, so a
+ * process-wide cache is safe (keyed by n, values are immutable strings).
+ */
+const nameCache = new Map<number, string>();
+
+/**
  * Returns the English (short scale) Conway-Wechsler name for the n-th illion,
  * where million is n = 1 and the value of the n-th illion is 10^(3n + 3).
  *
@@ -182,17 +189,30 @@ export function illionName(n: number): string {
     throw new RangeError(`illionName expects an integer >= 1, received ${n}`);
   }
 
-  if (n < 1000) {
-    return n < 10
-      ? capitalize(`${UNIT_SCALES[n - 1]}llion`)
-      : capitalize(`${chunkRoot(n)}illion`);
+  const cached = nameCache.get(n);
+  if (cached !== undefined) {
+    return cached;
   }
 
-  // n >= 1000: decompose into 3-digit chunks, higher chunks take the "illi"
-  // connector, the final chunk takes the illion ending. Zero chunks use the
-  // "nilli"/"nillion" placeholders (e.g. 1000 -> "millinillion"). The name is
-  // assembled lowercase and capitalized once at the end (v3 table parity:
-  // "Decillisenonagintanongentillion", not "DecilliNovenonaginta...").
+  let name: string;
+  if (n < 1000) {
+    name =
+      n < 10
+        ? capitalize(`${UNIT_SCALES[n - 1]}llion`)
+        : capitalize(`${chunkRoot(n)}illion`);
+  } else {
+    name = composeLargeScaleName(n);
+  }
+
+  nameCache.set(n, name);
+  return name;
+}
+
+/** n >= 1000: 3-digit chunks; higher chunks take the "illi" connector, the final chunk the illion ending. */
+function composeLargeScaleName(n: number): string {
+  // Zero chunks use the "nilli"/"nillion" placeholders (e.g. 1000 -> "millinillion").
+  // The name is assembled lowercase and capitalized once at the end (v3 table
+  // parity: "Decillisenonagintanongentillion", not "DecilliNovenonaginta...").
   const chunks: number[] = [];
   let remaining = n;
   while (remaining > 0) {

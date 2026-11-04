@@ -91,6 +91,13 @@ decision (see §8).
    (`InvalidOptionsError`) — the UI validates its own input BEFORE calling the
    library.
 9. **Zero has no sign**: `-0`, `-0.00` → `"Zero"` / `"0"`, `negativeInt: false`.
+10. **New options are additive and validated** (v4.1): `style` (`"british"`
+    default | `"american"`), `locale` (registry, `"en"` default), `output`
+    (`"cardinal"` default | `"ordinal"`), `currency` (money words, always 2
+    minor places, zero minor omitted, `+ s` pluralization unless invariant or
+    overridden). Every option value is validated - unknown values throw
+    `InvalidOptionsError`, never fall back silently. New locales follow
+    `docs/LOCALES.md` (ADR-008: only verifiable, algorithmic locales).
 
 ## 4. Naming & Style Conventions
 
@@ -199,6 +206,7 @@ length, one decimal conversion, one array conversion, one error case.
     migration doc for future majors) + `docs/CHANGELOG.md`
   - Architecture/module changes → `docs/ARCHITECTURE.md`
   - Naming-rule changes → `docs/CONWAY_WECHSLER.md`
+  - Locale additions/changes → `docs/LOCALES.md`
   - Non-obvious decisions → an ADR in `docs/DECISIONS.md`
 - If you find undocumented intentional behavior (like the decimal grouping),
   **document it immediately** — undocumented intent is indistinguishable from
