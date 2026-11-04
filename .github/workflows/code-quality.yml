@@ -40,6 +40,9 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Build core (UI typecheck resolves the workspace package's dist types)
+        run: npm run build:core
+
       - name: Run TypeScript type checking (all workspaces)
         run: npm run typecheck
 

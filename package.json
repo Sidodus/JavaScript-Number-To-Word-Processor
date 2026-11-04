@@ -23,12 +23,12 @@
     "lint:fix": "eslint . --fix",
     "format": "prettier --write \"**/*.{ts,tsx,mjs,json,md,scss,css}\"",
     "format:check": "prettier --check \"**/*.{ts,tsx,mjs,json,md,scss,css}\"",
-    "typecheck": "npm run typecheck --workspaces --if-present",
+    "typecheck": "npm run build:core && npm run typecheck --workspaces --if-present",
     "build": "npm run build:core && npm run build:ui",
     "build:core": "npm run build --workspace js-number-to-word-processor",
     "build:ui": "npm run build --workspace @jsnumber/ui",
-    "dev:ui": "npm run dev --workspace @jsnumber/ui",
-    "verify": "npm run lint && npm run typecheck && npm run test && npm run build"
+    "dev:ui": "npm run build:core && npm run dev --workspace @jsnumber/ui",
+    "verify": "npm run build:core && npm run lint && npm run typecheck && npm run test && npm run build"
   },
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^8.46.0",

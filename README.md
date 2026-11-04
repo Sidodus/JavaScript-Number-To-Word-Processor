@@ -187,6 +187,7 @@ locks for every audited v3 bug. See [`docs/TESTING_STRATEGY.md`](docs/TESTING_ST
 
 - NPM: <https://www.npmjs.com/package/js-number-to-word-processor>
 - GitHub: <https://github.com/Sidodus/JavaScript-Number-To-Word-Processor>
+- UI: <https://sidodus.github.io/JavaScript-Number-To-Word-Processor>
 - Live console: build locally with `npm run dev:ui`, or deploy `packages/ui/out`
 
 ---
