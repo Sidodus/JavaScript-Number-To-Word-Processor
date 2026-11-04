@@ -62,8 +62,9 @@ jobs:
           # exactness contract for community locale PRs.
           node scripts/validate-locale.mjs --all
 
-      - name: Run Trivy security scan (filesystem)
-        uses: aquasecurity/trivy-action@master
+      - name: Run Trivy security scan (filesystem, advisory)
+        continue-on-error: true # binary download from GitHub releases can flake; CodeQL is the primary scanner
+        uses: aquasecurity/trivy-action@0.33.1
         with:
           scan-type: "fs"
           scan-ref: "."
