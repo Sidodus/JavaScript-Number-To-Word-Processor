@@ -1,18 +1,13 @@
+import react from "@vitejs/plugin-react";
 import { defineConfig } from "vitest/config";
 
 export default defineConfig({
-  esbuild: {
-    // Match the Next.js automatic JSX runtime for .tsx test files.
-    jsx: "automatic",
-  },
+  // Vitest's Rolldown-based transform ignores esbuild.jsx - the React plugin
+  // handles JSX for .tsx test files with the automatic runtime.
+  plugins: [react()],
+
   test: {
-    include: ["packages/*/test/**/*.test.ts", "packages/*/test/**/*.test.tsx"],
-    environment: "node",
     globals: true, // Required for Testing Library's automatic cleanup between tests.
-    environmentMatchGlobs: [
-      ["packages/ui/test/**/*.test.tsx", "jsdom"],
-      ["packages/ui/test/**/*.test.ts", "jsdom"],
-    ],
     coverage: {
       provider: "v8",
       include: ["packages/core/src/**/*.ts"],
@@ -30,5 +25,22 @@ export default defineConfig({
         statements: 90,
       },
     },
+    // Vitest 5 removed environmentMatchGlobs - use projects instead.
+    projects: [
+      {
+        test: {
+          name: "core",
+          include: ["packages/core/test/**/*.test.ts"],
+          environment: "node",
+        },
+      },
+      {
+        test: {
+          name: "ui",
+          include: ["packages/ui/test/**/*.test.ts", "packages/ui/test/**/*.test.tsx"],
+          environment: "jsdom",
+        },
+      },
+    ],
   },
 });

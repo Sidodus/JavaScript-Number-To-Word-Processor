@@ -5,6 +5,14 @@ updates:
     schedule:
       interval: weekly
     open-pull-requests-limit: 5
+    ignore:
+      # typescript-eslint 8.x peers on typescript <6.1.0 - TS 7 (native port)
+      # breaks `npm ci`. Revisit when typescript-eslint officially supports it.
+      - dependency-name: "typescript"
+        update-types: ["version-update:semver-major"]
+      # eslint 8 flat config is the repo standard; eslint 9+ needs a config migration
+      - dependency-name: "eslint"
+        update-types: ["version-update:semver-major"]
     groups:
       dev-dependencies:
         dependency-type: development
